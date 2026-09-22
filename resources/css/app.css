@@ -1,0 +1,317 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@source '../views';
+@source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+
+@custom-variant dark (&:is(.dark *));
+
+/* =========================================================
+   THEME
+   ========================================================= */
+
+@theme {
+    /* Fonts */
+    --font-sans:
+        'Inter',
+        ui-sans-serif,
+        system-ui,
+        sans-serif,
+        'Apple Color Emoji',
+        'Segoe UI Emoji',
+        'Segoe UI Symbol',
+        'Noto Color Emoji';
+
+    --font-display: 'Bhamas', 'Georgia', serif;
+
+    /* Radius */
+    --radius-lg: var(--radius);
+    --radius-md: calc(var(--radius) - 2px);
+    --radius-sm: calc(var(--radius) - 4px);
+
+    /* Core colors */
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
+
+    --color-card: var(--card);
+    --color-card-foreground: var(--card-foreground);
+
+    --color-popover: var(--popover);
+    --color-popover-foreground: var(--popover-foreground);
+
+    --color-primary: var(--primary);
+    --color-primary-foreground: var(--primary-foreground);
+
+    --color-secondary: var(--secondary);
+    --color-secondary-foreground: var(--secondary-foreground);
+
+    --color-muted: var(--muted);
+    --color-muted-foreground: var(--muted-foreground);
+
+    --color-accent: var(--accent);
+    --color-accent-foreground: var(--accent-foreground);
+
+    --color-destructive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
+    --color-border: var(--border);
+    --color-input: var(--input);
+    --color-ring: var(--ring);
+
+    /* Real-estate specific */
+    --color-gold: var(--gold);
+    --color-gold-hover: var(--gold-hover);
+
+    /* Charts */
+    --color-chart-1: var(--chart-1);
+    --color-chart-2: var(--chart-2);
+    --color-chart-3: var(--chart-3);
+    --color-chart-4: var(--chart-4);
+    --color-chart-5: var(--chart-5);
+
+    /* Sidebar */
+    --color-sidebar: var(--sidebar);
+    --color-sidebar-foreground: var(--sidebar-foreground);
+    --color-sidebar-primary: var(--sidebar-primary);
+    --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+    --color-sidebar-accent: var(--sidebar-accent);
+    --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+    --color-sidebar-border: var(--sidebar-border);
+    --color-sidebar-ring: var(--sidebar-ring);
+}
+
+
+/* =========================================================
+   LIGHT MODE
+   ========================================================= */
+
+:root {
+    --background: #f5f1e9;
+    --foreground: #25221e;
+
+    --card: #ffffff;
+    --card-foreground: #25221e;
+
+    --popover: #ffffff;
+    --popover-foreground: #25221e;
+
+    /* Gold primary */
+    --primary: #b78648;
+    --primary-foreground: #ffffff;
+
+    --secondary: #eee9df;
+    --secondary-foreground: #25221e;
+
+    --muted: #eee9df;
+    --muted-foreground: #716e68;
+
+    --accent: #f0e5d5;
+    --accent-foreground: #25221e;
+
+    --destructive: #b42318;
+    --destructive-foreground: #ffffff;
+
+    --border: #ded8ce;
+    --input: #ded8ce;
+    --ring: #b78648;
+
+    /* Brand gold */
+    --gold: #b78648;
+    --gold-hover: #c99b60;
+
+    /* Radius */
+    --radius: 0.75rem;
+
+    /* Charts */
+    --chart-1: #b78648;
+    --chart-2: #8c6a42;
+    --chart-3: #6f6252;
+    --chart-4: #c9a875;
+    --chart-5: #4f4941;
+
+    /* Sidebar */
+    --sidebar: #ffffff;
+    --sidebar-foreground: #25221e;
+    --sidebar-primary: #b78648;
+    --sidebar-primary-foreground: #ffffff;
+    --sidebar-accent: #f0e5d5;
+    --sidebar-accent-foreground: #25221e;
+    --sidebar-border: #ded8ce;
+    --sidebar-ring: #b78648;
+}
+
+
+/* =========================================================
+   DARK MODE
+   ========================================================= */
+
+.dark {
+    --background: #0b0d0e;
+    --foreground: #f2f0ea;
+
+    --card: #121517;
+    --card-foreground: #f2f0ea;
+
+    --popover: #121517;
+    --popover-foreground: #f2f0ea;
+
+    /* Gold primary */
+    --primary: #c49a62;
+    --primary-foreground: #0b0d0e;
+
+    --secondary: #181c1f;
+    --secondary-foreground: #f2f0ea;
+
+    --muted: #181c1f;
+    --muted-foreground: #9b9a94;
+
+    --accent: #24201a;
+    --accent-foreground: #f2f0ea;
+
+    --destructive: #ef4444;
+    --destructive-foreground: #ffffff;
+
+    --border: #2a2e30;
+    --input: #2a2e30;
+    --ring: #c49a62;
+
+    /* Brand gold */
+    --gold: #c49a62;
+    --gold-hover: #d5ad76;
+
+    /* Charts */
+    --chart-1: #c49a62;
+    --chart-2: #9c7a4e;
+    --chart-3: #746044;
+    --chart-4: #d5ad76;
+    --chart-5: #4b4033;
+
+    /* Sidebar */
+    --sidebar: #101314;
+    --sidebar-foreground: #f2f0ea;
+    --sidebar-primary: #c49a62;
+    --sidebar-primary-foreground: #0b0d0e;
+    --sidebar-accent: #181c1f;
+    --sidebar-accent-foreground: #f2f0ea;
+    --sidebar-border: #2a2e30;
+    --sidebar-ring: #c49a62;
+}
+
+
+/* =========================================================
+   FONTS
+   ========================================================= */
+
+@font-face {
+    font-family: 'Bhamas';
+    src: url('../fonts/Bhamas.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+
+/* =========================================================
+   BASE
+   ========================================================= */
+
+@layer base {
+    * {
+        @apply border-border;
+    }
+
+    html {
+        scroll-behavior: smooth;
+    }
+
+    body {
+        @apply bg-background text-foreground antialiased;
+        font-family: var(--font-sans);
+    }
+
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+        font-family: var(--font-display);
+    }
+
+    button,
+    a {
+        -webkit-tap-highlight-color: transparent;
+    }
+
+    ::selection {
+        background: var(--gold);
+        color: #ffffff;
+    }
+}
+
+
+/* =========================================================
+   UTILITIES
+   ========================================================= */
+
+@layer utilities {
+    .font-display {
+        font-family: var(--font-display);
+    }
+
+    .text-gold {
+        color: var(--gold);
+    }
+
+    .bg-gold {
+        background-color: var(--gold);
+    }
+
+    .border-gold {
+        border-color: var(--gold);
+    }
+
+    .container-site {
+        width: 100%;
+        max-width: 1440px;
+        margin-inline: auto;
+        padding-inline: 1.25rem;
+    }
+
+    @media (min-width: 640px) {
+        .container-site {
+            padding-inline: 2rem;
+        }
+    }
+
+    @media (min-width: 1024px) {
+        .container-site {
+            padding-inline: 3rem;
+        }
+    }
+
+    @media (min-width: 1280px) {
+        .container-site {
+            padding-inline: 4rem;
+        }
+    }
+}
+
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    html {
+        scroll-behavior: auto;
+    }
+
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
