@@ -17,7 +17,7 @@ export function AboutSection({ image, onContact }: AboutSectionProps) {
                     {/* Left Column: Text & CTA */}
                     <div className="space-y-6 lg:col-span-5">
                         <div className="flex items-center gap-3">
-                            <span className="text-muted-foreground text-[11px] font-semibold tracking-[0.25em] uppercase">
+                            <span className="text-muted-foreground text-xs font-semibold tracking-[0.25em] uppercase">
                                 About Us
                             </span>
                             <div className="bg-gold/60 h-px w-8" />
@@ -37,7 +37,7 @@ export function AboutSection({ image, onContact }: AboutSectionProps) {
                         </p>
                         <Button
                             onClick={onContact}
-                            className="bg-gold hover:bg-gold/90 text-white flex items-center gap-2 rounded-full px-6 py-5 text-xs font-medium shadow-md transition-all"
+                            className="bg-gold hover:bg-gold/90 text-white flex items-center gap-2 rounded-full px-6 py-5 text-sm font-medium shadow-md transition-all"
                         >
                             Explore Our Story
                             <ArrowRight className="h-3.5 w-3.5" />
@@ -63,7 +63,7 @@ export function AboutSection({ image, onContact }: AboutSectionProps) {
                                 <div className="font-display text-foreground text-xl font-bold sm:text-2xl">
                                     5,000+
                                 </div>
-                                <div className="text-muted-foreground text-xs">
+                                <div className="text-muted-foreground text-sm">
                                     Happy Clients
                                 </div>
                             </div>

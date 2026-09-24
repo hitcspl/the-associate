@@ -28,7 +28,7 @@ export function ImpactBanner({ stats, image }: ImpactBannerProps) {
                             <div className="font-display text-gold text-3xl sm:text-4xl">
                                 {stat.value}
                             </div>
-                            <div className="text-xs text-white/70">
+                            <div className="text-sm text-white/70">
                                 {stat.label}
                             </div>
                         </div>

@@ -38,7 +38,7 @@ export function ServicesSection({ services }: { services: ServiceItem[] }) {
                                 <h3 className="font-display group-hover:text-gold mb-2 text-xl">
                                     {service.title}
                                 </h3>
-                                <p className="text-muted-foreground text-xs leading-relaxed sm:text-sm">
+                                <p className="text-muted-foreground text-sm leading-relaxed sm:text-base">
                                     {service.description}
                                 </p>
                             </article>

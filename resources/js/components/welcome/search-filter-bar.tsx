@@ -34,13 +34,13 @@ export function SearchFilterBar({
                             <h2 className="font-display text-2xl sm:text-3xl">
                                 Search. Explore. Find.
                             </h2>
-                            <p className="text-muted-foreground text-xs leading-relaxed sm:text-sm">
+                            <p className="text-muted-foreground text-sm leading-relaxed sm:text-base">
                                 Use our advanced search to find the perfect
                                 property that matches your lifestyle and budget.
                             </p>
                         </div>
                         <div className="grid grid-cols-1 gap-4 sm:grid-cols-3 lg:col-span-8">
-                            <label className="space-y-1.5 text-xs font-medium">
+                            <label className="space-y-1.5 text-sm font-medium">
                                 <span className="flex items-center gap-1.5">
                                     <MapPin className="text-gold h-3.5 w-3.5" />
                                     Location
@@ -50,7 +50,7 @@ export function SearchFilterBar({
                                     onChange={(event) =>
                                         setLocation(event.target.value)
                                     }
-                                    className="bg-background border-border w-full rounded-xl border px-3.5 py-2.5 text-xs sm:text-sm"
+                                    className="bg-background border-border w-full rounded-xl border px-3.5 py-2.5 text-sm"
                                 >
                                     <option value="All">All Locations</option>
                                     <option value="Beverly Hills">
@@ -63,7 +63,7 @@ export function SearchFilterBar({
                                     <option value="Miami">Miami, FL</option>
                                 </select>
                             </label>
-                            <label className="space-y-1.5 text-xs font-medium">
+                            <label className="space-y-1.5 text-sm font-medium">
                                 <span className="flex items-center gap-1.5">
                                     <Home className="text-gold h-3.5 w-3.5" />
                                     Property Type
@@ -73,7 +73,7 @@ export function SearchFilterBar({
                                     onChange={(event) =>
                                         setType(event.target.value)
                                     }
-                                    className="bg-background border-border w-full rounded-xl border px-3.5 py-2.5 text-xs sm:text-sm"
+                                    className="bg-background border-border w-full rounded-xl border px-3.5 py-2.5 text-sm"
                                 >
                                     <option value="All">Any type</option>
                                     <option value="Villa">Luxury Villa</option>
@@ -82,7 +82,7 @@ export function SearchFilterBar({
                                     <option value="Penthouse">Penthouse</option>
                                 </select>
                             </label>
-                            <label className="space-y-1.5 text-xs font-medium">
+                            <label className="space-y-1.5 text-sm font-medium">
                                 <span className="flex items-center gap-1.5">
                                     <DollarSign className="text-gold h-3.5 w-3.5" />
                                     Budget
@@ -94,7 +94,7 @@ export function SearchFilterBar({
                                             event.target.value as BudgetFilter,
                                         )
                                     }
-                                    className="bg-background border-border w-full rounded-xl border px-3.5 py-2.5 text-xs sm:text-sm"
+                                    className="bg-background border-border w-full rounded-xl border px-3.5 py-2.5 text-sm"
                                 >
                                     <option value="All">Min - Max (Any)</option>
                                     <option value="under2m">
@@ -115,7 +115,7 @@ export function SearchFilterBar({
                                                 behavior: 'smooth',
                                             })
                                     }
-                                    className="bg-gold hover:bg-gold-hover flex w-full items-center justify-center gap-2 rounded-xl px-8 py-2.5 text-xs text-white sm:w-auto"
+                                    className="bg-gold hover:bg-gold-hover flex w-full items-center justify-center gap-2 rounded-xl px-8 py-2.5 text-sm text-white sm:w-auto"
                                 >
                                     Search Properties{' '}
                                     <ArrowRight className="h-3.5 w-3.5" />
