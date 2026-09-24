@@ -66,7 +66,7 @@ export default function Welcome() {
     };
 
     return (
-        <div className="bg-background text-foreground min-h-screen transition-colors duration-300">
+        <div className="bg-background text-foreground min-h-screen pb-14 transition-colors duration-300 md:pb-0">
             <Head title="Associate - Premium Real Estate" />
             <SiteHeader
                 authenticated={Boolean(auth?.user)}

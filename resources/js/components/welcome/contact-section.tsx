@@ -121,7 +121,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                     <MapPin className="h-4 w-4" />
                                 </div>
                                 <div>
-                                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Visit</p>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Visit</p>
                                     <p className="mt-1 text-sm leading-6 text-foreground">
                                         215 Park Avenue, Suite 1500
                                         <br />
@@ -135,7 +135,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                     <Phone className="h-4 w-4" />
                                 </div>
                                 <div>
-                                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Call</p>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Call</p>
                                     <a href="tel:+12125550181" className="mt-1 block text-sm text-foreground transition-colors hover:text-gold">
                                         +1 (212) 555-0181
                                     </a>
@@ -147,7 +147,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                     <Mail className="h-4 w-4" />
                                 </div>
                                 <div>
-                                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Email</p>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Email</p>
                                     <a href="mailto:concierge@associate-estate.com" className="mt-1 block text-sm text-foreground transition-colors hover:text-gold">
                                         concierge@associate-estate.com
                                     </a>
@@ -161,11 +161,11 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                     <Clock3 className="h-4 w-4" />
                                 </div>
                                 <div>
-                                    <p className="text-[11px] font-semibold uppercase tracking-[0.2em] text-muted-foreground">Appointments</p>
+                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Appointments</p>
                                     <p className="mt-1 text-sm text-foreground">Mon–Sat · 9:00 AM – 6:00 PM</p>
                                 </div>
                             </div>
-                            <div className="inline-flex items-center gap-2 text-xs font-medium text-gold">
+                            <div className="inline-flex items-center gap-2 text-sm font-medium text-gold">
                                 <Sparkles className="h-3.5 w-3.5" />
                                 Private advisory service
                             </div>
@@ -210,7 +210,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                             aria-invalid={Boolean(errors.name)}
                                         />
                                         {errors.name && (
-                                            <span className="mt-1.5 block text-xs text-red-500">{errors.name}</span>
+                                            <span className="mt-1.5 block text-sm text-red-500">{errors.name}</span>
                                         )}
                                     </label>
 
@@ -225,7 +225,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                             aria-invalid={Boolean(errors.email)}
                                         />
                                         {errors.email && (
-                                            <span className="mt-1.5 block text-xs text-red-500">{errors.email}</span>
+                                            <span className="mt-1.5 block text-sm text-red-500">{errors.email}</span>
                                         )}
                                     </label>
                                 </div>
@@ -242,7 +242,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                             aria-invalid={Boolean(errors.phone)}
                                         />
                                         {errors.phone && (
-                                            <span className="mt-1.5 block text-xs text-red-500">{errors.phone}</span>
+                                            <span className="mt-1.5 block text-sm text-red-500">{errors.phone}</span>
                                         )}
                                     </label>
 
@@ -262,7 +262,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                             ))}
                                         </select>
                                         {errors.subject && (
-                                            <span className="mt-1.5 block text-xs text-red-500">{errors.subject}</span>
+                                            <span className="mt-1.5 block text-sm text-red-500">{errors.subject}</span>
                                         )}
                                     </label>
                                 </div>
@@ -278,7 +278,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                         aria-invalid={Boolean(errors.message)}
                                     />
                                     {errors.message && (
-                                        <span className="mt-1.5 block text-xs text-red-500">{errors.message}</span>
+                                        <span className="mt-1.5 block text-sm text-red-500">{errors.message}</span>
                                     )}
                                 </label>
 
@@ -290,7 +290,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                     {isSubmitting ? 'Sending request...' : 'Submit inquiry'}
                                     {!isSubmitting && <ArrowRight className="ml-2 h-4 w-4" />}
                                 </Button>
-                                <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
                                     <Send className="h-3.5 w-3.5 text-gold" />
                                     Secure and confidential communication
                                 </div>

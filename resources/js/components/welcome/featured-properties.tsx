@@ -83,7 +83,7 @@ export function FeaturedProperties({
                     {/* Desktop "View All" Link & Mobile Navigation Controls */}
                     <div className="flex items-center justify-between sm:justify-end gap-4">
                         {/* Mobile Slide Controls */}
-                        <div className="flex items-center gap-1.2 sm:hidden">
+                        <div className="flex items-center gap-1.5 sm:hidden">
                             <button
                                 type="button"
                                 onClick={() => scrollToCard(Math.max(0, activeIndex - 1))}
@@ -93,7 +93,7 @@ export function FeaturedProperties({
                             >
                                 <ChevronLeft className="h-4 w-4" />
                             </button>
-                            <span className="text-[11px] font-mono font-medium text-muted-foreground px-1">
+                            <span className="text-xs font-mono font-medium text-muted-foreground px-1">
                                 {activeIndex + 1} / {properties.length}
                             </span>
                             <button
@@ -109,7 +109,7 @@ export function FeaturedProperties({
 
                         <a
                             href="#search-section"
-                            className="inline-flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
+                            className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
                         >
                             <span>View All Properties</span>
                             <ArrowRight className="h-3.5 w-3.5 text-primary" />

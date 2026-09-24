@@ -52,7 +52,7 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
     return (
         <section
             id="home"
-            className="relative min-h-[90vh] lg:min-h-screen w-full overflow-hidden bg-neutral-950 text-white dark:bg-neutral-950 dark:text-white pt-30 pb-12 lg:pt-28 lg:pb-16 flex items-center selection:bg-[#A37B4C] selection:text-white"
+            className="relative min-h-[100svh] lg:min-h-screen w-full overflow-hidden bg-neutral-950 text-white dark:bg-neutral-950 dark:text-white pt-30 pb-12 lg:pt-28 lg:pb-16 flex items-center selection:bg-[#A37B4C] selection:text-white"
         >
             {/* Background Image Container */}
             <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none select-none">
@@ -94,11 +94,11 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
         <div className="mb-5 flex items-center justify-center gap-3 sm:mb-6 lg:justify-start">
             <span
                 className="
-                    text-[10px] font-semibold uppercase
+                    text-xs font-semibold uppercase
                     tracking-[0.25em]
                     text-amber-200/90
                     drop-shadow-sm
-                    sm:text-[11px]
+                    sm:text-sm
                 "
             >
                 Premium Real Estate
@@ -113,7 +113,7 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
                 mx-auto
                 max-w-[340px]
                 text-[3rem]
-                font-serif
+                font-display
                 font-normal
                 leading-[0.98]
                 tracking-[-0.035em]
@@ -136,7 +136,7 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
             <span
                 className="
                     block
-                    font-serif
+                    font-display
                     italic
                     font-light
                     text-amber-100/95
@@ -295,7 +295,7 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
                     gap-4
                     pt-7
                     font-mono
-                    text-xs
+                    text-sm
                     tracking-widest
                     text-stone-300
                     select-none
@@ -424,10 +424,10 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
                                 {/* Card Details Overlay (Bottom 15%) */}
                                 <div className="absolute bottom-3 left-4 right-4 z-20 flex items-end justify-between text-white p-1">
                                     <div className="space-y-0.5">
-                                        <h3 className="font-serif text-lg sm:text-xl lg:text-2xl font-medium tracking-tight drop-shadow-sm">
+                                        <h3 className="font-display text-lg sm:text-xl lg:text-2xl font-medium tracking-tight drop-shadow-sm">
                                             {current.title}
                                         </h3>
-                                        <p className="flex items-center gap-1.5 text-xs text-stone-300 drop-shadow">
+                                        <p className="flex items-center gap-1.5 text-sm text-stone-300 drop-shadow">
                                             <MapPin className="h-3.5 w-3.5 text-amber-400 shrink-0" />
                                             <span className="truncate max-w-[180px] sm:max-w-[220px]">
                                                 {current.location}

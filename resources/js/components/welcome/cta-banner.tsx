@@ -26,12 +26,12 @@ export function CtaBanner({
                         <h2 className="font-display text-3xl leading-tight sm:text-4xl lg:text-5xl">
                             What's Next?
                         </h2>
-                        <p className="text-xs text-white/80 sm:text-sm">
+                        <p className="text-sm text-white/80 sm:text-base">
                             Let's find a property that feels like yours.
                         </p>
                         <Button
                             onClick={onContact}
-                            className="bg-gold hover:bg-gold-hover flex items-center gap-2 rounded-full px-7 py-5 text-xs text-white"
+                            className="bg-gold hover:bg-gold-hover flex items-center gap-2 rounded-full px-7 py-5 text-sm text-white"
                         >
                             Get Started <ArrowRight className="h-3.5 w-3.5" />
                         </Button>

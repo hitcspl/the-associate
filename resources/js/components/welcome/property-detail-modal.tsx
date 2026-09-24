@@ -16,8 +16,8 @@ export function PropertyDetailModal({
 }: PropertyDetailModalProps) {
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 p-4 backdrop-blur-sm">
-            <div className="bg-card border-border w-full max-w-2xl overflow-hidden rounded-2xl border shadow-2xl">
-                <div className="relative aspect-[16/10] overflow-hidden">
+            <div className="bg-card border-border max-h-[calc(100dvh-2rem)] w-full max-w-2xl overflow-y-auto rounded-2xl border shadow-2xl">
+                <div className="relative aspect-[16/10] max-h-[40dvh] overflow-hidden">
                     <img
                         src={property.image}
                         alt={property.title}
@@ -48,7 +48,7 @@ export function PropertyDetailModal({
                     </div>
                     <div className="border-border grid grid-cols-3 gap-4 border-y py-4 text-center">
                         <div>
-                            <div className="text-muted-foreground text-xs">
+                            <div className="text-muted-foreground text-sm">
                                 Bedrooms
                             </div>
                             <div className="text-lg font-semibold">
@@ -56,7 +56,7 @@ export function PropertyDetailModal({
                             </div>
                         </div>
                         <div>
-                            <div className="text-muted-foreground text-xs">
+                            <div className="text-muted-foreground text-sm">
                                 Bathrooms
                             </div>
                             <div className="text-lg font-semibold">
@@ -64,7 +64,7 @@ export function PropertyDetailModal({
                             </div>
                         </div>
                         <div>
-                            <div className="text-muted-foreground text-xs">
+                            <div className="text-muted-foreground text-sm">
                                 Square Feet
                             </div>
                             <div className="text-lg font-semibold">

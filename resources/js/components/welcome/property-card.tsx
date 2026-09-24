@@ -44,12 +44,12 @@ export function PropertyCard({
                     <h3 className="font-display group-hover:text-gold text-lg">
                         {property.title}
                     </h3>
-                    <p className="text-muted-foreground mt-1 flex items-center gap-1 text-xs">
+                    <p className="text-muted-foreground mt-1 flex items-center gap-1 text-sm">
                         <MapPin className="text-gold h-3 w-3" />
                         {property.location}
                     </p>
                 </div>
-                <div className="text-muted-foreground border-border/60 flex items-center justify-between border-t pt-3 text-[11px]">
+                <div className="text-muted-foreground border-border/60 flex items-center justify-between border-t pt-3 text-xs">
                     <span className="flex items-center gap-1">
                         <Bed className="h-3.5 w-3.5" />
                         {property.beds} Beds
