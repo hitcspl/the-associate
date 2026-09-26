@@ -46,7 +46,9 @@ export default function Welcome() {
         if (contactSection) {
             const offset = 88;
             const top =
-                contactSection.getBoundingClientRect().top + window.scrollY - offset;
+                contactSection.getBoundingClientRect().top +
+                window.scrollY -
+                offset;
             window.scrollTo({ top, behavior: 'smooth' });
             if (window.history.pushState) {
                 window.history.pushState(null, '', '#contact');

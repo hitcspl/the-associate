@@ -19,7 +19,7 @@ export function PropertyCard({
     return (
         <article
             onClick={() => onSelect(property)}
-            className="group flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-neutral-200/80 bg-card shadow-sm transition-all duration-300 hover:border-gold/60 hover:shadow-[0_18px_45px_rgba(37,34,30,0.14)] dark:border-white/10 dark:hover:shadow-[0_18px_45px_rgba(0,0,0,0.3)]"
+            className="group bg-card hover:border-gold/60 flex cursor-pointer flex-col overflow-hidden rounded-2xl border border-neutral-200/80 shadow-sm transition-all duration-300 hover:shadow-[0_18px_45px_rgba(37,34,30,0.14)] dark:border-white/10 dark:hover:shadow-[0_18px_45px_rgba(0,0,0,0.3)]"
         >
             <div className="bg-muted relative aspect-[4/3] overflow-hidden">
                 <img
@@ -79,7 +79,7 @@ export function PropertyCard({
                     </span>
                 </div>
                 <div className="flex items-center justify-between pt-2">
-                    <span className="text-muted-foreground text-xs font-medium uppercase tracking-wider">
+                    <span className="text-muted-foreground text-xs font-medium tracking-wider uppercase">
                         View details
                     </span>
                     <div className="bg-gold/15 text-gold group-hover:bg-gold flex h-8 w-8 items-center justify-center rounded-full group-hover:text-white">

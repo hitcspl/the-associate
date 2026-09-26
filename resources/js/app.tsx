@@ -28,7 +28,9 @@ void createInertiaApp({
         return (
             <ThemeProvider>
                 <TooltipProvider delayDuration={0}>
-                    <SitePreloader initialProps={page.props}>{app}</SitePreloader>
+                    <SitePreloader initialProps={page.props}>
+                        {app}
+                    </SitePreloader>
                     <Toaster />
                 </TooltipProvider>
             </ThemeProvider>

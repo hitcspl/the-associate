@@ -38,7 +38,8 @@ function getStoredTheme(): Theme | null {
 }
 
 function getSystemTheme(): Theme {
-    return typeof window !== 'undefined' && window.matchMedia(mediaQuery).matches
+    return typeof window !== 'undefined' &&
+        window.matchMedia(mediaQuery).matches
         ? 'dark'
         : 'light';
 }
@@ -69,7 +70,8 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         };
 
         query.addEventListener('change', handleSystemThemeChange);
-        return () => query.removeEventListener('change', handleSystemThemeChange);
+        return () =>
+            query.removeEventListener('change', handleSystemThemeChange);
     }, []);
 
     const setTheme = (nextTheme: Theme) => {
@@ -86,7 +88,9 @@ export function ThemeProvider({ children }: ThemeProviderProps) {
         [theme],
     );
 
-    return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>;
+    return (
+        <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+    );
 }
 
 export function useTheme(): ThemeContextValue {

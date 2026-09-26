@@ -8,7 +8,7 @@ function AnimatedMetric({ value }: { value: string }) {
     const ref = useRef<HTMLSpanElement>(null);
     const isInView = useInView(ref, { once: true, margin: '-100px' });
     const numericValue = Number(value.replace(/[^\d.]/g, ''));
-    const suffix = value.replace(/[\d,\.\s]/g, '');
+    const suffix = value.replace(/[\d,.\s]/g, '');
     const [displayValue, setDisplayValue] = useState(0);
 
     useEffect(() => {
@@ -24,15 +24,20 @@ function AnimatedMetric({ value }: { value: string }) {
     }, [isInView, numericValue]);
 
     return (
-        <motion.span ref={ref} initial={{ opacity: 0 }} animate={isInView ? { opacity: 1 } : { opacity: 0 }}>
-            {displayValue.toLocaleString()}{suffix}
+        <motion.span
+            ref={ref}
+            initial={{ opacity: 0 }}
+            animate={isInView ? { opacity: 1 } : { opacity: 0 }}
+        >
+            {displayValue.toLocaleString()}
+            {suffix}
         </motion.span>
     );
 }
 
 export function ImpactBanner({ stats, image }: ImpactBannerProps) {
     return (
-        <section className="relative overflow-hidden border-y border-border/40 bg-[#1b1916] py-14 text-white sm:py-16">
+        <section className="border-border/40 relative overflow-hidden border-y bg-[#1b1916] py-14 text-white sm:py-16">
             {/* Background Image: Increased opacity to 50% */}
             <div className="absolute inset-0 opacity-50">
                 <img
@@ -61,10 +66,13 @@ export function ImpactBanner({ stats, image }: ImpactBannerProps) {
                             initial={{ opacity: 0, y: 14 }}
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true, margin: '-80px' }}
-                            transition={{ duration: 0.5, delay: stat.id * 0.08 }}
-                            className="flex flex-col justify-center space-y-1 border-b border-white/10 py-7 last:border-b-0 sm:px-6 sm:py-8 lg:border-b-0 lg:border-r lg:px-8 lg:py-0 lg:last:border-r-0"
+                            transition={{
+                                duration: 0.5,
+                                delay: stat.id * 0.08,
+                            }}
+                            className="flex flex-col justify-center space-y-1 border-b border-white/10 py-7 last:border-b-0 sm:px-6 sm:py-8 lg:border-r lg:border-b-0 lg:px-8 lg:py-0 lg:last:border-r-0"
                         >
-                            <div className="font-display text-3xl text-gold sm:text-4xl">
+                            <div className="font-display text-gold text-3xl sm:text-4xl">
                                 <AnimatedMetric value={stat.value} />
                             </div>
                             <div className="text-sm text-white/70">

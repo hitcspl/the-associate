@@ -13,27 +13,28 @@ export function CtaBanner({
         <section className="py-16 sm:py-24">
             <div className="container-site">
                 <div className="relative overflow-hidden rounded-3xl border border-amber-500/20 bg-gradient-to-br from-neutral-950 via-[#18130e] to-neutral-950 p-8 text-white shadow-2xl sm:p-14 lg:p-16">
-                    
                     {/* Background Image Container with Gradient Mask */}
-                    <div 
-                        className="absolute inset-0 pointer-events-none select-none overflow-hidden"
+                    <div
+                        className="pointer-events-none absolute inset-0 overflow-hidden select-none"
                         style={{
-                            WebkitMaskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,1) 100%)',
-                            maskImage: 'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,1) 100%)',
+                            WebkitMaskImage:
+                                'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 10%, rgba(0,0,0,1) 100%)',
+                            maskImage:
+                                'linear-gradient(to right, transparent 0%, rgba(0,0,0,0.3) 40%, rgba(0,0,0,1) 100%)',
                         }}
                     >
                         <img
                             src={image}
                             alt="Luxury home showcase"
-                            className="h-full w-full object-cover object-center filter brightness-[0.85] contrast-[1.05] transition-transform duration-1000 ease-out hover:scale-105"
+                            className="h-full w-full object-cover object-center brightness-[0.85] contrast-[1.05] filter transition-transform duration-1000 ease-out hover:scale-105"
                         />
                     </div>
 
                     {/* Mobile-First Gradient Overlay: ensures legibility on small screens */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-neutral-950/90 via-neutral-950/60 to-transparent sm:bg-gradient-to-r sm:from-neutral-950 sm:via-neutral-950/70 sm:to-transparent pointer-events-none z-10" />
+                    <div className="pointer-events-none absolute inset-0 z-10 bg-gradient-to-t from-neutral-950/90 via-neutral-950/60 to-transparent sm:bg-gradient-to-r sm:from-neutral-950 sm:via-neutral-950/70 sm:to-transparent" />
 
                     {/* Content Column */}
-                    <motion.div 
+                    <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, margin: '-50px' }}
@@ -41,18 +42,19 @@ export function CtaBanner({
                         className="relative z-20 max-w-lg space-y-5"
                     >
                         <div className="inline-flex items-center gap-2">
-                            <span className="text-xs font-semibold uppercase tracking-[0.25em] text-amber-200/90 drop-shadow-sm sm:text-sm">
+                            <span className="text-xs font-semibold tracking-[0.25em] text-amber-200/90 uppercase drop-shadow-sm sm:text-sm">
                                 Ready For
                             </span>
                             <div className="h-px w-8 bg-amber-200/40" />
                         </div>
 
-                        <h2 className="font-display text-3xl font-normal leading-[1.05] tracking-tight text-stone-50 sm:text-4xl lg:text-5xl">
+                        <h2 className="font-display text-3xl leading-[1.05] font-normal tracking-tight text-stone-50 sm:text-4xl lg:text-5xl">
                             What&apos;s Next?
                         </h2>
 
-                        <p className="text-sm font-light leading-relaxed text-stone-300 sm:text-base">
-                            Let&apos;s find a property that feels like yours. Exceptional residences curated for your lifestyle.
+                        <p className="text-sm leading-relaxed font-light text-stone-300 sm:text-base">
+                            Let&apos;s find a property that feels like yours.
+                            Exceptional residences curated for your lifestyle.
                         </p>
 
                         <div className="pt-2">
@@ -68,7 +70,6 @@ export function CtaBanner({
                             </Button>
                         </div>
                     </motion.div>
-
                 </div>
             </div>
         </section>
