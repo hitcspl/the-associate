@@ -49,7 +49,9 @@ export function FeaturedProperties({
         const observer = new IntersectionObserver((entries) => {
             entries.forEach((entry) => {
                 if (entry.isIntersecting) {
-                    const index = Number(entry.target.getAttribute('data-card-index'));
+                    const index = Number(
+                        entry.target.getAttribute('data-card-index'),
+                    );
                     if (!isNaN(index)) {
                         setActiveIndex(index);
                     }
@@ -82,71 +84,95 @@ export function FeaturedProperties({
     };
 
     return (
-        <section id="properties" className="py-16 sm:py-20 lg:py-32 bg-background text-foreground transition-colors overflow-hidden">
-            <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        <section
+            id="properties"
+            className="bg-background text-foreground overflow-hidden py-16 transition-colors sm:py-20 lg:py-32"
+        >
+            <div className="container mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 {/* Header Block */}
-                <div className="mb-8 sm:mb-12 flex flex-col justify-between gap-6 sm:flex-row sm:items-end">
+                <div className="mb-8 flex flex-col justify-between gap-6 sm:mb-12 sm:flex-row sm:items-end">
                     <div className="space-y-2.5">
                         <div className="flex items-center gap-3">
-                            <span className="text-xs font-semibold uppercase tracking-widest text-primary">
+                            <span className="text-primary text-xs font-semibold tracking-widest uppercase">
                                 Featured Properties
                             </span>
-                            <div className="h-px w-8 bg-primary/40" />
+                            <div className="bg-primary/40 h-px w-8" />
                         </div>
-                        <h2 className="font-display text-3xl font-medium tracking-tight leading-tight sm:text-4xl lg:text-5xl">
-                            Properties selected <br className="hidden sm:inline" />
+                        <h2 className="font-display text-3xl leading-tight font-medium tracking-tight sm:text-4xl lg:text-5xl">
+                            Properties selected{' '}
+                            <br className="hidden sm:inline" />
                             for exceptional living.
                         </h2>
                         <div className="mt-6 flex flex-wrap items-center gap-2">
-            {filters.map((filter) => {
-                const isSelected = activeFilter === filter.value;
-                return (
-                    <button
-                        key={filter.value}
-                        type="button"
-                        onClick={() => selectFilter(filter.value)}
-                        className={`relative rounded-full border px-4 py-2 text-xs sm:text-sm font-medium transition-all duration-200 outline-none focus-visible:ring-2 focus-visible:ring-primary ${
-                            isSelected
-                                ? "border-primary/30 text-foreground shadow-sm"
-                                : "border-border/60 bg-card/50 text-muted-foreground hover:border-border hover:bg-card hover:text-foreground"
-                        }`}
-                    >
-                        {isSelected && (
-                            <motion.span
-                                layoutId="property-filter"
-                                className="absolute inset-0 rounded-full bg-primary/12"
-                                transition={{ type: 'spring', stiffness: 400, damping: 30 }}
-                            />
-                        )}
-                        <span className="relative z-10 whitespace-nowrap">{filter.label}</span>
-                    </button>
-                );
-            })}
-        </div>
+                            {filters.map((filter) => {
+                                const isSelected =
+                                    activeFilter === filter.value;
+                                return (
+                                    <button
+                                        key={filter.value}
+                                        type="button"
+                                        onClick={() =>
+                                            selectFilter(filter.value)
+                                        }
+                                        className={`focus-visible:ring-primary relative rounded-full border px-4 py-2 text-xs font-medium transition-all duration-200 outline-none focus-visible:ring-2 sm:text-sm ${
+                                            isSelected
+                                                ? 'border-primary/30 text-foreground shadow-sm'
+                                                : 'border-border/60 bg-card/50 text-muted-foreground hover:border-border hover:bg-card hover:text-foreground'
+                                        }`}
+                                    >
+                                        {isSelected && (
+                                            <motion.span
+                                                layoutId="property-filter"
+                                                className="bg-primary/12 absolute inset-0 rounded-full"
+                                                transition={{
+                                                    type: 'spring',
+                                                    stiffness: 400,
+                                                    damping: 30,
+                                                }}
+                                            />
+                                        )}
+                                        <span className="relative z-10 whitespace-nowrap">
+                                            {filter.label}
+                                        </span>
+                                    </button>
+                                );
+                            })}
+                        </div>
                     </div>
 
                     {/* Desktop "View All" Link & Mobile Navigation Controls */}
-                    <div className="flex items-center justify-between sm:justify-end gap-4">
+                    <div className="flex items-center justify-between gap-4 sm:justify-end">
                         {/* Mobile Slide Controls */}
                         <div className="flex items-center gap-1.5 sm:hidden">
                             <button
                                 type="button"
-                                onClick={() => scrollToCard(Math.max(0, activeIndex - 1))}
+                                onClick={() =>
+                                    scrollToCard(Math.max(0, activeIndex - 1))
+                                }
                                 disabled={activeIndex === 0}
                                 aria-label="Previous Property"
-                                className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-all hover:border-primary hover:text-primary active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+                                className="border-border bg-card text-muted-foreground hover:border-primary hover:text-primary flex h-8 w-8 items-center justify-center rounded-full border transition-all active:scale-95 disabled:pointer-events-none disabled:opacity-30"
                             >
                                 <ChevronLeft className="h-4 w-4" />
                             </button>
-                            <span className="text-xs font-mono font-medium text-muted-foreground px-1">
+                            <span className="text-muted-foreground px-1 font-mono text-xs font-medium">
                                 {activeIndex + 1} / {visibleProperties.length}
                             </span>
                             <button
                                 type="button"
-                                onClick={() => scrollToCard(Math.min(visibleProperties.length - 1, activeIndex + 1))}
-                                disabled={activeIndex === visibleProperties.length - 1}
+                                onClick={() =>
+                                    scrollToCard(
+                                        Math.min(
+                                            visibleProperties.length - 1,
+                                            activeIndex + 1,
+                                        ),
+                                    )
+                                }
+                                disabled={
+                                    activeIndex === visibleProperties.length - 1
+                                }
                                 aria-label="Next Property"
-                                className="flex h-8 w-8 items-center justify-center rounded-full border border-border bg-card text-muted-foreground transition-all hover:border-primary hover:text-primary active:scale-95 disabled:opacity-30 disabled:pointer-events-none"
+                                className="border-border bg-card text-muted-foreground hover:border-primary hover:text-primary flex h-8 w-8 items-center justify-center rounded-full border transition-all active:scale-95 disabled:pointer-events-none disabled:opacity-30"
                             >
                                 <ChevronRight className="h-4 w-4" />
                             </button>
@@ -154,10 +180,10 @@ export function FeaturedProperties({
 
                         <a
                             href="#search-section"
-                            className="inline-flex items-center gap-1.5 text-sm font-semibold uppercase tracking-wider text-muted-foreground transition-colors hover:text-primary"
+                            className="text-muted-foreground hover:text-primary inline-flex items-center gap-1.5 text-sm font-semibold tracking-wider uppercase transition-colors"
                         >
                             <span>View All Properties</span>
-                            <ArrowRight className="h-3.5 w-3.5 text-primary" />
+                            <ArrowRight className="text-primary h-3.5 w-3.5" />
                         </a>
                     </div>
                 </div>
@@ -168,18 +194,7 @@ export function FeaturedProperties({
                     tabIndex={0}
                     role="region"
                     aria-label="Featured Properties Carousel"
-                    className="
-                        /* Mobile Carousel Utilities */
-                        flex overflow-x-auto snap-x snap-mandatory scroll-smooth pb-4 pt-1
-                        [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden
-                        
-                        /* Precise edge snap alignment & padding for mobile screens */
-                        -mx-4 px-4 sm:mx-0 sm:px-0
-                        
-                        /* Desktop/Tablet Grid Fallback */
-                        sm:grid sm:overflow-visible sm:snap-none sm:pb-0
-                        sm:grid-cols-2 lg:grid-cols-4 sm:gap-6
-                    "
+                    className="/* Mobile Carousel Utilities */ /* Precise edge snap alignment & padding for mobile screens */ /* Desktop/Tablet Grid Fallback */ -mx-4 flex snap-x snap-mandatory [scrollbar-width:none] overflow-x-auto scroll-smooth px-4 pt-1 pb-4 [-ms-overflow-style:none] sm:mx-0 sm:grid sm:snap-none sm:grid-cols-2 sm:gap-6 sm:overflow-visible sm:px-0 sm:pb-0 lg:grid-cols-4 [&::-webkit-scrollbar]:hidden"
                 >
                     {visibleProperties.map((property, index) => {
                         const isActive = index === activeIndex;
@@ -191,21 +206,13 @@ export function FeaturedProperties({
                                     cardRefs.current[index] = el;
                                 }}
                                 data-card-index={index}
-                                className="
-                                    /* Mobile Stacked Card Layout */
-                                    shrink-0 snap-center w-[85vw] max-w-[360px] mr-4 last:mr-0
-                                    
-                                    /* Desktop Grid Reset */
-                                    sm:w-auto sm:max-w-none sm:mr-0
-                                    
-                                    /* Smooth Depth/Scale Micro-transitions for Active Mobile Card */
-                                    transition-all duration-300 ease-out transform-gpu
-                                    motion-reduce:transition-none motion-reduce:transform-none
-                                "
+                                className="/* Mobile Stacked Card Layout */ /* Desktop Grid Reset */ /* Smooth Depth/Scale Micro-transitions for Active Mobile Card */ mr-4 w-[85vw] max-w-[360px] shrink-0 transform-gpu snap-center transition-all duration-300 ease-out last:mr-0 motion-reduce:transform-none motion-reduce:transition-none sm:mr-0 sm:w-auto sm:max-w-none"
                                 style={{
                                     /* Inline transform scaling applied only below sm breakpoint via responsive CSS hook */
                                     opacity: isActive ? 1 : 0.88,
-                                    transform: isActive ? 'scale(1)' : 'scale(0.96)',
+                                    transform: isActive
+                                        ? 'scale(1)'
+                                        : 'scale(0.96)',
                                 }}
                             >
                                 <PropertyCard
@@ -220,7 +227,10 @@ export function FeaturedProperties({
                 </div>
 
                 {/* Subtle Mobile Progress Bar */}
-                <div className="mt-4 flex items-center justify-center gap-1.5 sm:hidden" aria-hidden="true">
+                <div
+                    className="mt-4 flex items-center justify-center gap-1.5 sm:hidden"
+                    aria-hidden="true"
+                >
                     {visibleProperties.map((_, idx) => (
                         <button
                             key={idx}
@@ -228,8 +238,8 @@ export function FeaturedProperties({
                             onClick={() => scrollToCard(idx)}
                             className={`h-1 rounded-full transition-all duration-300 ${
                                 idx === activeIndex
-                                    ? 'w-6 bg-primary'
-                                    : 'w-1.5 bg-border hover:bg-muted-foreground/40'
+                                    ? 'bg-primary w-6'
+                                    : 'bg-border hover:bg-muted-foreground/40 w-1.5'
                             }`}
                         />
                     ))}

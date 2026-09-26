@@ -1,4 +1,13 @@
-import { ArrowRight, CheckCircle2, Clock3, Mail, MapPin, Phone, Send, Sparkles } from 'lucide-react';
+import {
+    ArrowRight,
+    CheckCircle2,
+    Clock3,
+    Mail,
+    MapPin,
+    Phone,
+    Send,
+    Sparkles,
+} from 'lucide-react';
 import { type FormEvent, useEffect, useMemo, useState } from 'react';
 import { router, usePage } from '@inertiajs/react';
 import { Button } from '@/components/ui/button';
@@ -71,10 +80,7 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
         [],
     );
 
-    const handleChange = (
-        field: keyof typeof initialForm,
-        value: string,
-    ) => {
+    const handleChange = (field: keyof typeof initialForm, value: string) => {
         setForm((current) => ({ ...current, [field]: value }));
         setErrors((current) => ({ ...current, [field]: '' }));
     };
@@ -89,7 +95,10 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
             replace: false,
             onSuccess: () => {
                 setSubmitted(true);
-                setForm({ ...initialForm, property_id: propertyId ?? undefined });
+                setForm({
+                    ...initialForm,
+                    property_id: propertyId ?? undefined,
+                });
                 setIsSubmitting(false);
             },
             onError: (responseErrors) => {
@@ -101,28 +110,39 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
     };
 
     return (
-        <section id="contact" className="relative border-border/80 bg-background py-20 sm:py-24 lg:py-28">
+        <section
+            id="contact"
+            className="border-border/80 bg-background relative py-20 sm:py-24 lg:py-28"
+        >
             <div className="container-site">
                 <div className="grid gap-8 lg:grid-cols-[1.02fr_1.28fr] lg:gap-12 xl:gap-16">
                     <div className="space-y-8">
                         <div className="space-y-4">
-                            <span className="section-kicker text-gold">Let's Connect</span>
-                            <h2 className="max-w-md text-4xl leading-none text-foreground sm:text-5xl lg:text-[3.5rem]">
+                            <span className="section-kicker text-gold">
+                                Let's Connect
+                            </span>
+                            <h2 className="text-foreground max-w-md text-4xl leading-none sm:text-5xl lg:text-[3.5rem]">
                                 Begin your next chapter with confidence.
                             </h2>
-                            <p className="max-w-lg text-sm leading-7 text-muted-foreground sm:text-base">
-                                Whether you are buying a permanent residence, securing a refined investment, or selling a legacy home, our advisors bring discretion, market knowledge, and a deeply personal approach to every decision.
+                            <p className="text-muted-foreground max-w-lg text-sm leading-7 sm:text-base">
+                                Whether you are buying a permanent residence,
+                                securing a refined investment, or selling a
+                                legacy home, our advisors bring discretion,
+                                market knowledge, and a deeply personal approach
+                                to every decision.
                             </p>
                         </div>
 
-                        <div className="space-y-4 border-border bg-card/70 rounded-2xl border p-5 shadow-sm sm:p-6">
+                        <div className="border-border bg-card/70 space-y-4 rounded-2xl border p-5 shadow-sm sm:p-6">
                             <div className="flex items-start gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#A37B4C]/10 text-gold">
+                                <div className="text-gold flex h-10 w-10 items-center justify-center rounded-full bg-[#A37B4C]/10">
                                     <MapPin className="h-4 w-4" />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Visit</p>
-                                    <p className="mt-1 text-sm leading-6 text-foreground">
+                                    <p className="text-muted-foreground text-xs font-semibold tracking-[0.2em] uppercase">
+                                        Visit
+                                    </p>
+                                    <p className="text-foreground mt-1 text-sm leading-6">
                                         215 Park Avenue, Suite 1500
                                         <br />
                                         New York, NY 10017
@@ -131,57 +151,77 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                             </div>
 
                             <div className="flex items-start gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#A37B4C]/10 text-gold">
+                                <div className="text-gold flex h-10 w-10 items-center justify-center rounded-full bg-[#A37B4C]/10">
                                     <Phone className="h-4 w-4" />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Call</p>
-                                    <a href="tel:+12125550181" className="mt-1 block text-sm text-foreground transition-colors hover:text-gold">
+                                    <p className="text-muted-foreground text-xs font-semibold tracking-[0.2em] uppercase">
+                                        Call
+                                    </p>
+                                    <a
+                                        href="tel:+12125550181"
+                                        className="text-foreground hover:text-gold mt-1 block text-sm transition-colors"
+                                    >
                                         +1 (212) 555-0181
                                     </a>
                                 </div>
                             </div>
 
                             <div className="flex items-start gap-3">
-                                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#A37B4C]/10 text-gold">
+                                <div className="text-gold flex h-10 w-10 items-center justify-center rounded-full bg-[#A37B4C]/10">
                                     <Mail className="h-4 w-4" />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Email</p>
-                                    <a href="mailto:concierge@associate-estate.com" className="mt-1 block text-sm text-foreground transition-colors hover:text-gold">
+                                    <p className="text-muted-foreground text-xs font-semibold tracking-[0.2em] uppercase">
+                                        Email
+                                    </p>
+                                    <a
+                                        href="mailto:concierge@associate-estate.com"
+                                        className="text-foreground hover:text-gold mt-1 block text-sm transition-colors"
+                                    >
                                         concierge@associate-estate.com
                                     </a>
                                 </div>
                             </div>
                         </div>
 
-                        <div className="flex flex-col gap-4 rounded-2xl border border-border bg-card/50 p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
+                        <div className="border-border bg-card/50 flex flex-col gap-4 rounded-2xl border p-5 sm:flex-row sm:items-center sm:justify-between sm:p-6">
                             <div className="flex items-start gap-3">
-                                <div className="mt-0.5 flex h-10 w-10 items-center justify-center rounded-full bg-[#A37B4C]/10 text-gold">
+                                <div className="text-gold mt-0.5 flex h-10 w-10 items-center justify-center rounded-full bg-[#A37B4C]/10">
                                     <Clock3 className="h-4 w-4" />
                                 </div>
                                 <div>
-                                    <p className="text-xs font-semibold uppercase tracking-[0.2em] text-muted-foreground">Appointments</p>
-                                    <p className="mt-1 text-sm text-foreground">Mon–Sat · 9:00 AM – 6:00 PM</p>
+                                    <p className="text-muted-foreground text-xs font-semibold tracking-[0.2em] uppercase">
+                                        Appointments
+                                    </p>
+                                    <p className="text-foreground mt-1 text-sm">
+                                        Mon–Sat · 9:00 AM – 6:00 PM
+                                    </p>
                                 </div>
                             </div>
-                            <div className="inline-flex items-center gap-2 text-sm font-medium text-gold">
+                            <div className="text-gold inline-flex items-center gap-2 text-sm font-medium">
                                 <Sparkles className="h-3.5 w-3.5" />
                                 Private advisory service
                             </div>
                         </div>
                     </div>
 
-                    <div className="rounded-[28px] border border-border bg-card p-5 shadow-[0_14px_40px_rgba(15,15,15,0.04)] sm:p-7 lg:p-8">
+                    <div className="border-border bg-card rounded-[28px] border p-5 shadow-[0_14px_40px_rgba(15,15,15,0.04)] sm:p-7 lg:p-8">
                         {submitted ? (
                             <div className="flex min-h-[500px] flex-col items-center justify-center text-center">
-                                <div className="mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#A37B4C]/12 text-gold">
+                                <div className="text-gold mb-5 flex h-16 w-16 items-center justify-center rounded-full bg-[#A37B4C]/12">
                                     <CheckCircle2 className="h-8 w-8" />
                                 </div>
-                                <p className="section-kicker mb-3 text-gold">Message received</p>
-                                <h3 className="font-display text-3xl text-foreground">Thank you for reaching out.</h3>
-                                <p className="mt-3 max-w-md text-sm leading-7 text-muted-foreground">
-                                    Our advisory team will review your inquiry and respond within one business day with the next steps.
+                                <p className="section-kicker text-gold mb-3">
+                                    Message received
+                                </p>
+                                <h3 className="font-display text-foreground text-3xl">
+                                    Thank you for reaching out.
+                                </h3>
+                                <p className="text-muted-foreground mt-3 max-w-md text-sm leading-7">
+                                    Our advisory team will review your inquiry
+                                    and respond within one business day with the
+                                    next steps.
                                 </p>
                                 <Button
                                     type="button"
@@ -194,91 +234,137 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                         ) : (
                             <form onSubmit={handleSubmit} className="space-y-5">
                                 <div className="space-y-2">
-                                    <span className="section-kicker text-gold">Inquiry Form</span>
-                                    <h3 className="font-display text-3xl text-foreground">Request a consultation</h3>
+                                    <span className="section-kicker text-gold">
+                                        Inquiry Form
+                                    </span>
+                                    <h3 className="font-display text-foreground text-3xl">
+                                        Request a consultation
+                                    </h3>
                                 </div>
 
                                 <div className="grid gap-4 sm:grid-cols-2">
-                                    <label className="block text-sm font-medium text-foreground">
+                                    <label className="text-foreground block text-sm font-medium">
                                         Name
                                         <input
                                             type="text"
                                             value={form.name}
-                                            onChange={(event) => handleChange('name', event.target.value)}
+                                            onChange={(event) =>
+                                                handleChange(
+                                                    'name',
+                                                    event.target.value,
+                                                )
+                                            }
                                             placeholder="Your full name"
-                                            className="mt-2 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-[#A37B4C] focus:outline-none focus:ring-2 focus:ring-[#A37B4C]/20"
+                                            className="border-border bg-background text-foreground placeholder:text-muted-foreground mt-2 w-full rounded-xl border px-3.5 py-2.5 text-sm focus:border-[#A37B4C] focus:ring-2 focus:ring-[#A37B4C]/20 focus:outline-none"
                                             aria-invalid={Boolean(errors.name)}
                                         />
                                         {errors.name && (
-                                            <span className="mt-1.5 block text-sm text-red-500">{errors.name}</span>
+                                            <span className="mt-1.5 block text-sm text-red-500">
+                                                {errors.name}
+                                            </span>
                                         )}
                                     </label>
 
-                                    <label className="block text-sm font-medium text-foreground">
+                                    <label className="text-foreground block text-sm font-medium">
                                         Email
                                         <input
                                             type="email"
                                             value={form.email}
-                                            onChange={(event) => handleChange('email', event.target.value)}
+                                            onChange={(event) =>
+                                                handleChange(
+                                                    'email',
+                                                    event.target.value,
+                                                )
+                                            }
                                             placeholder="you@example.com"
-                                            className="mt-2 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-[#A37B4C] focus:outline-none focus:ring-2 focus:ring-[#A37B4C]/20"
+                                            className="border-border bg-background text-foreground placeholder:text-muted-foreground mt-2 w-full rounded-xl border px-3.5 py-2.5 text-sm focus:border-[#A37B4C] focus:ring-2 focus:ring-[#A37B4C]/20 focus:outline-none"
                                             aria-invalid={Boolean(errors.email)}
                                         />
                                         {errors.email && (
-                                            <span className="mt-1.5 block text-sm text-red-500">{errors.email}</span>
+                                            <span className="mt-1.5 block text-sm text-red-500">
+                                                {errors.email}
+                                            </span>
                                         )}
                                     </label>
                                 </div>
 
                                 <div className="grid gap-4 sm:grid-cols-2">
-                                    <label className="block text-sm font-medium text-foreground">
+                                    <label className="text-foreground block text-sm font-medium">
                                         Phone
                                         <input
                                             type="tel"
                                             value={form.phone}
-                                            onChange={(event) => handleChange('phone', event.target.value)}
+                                            onChange={(event) =>
+                                                handleChange(
+                                                    'phone',
+                                                    event.target.value,
+                                                )
+                                            }
                                             placeholder="(555) 456-7890"
-                                            className="mt-2 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-[#A37B4C] focus:outline-none focus:ring-2 focus:ring-[#A37B4C]/20"
+                                            className="border-border bg-background text-foreground placeholder:text-muted-foreground mt-2 w-full rounded-xl border px-3.5 py-2.5 text-sm focus:border-[#A37B4C] focus:ring-2 focus:ring-[#A37B4C]/20 focus:outline-none"
                                             aria-invalid={Boolean(errors.phone)}
                                         />
                                         {errors.phone && (
-                                            <span className="mt-1.5 block text-sm text-red-500">{errors.phone}</span>
+                                            <span className="mt-1.5 block text-sm text-red-500">
+                                                {errors.phone}
+                                            </span>
                                         )}
                                     </label>
 
-                                    <label className="block text-sm font-medium text-foreground">
+                                    <label className="text-foreground block text-sm font-medium">
                                         Subject
                                         <select
                                             value={form.subject}
-                                            onChange={(event) => handleChange('subject', event.target.value)}
-                                            className="mt-2 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-foreground focus:border-[#A37B4C] focus:outline-none focus:ring-2 focus:ring-[#A37B4C]/20"
-                                            aria-invalid={Boolean(errors.subject)}
+                                            onChange={(event) =>
+                                                handleChange(
+                                                    'subject',
+                                                    event.target.value,
+                                                )
+                                            }
+                                            className="border-border bg-background text-foreground mt-2 w-full rounded-xl border px-3.5 py-2.5 text-sm focus:border-[#A37B4C] focus:ring-2 focus:ring-[#A37B4C]/20 focus:outline-none"
+                                            aria-invalid={Boolean(
+                                                errors.subject,
+                                            )}
                                         >
-                                            <option value="">Select an enquiry type</option>
+                                            <option value="">
+                                                Select an enquiry type
+                                            </option>
                                             {subjectOptions.map((option) => (
-                                                <option key={option} value={option}>
+                                                <option
+                                                    key={option}
+                                                    value={option}
+                                                >
                                                     {option}
                                                 </option>
                                             ))}
                                         </select>
                                         {errors.subject && (
-                                            <span className="mt-1.5 block text-sm text-red-500">{errors.subject}</span>
+                                            <span className="mt-1.5 block text-sm text-red-500">
+                                                {errors.subject}
+                                            </span>
                                         )}
                                     </label>
                                 </div>
 
-                                <label className="block text-sm font-medium text-foreground">
+                                <label className="text-foreground block text-sm font-medium">
                                     Message
                                     <textarea
                                         rows={5}
                                         value={form.message}
-                                        onChange={(event) => handleChange('message', event.target.value)}
+                                        onChange={(event) =>
+                                            handleChange(
+                                                'message',
+                                                event.target.value,
+                                            )
+                                        }
                                         placeholder="Tell us about the property, timeframe, location, or any specific requirements."
-                                        className="mt-2 w-full rounded-xl border border-border bg-background px-3.5 py-2.5 text-sm text-foreground placeholder:text-muted-foreground focus:border-[#A37B4C] focus:outline-none focus:ring-2 focus:ring-[#A37B4C]/20"
+                                        className="border-border bg-background text-foreground placeholder:text-muted-foreground mt-2 w-full rounded-xl border px-3.5 py-2.5 text-sm focus:border-[#A37B4C] focus:ring-2 focus:ring-[#A37B4C]/20 focus:outline-none"
                                         aria-invalid={Boolean(errors.message)}
                                     />
                                     {errors.message && (
-                                        <span className="mt-1.5 block text-sm text-red-500">{errors.message}</span>
+                                        <span className="mt-1.5 block text-sm text-red-500">
+                                            {errors.message}
+                                        </span>
                                     )}
                                 </label>
 
@@ -287,11 +373,15 @@ export function ContactSection({ propertyId }: ContactSectionProps) {
                                     disabled={isSubmitting}
                                     className="w-full rounded-full bg-[#A37B4C] px-6 py-5 text-sm font-semibold text-white transition-all hover:bg-[#B88C57] disabled:cursor-not-allowed disabled:opacity-70"
                                 >
-                                    {isSubmitting ? 'Sending request...' : 'Submit inquiry'}
-                                    {!isSubmitting && <ArrowRight className="ml-2 h-4 w-4" />}
+                                    {isSubmitting
+                                        ? 'Sending request...'
+                                        : 'Submit inquiry'}
+                                    {!isSubmitting && (
+                                        <ArrowRight className="ml-2 h-4 w-4" />
+                                    )}
                                 </Button>
-                                <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                                    <Send className="h-3.5 w-3.5 text-gold" />
+                                <div className="text-muted-foreground flex items-center gap-2 text-sm">
+                                    <Send className="text-gold h-3.5 w-3.5" />
                                     Secure and confidential communication
                                 </div>
                             </form>

@@ -4,7 +4,7 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Menu, Moon, Search, Sun, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/providers/theme-provider';
-import { dashboard, login } from '@/routes';
+import { dashboard } from '@/routes';
 
 type SiteHeaderProps = {
     authenticated: boolean;
@@ -34,8 +34,8 @@ export function SiteHeader({
 
     const links = [
         ['Home', '#home'],
-        ['Properties', '#properties'],
         ['About', '#about'],
+        ['Properties', '#properties'],
         ['Services', '#services'],
         ['Contact', '#contact'],
     ];
@@ -44,39 +44,38 @@ export function SiteHeader({
         <header
             className={`fixed top-0 right-0 left-0 z-50 transition-all duration-300 ease-out ${
                 scrolled
-                    ? 'bg-neutral-950/90 shadow-lg shadow-black/20 backdrop-blur-xl py-1'
+                    ? 'bg-neutral-950/90 py-1 shadow-lg shadow-black/20 backdrop-blur-xl'
                     : 'bg-gradient-to-b from-black/90 via-black/40 to-transparent py-2.5'
             }`}
         >
-            <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between gap-4">
-                
+            <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6 lg:px-8">
                 {/* Brand Logo Container */}
                 <a
                     href="#home"
-                    className="group flex items-center shrink-0 min-w-0 transition-transform active:scale-95"
+                    className="group flex min-w-0 shrink-0 items-center transition-transform active:scale-95"
                     aria-label="Associate — Home"
                 >
                     {/* Mobile View (< lg) -> Big standalone logo.png */}
-                    <div className="flex lg:hidden items-center">
-                        <img 
-                            src="/AssociatedeveloperFullLogoLight.png" 
-                            alt="Associate Logo" 
-                            className="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
+                    <div className="flex items-center lg:hidden">
+                        <img
+                            src="/AssociatedeveloperFullLogoLight.png"
+                            alt="Associate Logo"
+                            className="h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105 sm:h-14"
                         />
                     </div>
 
                     {/* Desktop View (>= lg) -> Prominent, clear full logo */}
-                    <div className="hidden lg:flex items-center">
+                    <div className="hidden items-center lg:flex">
                         <img
                             src="/AssociatedeveloperFullLogoLight.png"
                             alt="Associate Developer"
-                            className="h-10 lg:h-12 xl:h-14 max-h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                            className="h-10 max-h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02] lg:h-12 xl:h-14"
                         />
                     </div>
                 </a>
 
                 {/* Desktop Navigation Links */}
-                <nav className="hidden lg:flex items-center gap-1 rounded-full p-1.5 backdrop-blur-md bg-black/40 border border-white/10 shadow-inner">
+                <nav className="hidden items-center gap-1 rounded-full border border-white/10 bg-black/40 p-1.5 shadow-inner backdrop-blur-md lg:flex">
                     {links.map(([label, href]) => {
                         const isActive = activeTab === href;
                         return (
@@ -90,16 +89,22 @@ export function SiteHeader({
                                         onContact();
                                     }
                                 }}
-                                className="relative rounded-full px-5 py-2 text-sm font-medium text-stone-200 hover:text-white transition-colors select-none"
+                                className="relative rounded-full px-5 py-2 text-sm font-medium text-stone-200 transition-colors select-none hover:text-white"
                             >
                                 {isActive && (
                                     <motion.div
                                         layoutId="active-pill"
                                         className="absolute inset-0 rounded-full bg-[#A37B4C] shadow-sm shadow-[#A37B4C]/40"
-                                        transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                                        transition={{
+                                            type: 'spring',
+                                            stiffness: 380,
+                                            damping: 30,
+                                        }}
                                     />
                                 )}
-                                <span className={`relative z-10 ${isActive ? 'text-white font-semibold' : ''}`}>
+                                <span
+                                    className={`relative z-10 ${isActive ? 'font-semibold text-white' : ''}`}
+                                >
                                     {label}
                                 </span>
                             </a>
@@ -108,13 +113,14 @@ export function SiteHeader({
                 </nav>
 
                 {/* Action Buttons */}
-                <div className="flex items-center gap-2 sm:gap-3 shrink-0">
-                    
+                <div className="flex shrink-0 items-center gap-2 sm:gap-3">
                     {/* Theme Toggle */}
                     <button
-                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                        onClick={() =>
+                            setTheme(theme === 'dark' ? 'light' : 'dark')
+                        }
                         aria-label="Toggle theme"
-                        className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white shadow-sm backdrop-blur-md transition-all hover:scale-105 active:scale-95 hover:bg-black/60"
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white shadow-sm backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60 active:scale-95"
                     >
                         {theme === 'dark' ? (
                             <Sun className="h-4.5 w-4.5 text-amber-400" />
@@ -127,7 +133,7 @@ export function SiteHeader({
                     <a
                         href="#search-section"
                         aria-label="Search properties"
-                        className="hidden sm:flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white shadow-sm backdrop-blur-md transition-all hover:scale-105 active:scale-95 hover:bg-black/60"
+                        className="hidden h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white shadow-sm backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60 active:scale-95 sm:flex"
                     >
                         <Search className="h-4.5 w-4.5" />
                     </a>
@@ -137,13 +143,13 @@ export function SiteHeader({
                         <Link href={dashboard()} className="hidden lg:block">
                             <Button
                                 size="sm"
-                                className="bg-[#A37B4C] hover:bg-[#B88C57] text-white rounded-full px-6 h-11 text-sm font-semibold shadow-md transition-all hover:scale-105"
+                                className="h-11 rounded-full bg-[#A37B4C] px-6 text-sm font-semibold text-white shadow-md transition-all hover:scale-105 hover:bg-[#B88C57]"
                             >
                                 Dashboard
                             </Button>
                         </Link>
                     ) : (
-                        <div className="hidden lg:flex items-center gap-2.5">
+                        <div className="hidden items-center gap-2.5 lg:flex">
                             {/* <Link
                                 href={login()}
                                 className="rounded-full px-5 py-2.5 text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-md transition-all"
@@ -156,11 +162,10 @@ export function SiteHeader({
                                     setActiveTab('#contact');
                                     onContact();
                                 }}
-                                size="sm"
-                                className="bg-[#A37B4C] hover:bg-[#B88C57] text-white flex items-center justify-center gap-2 rounded-full h-11 px-6 text-sm font-semibold shadow-md transition-all active:scale-95 hover:scale-105"
+                                className="flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-full bg-[#A37B4C] px-10 text-xs font-medium text-white shadow-md transition-all hover:scale-102 hover:bg-[#B88C57] active:scale-95 sm:text-sm"
                             >
                                 <span>Get In Touch</span>
-                                <ArrowRight className="h-4 w-4" />
+                                <ArrowRight className="h-3.5 w-3.5" />
                             </Button>
                         </div>
                     )}
@@ -171,7 +176,11 @@ export function SiteHeader({
                         className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/50 text-white backdrop-blur-md transition-all active:scale-95 lg:hidden"
                         aria-label="Toggle mobile menu"
                     >
-                        {mobileOpen ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
+                        {mobileOpen ? (
+                            <X className="h-5 w-5" />
+                        ) : (
+                            <Menu className="h-5 w-5" />
+                        )}
                     </button>
                 </div>
             </div>
@@ -184,7 +193,7 @@ export function SiteHeader({
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: -10 }}
                         transition={{ duration: 0.2 }}
-                        className="mx-4 mb-4 rounded-2xl border border-white/10 bg-neutral-900/95 p-5 shadow-2xl backdrop-blur-xl lg:hidden overflow-hidden"
+                        className="mx-4 mb-4 overflow-hidden rounded-2xl border border-white/10 bg-neutral-900/95 p-5 shadow-2xl backdrop-blur-xl lg:hidden"
                     >
                         <nav className="flex flex-col space-y-1.5">
                             {links.map(([label, href]) => {
@@ -203,7 +212,7 @@ export function SiteHeader({
                                         }}
                                         className={`rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
                                             isActive
-                                                ? 'bg-[#A37B4C]/20 text-amber-300 font-semibold border border-[#A37B4C]/30'
+                                                ? 'border border-[#A37B4C]/30 bg-[#A37B4C]/20 font-semibold text-amber-300'
                                                 : 'text-stone-200 hover:bg-white/10'
                                         }`}
                                     >
@@ -213,7 +222,7 @@ export function SiteHeader({
                             })}
                         </nav>
 
-                        <div className="mt-5 border-t border-white/10 pt-4 flex flex-col gap-2.5">
+                        <div className="mt-5 flex flex-col gap-2.5 border-t border-white/10 pt-4">
                             {/* {!authenticated && (
                                 <Link
                                     href={login()}
@@ -228,7 +237,7 @@ export function SiteHeader({
                                     onMobileToggle();
                                     onContact();
                                 }}
-                                className="bg-[#A37B4C] hover:bg-[#B88C57] text-white w-full rounded-xl py-3.5 text-sm font-semibold shadow-md active:scale-98 transition-all"
+                                className="w-full rounded-xl bg-[#A37B4C] py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#B88C57] active:scale-98"
                             >
                                 Get In Touch
                             </Button>
