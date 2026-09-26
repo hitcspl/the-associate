@@ -60,7 +60,10 @@ const LUXURY_EASING = [0.16, 1, 0.3, 1] as const;
 const CINEMATIC_EXPAND_EASING = [0.85, 0, 0.15, 1] as const;
 
 function getCriticalAssets(props: PreloadPageProps, logo: string): string[] {
-    const properties = [...(props.heroSlides ?? []), ...(props.properties ?? [])];
+    const properties = [
+        ...(props.heroSlides ?? []),
+        ...(props.properties ?? []),
+    ];
     const propertyImages = properties.flatMap((property) => [
         property.image,
         ...(property.images ?? []),
@@ -97,7 +100,9 @@ export function SitePreloader({
 
     const assets = useRef(getCriticalAssets(initialProps, logoAsset));
     const [loadedCount, setLoadedCount] = useState(0);
-    const [phase, setPhase] = useState<'loading' | 'expand' | 'reveal' | 'done'>('loading');
+    const [phase, setPhase] = useState<
+        'loading' | 'expand' | 'reveal' | 'done'
+    >('loading');
 
     const rawPercentage = assets.current.length
         ? Math.round((loadedCount / assets.current.length) * 100)
@@ -132,18 +137,28 @@ export function SitePreloader({
 
         const updateProgress = (currentTime: number) => {
             const elapsed = currentTime - startTime;
-            const timeProgress = Math.min(100, (elapsed / minDisplayTimeMs) * 100);
+            const timeProgress = Math.min(
+                100,
+                (elapsed / minDisplayTimeMs) * 100,
+            );
             const target = Math.min(timeProgress, rawPercentage);
 
             if (currentDisplay < target) {
-                currentDisplay += Math.max(0.2, (target - currentDisplay) * 0.18);
+                currentDisplay += Math.max(
+                    0.2,
+                    (target - currentDisplay) * 0.18,
+                );
                 if (Math.abs(target - currentDisplay) < 0.15) {
                     currentDisplay = target;
                 }
                 setDisplayPercentage(Math.floor(currentDisplay));
             }
 
-            if (elapsed < minDisplayTimeMs || rawPercentage < 100 || currentDisplay < 100) {
+            if (
+                elapsed < minDisplayTimeMs ||
+                rawPercentage < 100 ||
+                currentDisplay < 100
+            ) {
                 animationFrameId = requestAnimationFrame(updateProgress);
             } else {
                 setDisplayPercentage(100);
@@ -190,6 +205,20 @@ export function SitePreloader({
 
     const isComplete = phase === 'done';
 
+    // Once the curtain is gone, drop the animated wrapper entirely.
+    //
+    // A lingering `filter`, `transform` or `will-change: transform|filter` on
+    // an ancestor turns that ancestor into the containing block for
+    // `position: fixed` descendants. Keeping this wrapper mounted after the
+    // preloader finishes would therefore silently break `position: fixed`
+    // for the site header (it would anchor to this block and scroll away with
+    // the page). Rendering the children unwrapped restores viewport-fixed
+    // positioning; at this point scale(1) / opacity(1) / blur(0px) are
+    // no-ops, so nothing changes visually.
+    if (isComplete) {
+        return <>{children}</>;
+    }
+
     return (
         <div className="relative w-full max-w-full overflow-x-hidden">
             {/* Direct Hero / Application Mount Layer Container */}
@@ -198,9 +227,17 @@ export function SitePreloader({
                     className="relative w-full max-w-full"
                     initial={false}
                     animate={{
-                        scale: phase === 'loading' ? 1.25 : phase === 'expand' ? 1.12 : 1,
+                        scale:
+                            phase === 'loading'
+                                ? 1.25
+                                : phase === 'expand'
+                                  ? 1.12
+                                  : 1,
                         opacity: phase === 'loading' ? 0 : 1,
-                        filter: phase === 'loading' || phase === 'expand' ? 'blur(4px)' : 'blur(0px)',
+                        filter:
+                            phase === 'loading' || phase === 'expand'
+                                ? 'blur(4px)'
+                                : 'blur(0px)',
                     }}
                     transition={{
                         scale: {
@@ -240,7 +277,7 @@ export function SitePreloader({
                                 ease: LUXURY_EASING,
                             },
                         }}
-                        className="fixed inset-0 z-[9999] flex items-center justify-center overflow-hidden select-none pointer-events-none w-screen max-w-full"
+                        className="pointer-events-none fixed inset-0 z-[9999] flex w-screen max-w-full items-center justify-center overflow-hidden select-none"
                         style={{
                             background: tokens.bg,
                             color: tokens.text,
@@ -249,22 +286,28 @@ export function SitePreloader({
                         aria-label={`Loading site assets: ${displayPercentage}%`}
                         role="status"
                     >
-                        <div className="relative z-10 flex flex-col items-center justify-center w-full h-full px-6 overflow-hidden">
+                        <div className="relative z-10 flex h-full w-full flex-col items-center justify-center overflow-hidden px-6">
                             {/* Logo and Scaled Stage Container */}
                             <motion.div
-                                className="relative flex items-center justify-center w-32 h-32 xs:w-36 xs:h-36 sm:w-48 sm:h-48"
+                                className="xs:w-36 xs:h-36 relative flex h-32 w-32 items-center justify-center sm:h-48 sm:w-48"
                                 animate={
                                     phase === 'expand' || phase === 'reveal'
                                         ? {
-                                              scale: prefersReducedMotion ? 1.1 : [1, 2.4, 3.6],
-                                              opacity: prefersReducedMotion ? [1, 0] : [1, 0.9, 0],
+                                              scale: prefersReducedMotion
+                                                  ? 1.1
+                                                  : [1, 2.4, 3.6],
+                                              opacity: prefersReducedMotion
+                                                  ? [1, 0]
+                                                  : [1, 0.9, 0],
                                           }
                                         : { scale: 1, opacity: 1 }
                                 }
                                 transition={
                                     phase === 'expand' || phase === 'reveal'
                                         ? {
-                                              duration: prefersReducedMotion ? 0.4 : 1.6,
+                                              duration: prefersReducedMotion
+                                                  ? 0.4
+                                                  : 1.6,
                                               times: [0, 0.55, 1],
                                               ease: CINEMATIC_EXPAND_EASING,
                                           }
@@ -277,10 +320,15 @@ export function SitePreloader({
                             >
                                 {/* Progress Ring SVG */}
                                 <motion.svg
-                                    className="absolute inset-0 w-full h-full -rotate-90 pointer-events-none"
+                                    className="pointer-events-none absolute inset-0 h-full w-full -rotate-90"
                                     viewBox="0 0 100 100"
-                                    animate={{ opacity: phase !== 'loading' ? 0 : 1 }}
-                                    transition={{ duration: 0.35, ease: 'easeOut' }}
+                                    animate={{
+                                        opacity: phase !== 'loading' ? 0 : 1,
+                                    }}
+                                    transition={{
+                                        duration: 0.35,
+                                        ease: 'easeOut',
+                                    }}
                                 >
                                     <circle
                                         cx="50"
@@ -299,20 +347,24 @@ export function SitePreloader({
                                         fill="none"
                                         strokeDasharray="276.46"
                                         strokeDashoffset={
-                                            276.46 - (276.46 * displayPercentage) / 100
+                                            276.46 -
+                                            (276.46 * displayPercentage) / 100
                                         }
-                                        transition={{ duration: 0.1, ease: 'linear' }}
+                                        transition={{
+                                            duration: 0.1,
+                                            ease: 'linear',
+                                        }}
                                         strokeLinecap="round"
                                         style={{ opacity: 0.85 }}
                                     />
                                 </motion.svg>
 
                                 {/* Center Brand Mark */}
-                                <div className="relative w-20 h-20 xs:w-24 xs:h-24 sm:w-28 sm:h-28 flex items-center justify-center p-2">
+                                <div className="xs:w-24 xs:h-24 relative flex h-20 w-20 items-center justify-center p-2 sm:h-28 sm:w-28">
                                     <img
                                         src={logoAsset}
                                         alt="Associate Developer"
-                                        className="max-h-full max-w-full object-contain transform-gpu scale-110"
+                                        className="max-h-full max-w-full scale-110 transform-gpu object-contain"
                                     />
                                 </div>
                             </motion.div>
@@ -327,10 +379,10 @@ export function SitePreloader({
                                     duration: phase !== 'loading' ? 0.35 : 0.5,
                                     ease: LUXURY_EASING,
                                 }}
-                                className="absolute bottom-12 sm:bottom-20 flex flex-col items-center gap-2 text-center pointer-events-none"
+                                className="pointer-events-none absolute bottom-12 flex flex-col items-center gap-2 text-center sm:bottom-20"
                             >
                                 <span
-                                    className="text-[10px] sm:text-[11px] tracking-[0.28em] uppercase font-medium opacity-80"
+                                    className="text-[10px] font-medium tracking-[0.28em] uppercase opacity-80 sm:text-[11px]"
                                     style={{ color: tokens.subtext }}
                                 >
                                     Associate Developers
@@ -341,7 +393,10 @@ export function SitePreloader({
                                     style={{ color: resolvedAccent }}
                                 >
                                     <span className="w-8 text-right opacity-90">
-                                        {String(displayPercentage).padStart(3, '0')}
+                                        {String(displayPercentage).padStart(
+                                            3,
+                                            '0',
+                                        )}
                                     </span>
                                     <span className="opacity-70">%</span>
                                 </div>
