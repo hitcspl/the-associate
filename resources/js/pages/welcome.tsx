@@ -13,7 +13,6 @@ import { ServicesSection } from '@/components/welcome/services-section';
 import { SiteFooter } from '@/components/welcome/site-footer';
 import { SiteHeader } from '@/components/welcome/site-header';
 import { TestimonialsSection } from '@/components/welcome/testimonials-section';
-import { useAppearance } from '@/hooks/use-appearance';
 import { useFavorites } from '@/hooks/use-favorites';
 import { usePropertyFilters } from '@/hooks/use-property-filters';
 import type { WelcomeProps } from '@/types/property';
@@ -30,7 +29,6 @@ export default function Welcome() {
         testimonials,
         siteImages,
     } = usePage<AuthPageProps>().props;
-    const { resolvedAppearance, updateAppearance } = useAppearance();
     const { favorites, toggleFavorite } = useFavorites([1]);
     const filters = usePropertyFilters(properties);
     const [mobileOpen, setMobileOpen] = useState(false);
@@ -70,15 +68,9 @@ export default function Welcome() {
             <Head title="Associate - Premium Real Estate" />
             <SiteHeader
                 authenticated={Boolean(auth?.user)}
-                dark={resolvedAppearance === 'dark'}
                 mobileOpen={mobileOpen}
                 onContact={() => openContact()}
                 onMobileToggle={() => setMobileOpen((open) => !open)}
-                onThemeToggle={() =>
-                    updateAppearance(
-                        resolvedAppearance === 'dark' ? 'light' : 'dark',
-                    )
-                }
             />
             <main>
                 <HeroSection

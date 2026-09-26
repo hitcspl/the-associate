@@ -1,10 +1,11 @@
 import { createInertiaApp } from '@inertiajs/react';
+import { SitePreloader } from '@/components/site-preloader';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
-import { initializeTheme } from '@/hooks/use-appearance';
 import AppLayout from '@/layouts/app-layout';
 import AuthLayout from '@/layouts/auth-layout';
 import SettingsLayout from '@/layouts/settings/layout';
+import { ThemeProvider } from '@/providers/theme-provider';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
 
@@ -23,18 +24,17 @@ void createInertiaApp({
         }
     },
     strictMode: true,
-    withApp(app) {
+    withApp(app, { page }) {
         return (
-            <TooltipProvider delayDuration={0}>
-                {app}
-                <Toaster />
-            </TooltipProvider>
+            <ThemeProvider>
+                <TooltipProvider delayDuration={0}>
+                    <SitePreloader initialProps={page.props}>{app}</SitePreloader>
+                    <Toaster />
+                </TooltipProvider>
+            </ThemeProvider>
         );
     },
     progress: {
         color: '#4B5563',
     },
 });
-
-// This will set light / dark mode on load...
-initializeTheme();

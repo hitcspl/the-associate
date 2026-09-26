@@ -1,6 +1,12 @@
-import React, { useState } from 'react';
-import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight, Heart, MapPin } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import {
+    AnimatePresence,
+    motion,
+    useMotionValue,
+    useSpring,
+    type Variants,
+} from 'framer-motion';
+import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Property } from '@/types/property';
 import { formatPrice } from '@/lib/format-price';
@@ -14,38 +20,95 @@ type HeroSectionProps = {
 export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionProps) {
     const [index, setIndex] = useState(0);
     const [direction, setDirection] = useState<number>(0);
+    const [isPaused, setIsPaused] = useState(false);
 
     const current = slides[index];
+
+    const rotateX = useSpring(useMotionValue(0), { stiffness: 180, damping: 20 });
+    const rotateY = useSpring(useMotionValue(0), { stiffness: 180, damping: 20 });
+
+    const textContainerVariants: Variants = {
+        hidden: {},
+        visible: {
+            transition: { staggerChildren: 0.15, delayChildren: 0.2 },
+        },
+    };
+
     if (!current) return null;
+    const eyebrowVariants: Variants = {
+        hidden: { opacity: 0, y: -15 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.45, ease: 'easeOut' } },
+    };
+    const titleVariants: Variants = {
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+            opacity: 1,
+            y: 0,
+            transition: { type: 'spring', stiffness: 90, damping: 18 },
+        },
+    };
+    const contentVariants: Variants = {
+        hidden: { opacity: 0, y: 20 },
+        visible: { opacity: 1, y: 0, transition: { duration: 0.55, ease: 'easeOut' } },
+    };
 
-    const isFavorite = favorites.includes(current.id);
-
-    const move = (dir: number) => {
+    const move = (dir: number, pause = true) => {
+        if (pause) setIsPaused(true);
         setDirection(dir);
         setIndex((value) => (value + dir + slides.length) % slides.length);
+    };
+
+    useEffect(() => {
+        if (slides.length < 2 || isPaused) return;
+
+        const timer = window.setTimeout(() => {
+            setDirection(1);
+            setIndex((value) => (value + 1) % slides.length);
+        }, 5000);
+
+        return () => window.clearTimeout(timer);
+    }, [index, isPaused, slides.length]);
+
+    const handleCardMouseMove = (event: React.MouseEvent<HTMLDivElement>) => {
+        const bounds = event.currentTarget.getBoundingClientRect();
+        const x = (event.clientX - bounds.left) / bounds.width - 0.5;
+        const y = (event.clientY - bounds.top) / bounds.height - 0.5;
+        rotateY.set(x * 8);
+        rotateX.set(y * -8);
+    };
+
+    const resetCardTilt = () => {
+        rotateX.set(0);
+        rotateY.set(0);
     };
 
     const prevIndex = (index - 1 + slides.length) % slides.length;
     const nextIndex = (index + 1) % slides.length;
 
     // Card motion variants with scale & fade
-    const cardVariants = {
+    const cardVariants: Variants = {
         enter: (dir: number) => ({
             x: dir > 0 ? 100 : -100,
+            y: 18,
             opacity: 0,
             scale: 0.92,
+            filter: 'blur(8px)',
         }),
         center: {
             x: 0,
+            y: 0,
             opacity: 1,
             scale: 1,
-            transition: { duration: 0.35, ease: 'easeOut' as const },
+            filter: 'blur(0px)',
+            transition: { duration: 0.55, ease: 'easeOut' as const },
         },
         exit: (dir: number) => ({
             x: dir < 0 ? 100 : -100,
+            y: 10,
             opacity: 0,
             scale: 0.92,
-            transition: { duration: 0.25, ease: 'easeInOut' as const },
+            filter: 'blur(6px)',
+            transition: { duration: 0.3, ease: 'easeInOut' as const },
         }),
     };
 
@@ -61,10 +124,10 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
                         key={current.id}
                         src={current.image}
                         alt="Hero Background"
-                        initial={{ opacity: 0, scale: 1.05 }}
+                        initial={{ opacity: 0, scale: 1.08 }}
                         animate={{ opacity: 1, scale: 1 }}
                         exit={{ opacity: 0 }}
-                        transition={{ duration: 0.6, ease: 'easeOut' }}
+                        transition={{ duration: 0.8, ease: 'easeOut' }}
                         className="h-full w-full object-cover object-center filter brightness-[0.92] dark:brightness-[0.82]"
                     />
                 </AnimatePresence>
@@ -87,11 +150,16 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
     LEFT COLUMN: Typography & Controls
    ========================================================= */}
 
-<div className="flex flex-col justify-center lg:col-span-5">
+<motion.div
+    className="flex flex-col justify-center lg:col-span-5"
+    initial="hidden"
+    animate="visible"
+    variants={textContainerVariants}
+>
     <div className="mx-auto w-full max-w-xl text-center lg:mx-0 lg:text-left">
 
         {/* Eyebrow */}
-        <div className="mb-5 flex items-center justify-center gap-3 sm:mb-6 lg:justify-start">
+        <motion.div variants={eyebrowVariants} className="mb-5 flex transform-gpu items-center justify-center gap-3 sm:mb-6 lg:justify-start">
             <span
                 className="
                     text-xs font-semibold uppercase
@@ -105,10 +173,11 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
             </span>
 
             <div className="h-px w-8 bg-amber-200/40 sm:w-10" />
-        </div>
+        </motion.div>
 
         {/* Heading */}
-        <h1
+        <motion.h1
+            variants={titleVariants}
             className="
                 mx-auto
                 max-w-[340px]
@@ -144,10 +213,11 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
             >
                 Dream Home
             </span>
-        </h1>
+        </motion.h1>
 
         {/* Description */}
-        <p
+        <motion.p
+            variants={contentVariants}
             className="
                 mx-auto
                 mt-5
@@ -171,10 +241,11 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
         >
             Discover thoughtfully selected residences designed
             around the way you live.
-        </p>
+        </motion.p>
 
         {/* CTA */}
-        <div
+        <motion.div
+            variants={contentVariants}
             className="
                 relative z-30
                 mt-7
@@ -284,11 +355,12 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
                     </span>
                 </Button>
             </a>
-        </div>
+        </motion.div>
 
         {/* Progress — hidden on small screens */}
         {slides.length > 1 && (
-            <div
+            <motion.div
+                variants={contentVariants}
                 className="
                     hidden
                     items-center
@@ -319,7 +391,11 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
                         backdrop-blur-sm
                     "
                 >
-                    <div
+                    <motion.div
+                        key={current.id}
+                        initial={{ width: '0%' }}
+                        animate={{ width: '100%' }}
+                        transition={{ duration: 5, ease: 'linear' }}
                         className="
                             h-full
                             rounded-full
@@ -329,21 +405,16 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
                             duration-500
                             ease-out
                         "
-                        style={{
-                            width: `${
-                                ((index + 1) / slides.length) * 100
-                            }%`,
-                        }}
                     />
                 </div>
 
                 <span className="text-stone-400">
                     {String(slides.length).padStart(2, '0')}
                 </span>
-            </div>
+            </motion.div>
         )}
     </div>
-</div>
+</motion.div>
 
                     {/* Right Column: Layered Fan Cards Carousel */}
                     <div className="relative flex items-center justify-center lg:col-span-7 mt-4 lg:mt-0">
@@ -380,7 +451,16 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
                             )}
 
                             {/* Center Active Main Card */}
-                            <div className="relative z-10 w-full h-full overflow-hidden rounded-2xl border border-white/20 dark:border-white/15 shadow-[0_20px_50px_rgba(0,0,0,0.5)] bg-neutral-900 group">
+                            <motion.div
+                                className="relative z-10 w-full h-full overflow-hidden rounded-2xl border border-white/20 bg-neutral-900 shadow-[0_20px_50px_rgba(0,0,0,0.5)] dark:border-white/15 group"
+                                style={{ rotateX, rotateY, transformPerspective: 1000 }}
+                                onMouseEnter={() => setIsPaused(true)}
+                                onMouseLeave={() => {
+                                    setIsPaused(false);
+                                    resetCardTilt();
+                                }}
+                                onMouseMove={handleCardMouseMove}
+                            >
                                 <AnimatePresence initial={false} custom={direction} mode="popLayout">
                                     <motion.div
                                         key={current.id}
@@ -422,25 +502,34 @@ export function HeroSection({ slides, favorites = [], onFavorite }: HeroSectionP
                                 </button>
 
                                 {/* Card Details Overlay (Bottom 15%) */}
-                                <div className="absolute bottom-3 left-4 right-4 z-20 flex items-end justify-between text-white p-1">
-                                    <div className="space-y-0.5">
-                                        <h3 className="font-display text-lg sm:text-xl lg:text-2xl font-medium tracking-tight drop-shadow-sm">
-                                            {current.title}
-                                        </h3>
-                                        <p className="flex items-center gap-1.5 text-sm text-stone-300 drop-shadow">
-                                            <MapPin className="h-3.5 w-3.5 text-amber-400 shrink-0" />
-                                            <span className="truncate max-w-[180px] sm:max-w-[220px]">
-                                                {current.location}
+                                <AnimatePresence mode="wait" initial={false}>
+                                    <motion.div
+                                        key={current.id}
+                                        initial={{ opacity: 0, y: -10 }}
+                                        animate={{ opacity: 1, y: 0 }}
+                                        exit={{ opacity: 0, y: 10 }}
+                                        transition={{ duration: 0.3 }}
+                                        className="absolute right-4 bottom-3 left-4 z-20 flex min-h-[58px] items-end justify-between p-1 text-white"
+                                    >
+                                        <div className="space-y-0.5">
+                                            <h3 className="font-display text-lg font-medium tracking-tight drop-shadow-sm sm:text-xl lg:text-2xl">
+                                                {current.title}
+                                            </h3>
+                                            <p className="flex items-center gap-1.5 text-sm text-stone-300 drop-shadow">
+                                                <MapPin className="h-3.5 w-3.5 shrink-0 text-amber-400" />
+                                                <span className="max-w-[180px] truncate sm:max-w-[220px]">
+                                                    {current.location}
+                                                </span>
+                                            </p>
+                                        </div>
+                                        <div className="shrink-0 text-right">
+                                            <span className="text-base font-bold tracking-tight text-white drop-shadow sm:text-lg lg:text-xl">
+                                                {formatPrice(current.price)}
                                             </span>
-                                        </p>
-                                    </div>
-                                    <div className="text-right shrink-0">
-                                        <span className="text-base sm:text-lg lg:text-xl font-bold text-white tracking-tight drop-shadow">
-                                            {formatPrice(current.price)}
-                                        </span>
-                                    </div>
-                                </div>
-                            </div>
+                                        </div>
+                                    </motion.div>
+                                </AnimatePresence>
+                            </motion.div>
 
                         </div>
                     </div>

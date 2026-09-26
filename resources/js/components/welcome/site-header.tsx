@@ -3,27 +3,25 @@ import { Link } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Menu, Moon, Search, Sun, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useTheme } from '@/providers/theme-provider';
 import { dashboard, login } from '@/routes';
 
 type SiteHeaderProps = {
     authenticated: boolean;
-    dark: boolean;
     mobileOpen: boolean;
     onContact: () => void;
     onMobileToggle: () => void;
-    onThemeToggle: () => void;
 };
 
 export function SiteHeader({
     authenticated,
-    dark,
     mobileOpen,
     onContact,
     onMobileToggle,
-    onThemeToggle,
 }: SiteHeaderProps) {
     const [scrolled, setScrolled] = useState(false);
     const [activeTab, setActiveTab] = useState('#home');
+    const { theme, setTheme } = useTheme();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -61,7 +59,7 @@ export function SiteHeader({
                     {/* Mobile View (< lg) -> Big standalone logo.png */}
                     <div className="flex lg:hidden items-center">
                         <img 
-                            src="/logo.png" 
+                            src="/AssociatedeveloperFullLogoLight.png" 
                             alt="Associate Logo" 
                             className="h-12 sm:h-14 w-auto object-contain transition-transform duration-300 group-hover:scale-105" 
                         />
@@ -72,7 +70,7 @@ export function SiteHeader({
                         <img
                             src="/AssociatedeveloperFullLogoLight.png"
                             alt="Associate Developer"
-                            className="h-13 lg:h-15 xl:h-18 max-h-18 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
+                            className="h-10 lg:h-12 xl:h-14 max-h-15 w-auto object-contain transition-transform duration-300 group-hover:scale-[1.02]"
                         />
                     </div>
                 </a>
@@ -114,11 +112,11 @@ export function SiteHeader({
                     
                     {/* Theme Toggle */}
                     <button
-                        onClick={onThemeToggle}
+                        onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
                         aria-label="Toggle theme"
                         className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-black/40 text-white shadow-sm backdrop-blur-md transition-all hover:scale-105 active:scale-95 hover:bg-black/60"
                     >
-                        {dark ? (
+                        {theme === 'dark' ? (
                             <Sun className="h-4.5 w-4.5 text-amber-400" />
                         ) : (
                             <Moon className="h-4.5 w-4.5 text-stone-200" />
@@ -146,12 +144,12 @@ export function SiteHeader({
                         </Link>
                     ) : (
                         <div className="hidden lg:flex items-center gap-2.5">
-                            <Link
+                            {/* <Link
                                 href={login()}
                                 className="rounded-full px-5 py-2.5 text-sm font-semibold text-white bg-white/10 hover:bg-white/20 border border-white/10 backdrop-blur-md transition-all"
                             >
                                 Log In
-                            </Link>
+                            </Link> */}
 
                             <Button
                                 onClick={() => {
@@ -216,7 +214,7 @@ export function SiteHeader({
                         </nav>
 
                         <div className="mt-5 border-t border-white/10 pt-4 flex flex-col gap-2.5">
-                            {!authenticated && (
+                            {/* {!authenticated && (
                                 <Link
                                     href={login()}
                                     onClick={onMobileToggle}
@@ -224,7 +222,7 @@ export function SiteHeader({
                                 >
                                     Log In
                                 </Link>
-                            )}
+                            )} */}
                             <Button
                                 onClick={() => {
                                     onMobileToggle();
