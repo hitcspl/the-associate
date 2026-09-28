@@ -183,15 +183,17 @@ export function SiteFooter({ dark, onContact }: SiteFooterProps) {
                     <p className="flex items-center gap-1.5 text-sm">
                         <span>Designed & Developed by</span>
                         <a
-                            href="http://hitcs.in/"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="group text-foreground hover:text-primary relative inline-flex items-center gap-1 font-semibold transition-colors"
-                        >
-                            <span>HITCS</span>
-                            <ArrowUpRight className="h-3 w-3 opacity-70 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-100" />
-                            <span className="bg-primary/40 group-hover:bg-primary absolute -bottom-0.5 left-0 h-px w-full transition-all" />
-                        </a>
+    href="http://hitcs.in/"
+    target="_blank"
+    rel="noopener noreferrer"
+    className="group relative inline-flex items-center gap-1 font-medium text-neutral-700 transition-colors duration-200 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100"
+>
+    <span>HITCS Pvt.Ltd</span>
+
+    <ArrowUpRight className="h-3 w-3 opacity-50 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-80" />
+
+    <span className="absolute -bottom-0.5 left-0 h-px w-full bg-neutral-400/30 transition-colors duration-200 group-hover:bg-neutral-500/60 dark:bg-neutral-500/30 dark:group-hover:bg-neutral-400/60" />
+</a>
                     </p>
                 </div>
             </div>
