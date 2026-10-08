@@ -1,31 +1,59 @@
 import React from 'react';
+import { Link } from '@inertiajs/react';
 import { Instagram, Facebook, Linkedin, ArrowUpRight } from 'lucide-react';
+import { about, contact, home, properties, services } from '@/routes';
 
 interface SiteFooterProps {
     dark?: boolean;
-    onContact?: () => void;
 }
 
-export function SiteFooter({ dark, onContact }: SiteFooterProps) {
+const FOOTER_LINK_CLASS =
+    'text-stone-600 transition-colors hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100';
+
+type FooterNavItem = { name: string; href: string | null };
+
+function FooterNavList({ items }: { items: FooterNavItem[] }) {
+    return (
+        <ul className="mt-4 space-y-2.5 text-xs sm:text-sm">
+            {items.map((item) => (
+                <li key={item.name}>
+                    {item.href ? (
+                        <Link href={item.href} className={FOOTER_LINK_CLASS}>
+                            {item.name}
+                        </Link>
+                    ) : (
+                        <a href="#" className={FOOTER_LINK_CLASS}>
+                            {item.name}
+                        </a>
+                    )}
+                </li>
+            ))}
+        </ul>
+    );
+}
+
+export function SiteFooter({ dark }: SiteFooterProps) {
     const currentYear = new Date().getFullYear();
 
+    // Route-backed entries resolve through the Wayfinder helpers; entries with a
+    // null href are placeholders and stay plain (non-Inertia) anchors.
     const footerNavigation = {
         portfolio: [
-            { name: 'Private Residences', href: '#properties' },
-            { name: 'Penthouses & Villas', href: '#properties' },
-            { name: 'Commercial Assets', href: '#services' },
-            { name: 'Investment Funds', href: '#services' },
+            { name: 'Private Residences', href: properties.url() },
+            { name: 'Penthouses & Villas', href: properties.url() },
+            { name: 'Commercial Assets', href: services.url() },
+            { name: 'Investment Funds', href: services.url() },
         ],
         firm: [
-            { name: 'About Us', href: '#about' },
-            { name: 'Global Advisory', href: '#services' },
-            { name: 'Careers', href: '#' },
-            { name: 'Private Consultation', href: '#contact' },
+            { name: 'About Us', href: about.url() },
+            { name: 'Global Advisory', href: services.url() },
+            { name: 'Careers', href: null },
+            { name: 'Private Consultation', href: contact.url() },
         ],
         governance: [
-            { name: 'Privacy Policy', href: '#' },
-            { name: 'Terms of Service', href: '#' },
-            { name: 'Compliance & Ethics', href: '#' },
+            { name: 'Privacy Policy', href: null },
+            { name: 'Terms of Service', href: null },
+            { name: 'Compliance & Ethics', href: null },
         ],
     };
 
@@ -35,8 +63,8 @@ export function SiteFooter({ dark, onContact }: SiteFooterProps) {
                 <div className="grid grid-cols-1 gap-10 lg:grid-cols-12 lg:gap-12">
                     {/* Brand Column */}
                     <div className="space-y-5 lg:col-span-4">
-                        <a
-                            href="#home"
+                        <Link
+                            href={home.url()}
                             className="group inline-flex items-center"
                             aria-label="Associate — Back to home"
                         >
@@ -66,7 +94,7 @@ export function SiteFooter({ dark, onContact }: SiteFooterProps) {
                                     />
                                 </>
                             )}
-                        </a>
+                        </Link>
 
                         <p className="max-w-sm text-xs leading-relaxed font-normal text-stone-600 sm:text-sm dark:text-stone-400">
                             Delivering bespoke real estate solutions and premier
@@ -111,63 +139,23 @@ export function SiteFooter({ dark, onContact }: SiteFooterProps) {
                             <h3 className="text-sm font-semibold tracking-widest text-[#A37B4C] uppercase">
                                 Portfolio
                             </h3>
-                            <ul className="mt-4 space-y-2.5 text-xs sm:text-sm">
-                                {footerNavigation.portfolio.map((item) => (
-                                    <li key={item.name}>
-                                        <a
-                                            href={item.href}
-                                            className="text-stone-600 transition-colors hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
-                                        >
-                                            {item.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
+                            <FooterNavList items={footerNavigation.portfolio} />
                         </div>
 
                         <div>
                             <h3 className="text-sm font-semibold tracking-widest text-[#A37B4C] uppercase">
                                 Firm
                             </h3>
-                            <ul className="mt-4 space-y-2.5 text-xs sm:text-sm">
-                                {footerNavigation.firm.map((item) => (
-                                    <li key={item.name}>
-                                        <a
-                                            href={item.href}
-                                            onClick={(e) => {
-                                                if (
-                                                    item.href === '#contact' &&
-                                                    onContact
-                                                ) {
-                                                    e.preventDefault();
-                                                    onContact();
-                                                }
-                                            }}
-                                            className="text-stone-600 transition-colors hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
-                                        >
-                                            {item.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
+                            <FooterNavList items={footerNavigation.firm} />
                         </div>
 
                         <div>
                             <h3 className="text-sm font-semibold tracking-widest text-[#A37B4C] uppercase">
                                 Governance
                             </h3>
-                            <ul className="mt-4 space-y-2.5 text-xs sm:text-sm">
-                                {footerNavigation.governance.map((item) => (
-                                    <li key={item.name}>
-                                        <a
-                                            href={item.href}
-                                            className="text-stone-600 transition-colors hover:text-stone-900 dark:text-stone-400 dark:hover:text-stone-100"
-                                        >
-                                            {item.name}
-                                        </a>
-                                    </li>
-                                ))}
-                            </ul>
+                            <FooterNavList
+                                items={footerNavigation.governance}
+                            />
                         </div>
                     </div>
                 </div>
@@ -183,17 +171,17 @@ export function SiteFooter({ dark, onContact }: SiteFooterProps) {
                     <p className="flex items-center gap-1.5 text-sm">
                         <span>Designed & Developed by</span>
                         <a
-    href="http://hitcs.in/"
-    target="_blank"
-    rel="noopener noreferrer"
-    className="group relative inline-flex items-center gap-1 font-medium text-neutral-700 transition-colors duration-200 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100"
->
-    <span>HITCS Pvt.Ltd</span>
+                            href="http://hitcs.in/"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="group relative inline-flex items-center gap-1 font-medium text-neutral-700 transition-colors duration-200 hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-100"
+                        >
+                            <span>HITCS Pvt.Ltd</span>
 
-    <ArrowUpRight className="h-3 w-3 opacity-50 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-80" />
+                            <ArrowUpRight className="h-3 w-3 opacity-50 transition-all duration-200 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-hover:opacity-80" />
 
-    <span className="absolute -bottom-0.5 left-0 h-px w-full bg-neutral-400/30 transition-colors duration-200 group-hover:bg-neutral-500/60 dark:bg-neutral-500/30 dark:group-hover:bg-neutral-400/60" />
-</a>
+                            <span className="absolute -bottom-0.5 left-0 h-px w-full bg-neutral-400/30 transition-colors duration-200 group-hover:bg-neutral-500/60 dark:bg-neutral-500/30 dark:group-hover:bg-neutral-400/60" />
+                        </a>
                     </p>
                 </div>
             </div>

@@ -1,15 +1,21 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import { Link } from '@inertiajs/react';
+import { Link, router, usePage } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
 import { ArrowRight, Menu, Moon, Search, Sun, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useTheme } from '@/providers/theme-provider';
-import { dashboard } from '@/routes';
+import {
+    about,
+    contact,
+    dashboard,
+    home,
+    properties,
+    services,
+} from '@/routes';
 
 type SiteHeaderProps = {
     authenticated: boolean;
     mobileOpen: boolean;
-    onContact: () => void;
     onMobileToggle: () => void;
 };
 
@@ -39,16 +45,40 @@ const SURFACE_TRANSITION = `background-color 300ms ease-out, background-image 30
 const LOGO_ON_DARK = '/AssociatedeveloperFullLogoLight.png';
 const LOGO_ON_LIGHT = '/AssociatedeveloperFullLogo.png';
 
+// Navigation targets come from the Wayfinder route helpers, so the navbar can
+// never drift from the Laravel routes.
+const NAV_LINKS = [
+    { key: 'home', label: 'Home', href: home.url() },
+    { key: 'about', label: 'About', href: about.url() },
+    { key: 'properties', label: 'Properties', href: properties.url() },
+    { key: 'services', label: 'Services', href: services.url() },
+    { key: 'contact', label: 'Contact', href: contact.url() },
+];
+
+// Resolves the active nav entry from the current URL, so the active pill is
+// correct on a direct load or on back/forward navigation, not just after a click.
+const activeKeyFor = (url: string) => {
+    const path = url.split(/[?#]/)[0].replace(/\/+$/, '') || '/';
+    return NAV_LINKS.find((link) => link.href === path)?.key ?? '/';
+};
+
 export function SiteHeader({
     authenticated,
     mobileOpen,
-    onContact,
     onMobileToggle,
 }: SiteHeaderProps) {
     const [scrolled, setScrolled] = useState(false);
     const [hidden, setHidden] = useState(false);
-    const [activeTab, setActiveTab] = useState('#home');
     const { theme, setTheme } = useTheme();
+
+    // The current URL drives the active pill, so it stays correct on a direct
+    // load and on back/forward navigation, not just after a click.
+    const currentUrl = usePage().url;
+    const [activeTab, setActiveTab] = useState(() => activeKeyFor(currentUrl));
+
+    useEffect(() => {
+        setActiveTab(activeKeyFor(currentUrl));
+    }, [currentUrl]);
 
     // Ref mirrors of the state the scroll handler reads, so the single listener
     // registered below never needs to re-bind and per-frame work never causes
@@ -188,13 +218,7 @@ export function SiteHeader({
         };
     }, [reveal]);
 
-    const links = [
-        ['Home', '#home'],
-        ['About', '#about'],
-        ['Properties', '#properties'],
-        ['Services', '#services'],
-        ['Contact', '#contact'],
-    ];
+    const links = NAV_LINKS;
 
     // Over the hero the bar keeps its dark scrim, because the hero artwork is
     // always dark in both themes. Once it becomes a floating glass bar it
@@ -282,7 +306,7 @@ export function SiteHeader({
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6 lg:px-8">
                 {/* Brand Logo Container */}
                 <a
-                    href="#home"
+                    href="/"
                     className="group flex min-w-0 shrink-0 items-center transition-transform active:scale-95"
                     aria-label="Associate — Home"
                 >
@@ -309,19 +333,13 @@ export function SiteHeader({
                 <nav
                     className={`hidden items-center gap-1 rounded-full border p-1.5 shadow-inner backdrop-blur-md lg:flex ${navPillTone}`}
                 >
-                    {links.map(([label, href]) => {
-                        const isActive = activeTab === href;
+                    {links.map(({ key, label, href }) => {
+                        const isActive = activeTab === key;
                         return (
-                            <a
-                                key={href}
+                            <Link
+                                key={key}
                                 href={href}
-                                onClick={(event) => {
-                                    setActiveTab(href);
-                                    if (href === '#contact') {
-                                        event.preventDefault();
-                                        onContact();
-                                    }
-                                }}
+                                onClick={() => setActiveTab(key)}
                                 className={`relative rounded-full px-5 py-2 text-sm font-medium transition-colors select-none ${navLinkTone}`}
                             >
                                 {isActive && (
@@ -344,7 +362,7 @@ export function SiteHeader({
                                 >
                                     {label}
                                 </span>
-                            </a>
+                            </Link>
                         );
                     })}
                 </nav>
@@ -389,8 +407,8 @@ export function SiteHeader({
                         <div className="hidden items-center gap-2.5 lg:flex">
                             <Button
                                 onClick={() => {
-                                    setActiveTab('#contact');
-                                    onContact();
+                                    setActiveTab('contact');
+                                    router.visit(contact.url());
                                 }}
                                 className="flex h-9 cursor-pointer items-center justify-center gap-1.5 rounded-full bg-[#A37B4C] px-10 text-xs font-medium text-white shadow-md transition-all hover:scale-102 hover:bg-[#B88C57] active:scale-95 sm:text-sm"
                             >
@@ -426,18 +444,14 @@ export function SiteHeader({
                         className={`mx-4 mb-4 overflow-hidden rounded-2xl border p-5 shadow-2xl backdrop-blur-xl lg:hidden ${sheetTone}`}
                     >
                         <nav className="flex flex-col space-y-1.5">
-                            {links.map(([label, href]) => {
-                                const isActive = activeTab === href;
+                            {links.map(({ key, label, href }) => {
+                                const isActive = activeTab === key;
                                 return (
-                                    <a
-                                        key={href}
+                                    <Link
+                                        key={key}
                                         href={href}
-                                        onClick={(event) => {
-                                            setActiveTab(href);
-                                            if (href === '#contact') {
-                                                event.preventDefault();
-                                                onContact();
-                                            }
+                                        onClick={() => {
+                                            setActiveTab(key);
                                             onMobileToggle();
                                         }}
                                         className={`rounded-xl px-4 py-3 text-sm font-medium transition-colors ${
@@ -447,7 +461,7 @@ export function SiteHeader({
                                         }`}
                                     >
                                         {label}
-                                    </a>
+                                    </Link>
                                 );
                             })}
                         </nav>
@@ -458,7 +472,8 @@ export function SiteHeader({
                             <Button
                                 onClick={() => {
                                     onMobileToggle();
-                                    onContact();
+                                    setActiveTab('contact');
+                                    router.visit(contact.url());
                                 }}
                                 className="w-full rounded-xl bg-[#A37B4C] py-3.5 text-sm font-semibold text-white shadow-md transition-all hover:bg-[#B88C57] active:scale-98"
                             >

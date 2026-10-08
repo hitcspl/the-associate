@@ -10,8 +10,6 @@ import { MobileBottomNav } from '@/components/welcome/mobile-bottom-nav';
 import { PropertyDetailModal } from '@/components/welcome/property-detail-modal';
 import { SearchFilterBar } from '@/components/welcome/search-filter-bar';
 import { ServicesSection } from '@/components/welcome/services-section';
-import { SiteFooter } from '@/components/welcome/site-footer';
-import { SiteHeader } from '@/components/welcome/site-header';
 import { TestimonialsSection } from '@/components/welcome/testimonials-section';
 import { useFavorites } from '@/hooks/use-favorites';
 import { usePropertyFilters } from '@/hooks/use-property-filters';
@@ -21,7 +19,6 @@ type AuthPageProps = WelcomeProps & { auth?: { user?: unknown } };
 
 export default function Welcome() {
     const {
-        auth,
         heroSlides,
         properties,
         services,
@@ -31,7 +28,6 @@ export default function Welcome() {
     } = usePage<AuthPageProps>().props;
     const { favorites, toggleFavorite } = useFavorites([1]);
     const filters = usePropertyFilters(properties);
-    const [mobileOpen, setMobileOpen] = useState(false);
     const [selectedProperty, setSelectedProperty] = useState<
         WelcomeProps['properties'][number] | null
     >(null);
@@ -66,14 +62,8 @@ export default function Welcome() {
     };
 
     return (
-        <div className="bg-background text-foreground min-h-screen pb-14 transition-colors duration-300 md:pb-0">
+        <>
             <Head title="Associate - Premium Real Estate" />
-            <SiteHeader
-                authenticated={Boolean(auth?.user)}
-                mobileOpen={mobileOpen}
-                onContact={() => openContact()}
-                onMobileToggle={() => setMobileOpen((open) => !open)}
-            />
             <main>
                 <HeroSection
                     slides={heroSlides}
@@ -100,7 +90,6 @@ export default function Welcome() {
                 />
                 <ContactSection propertyId={contactPropertyId} />
             </main>
-            <SiteFooter onContact={() => openContact()} />
             <MobileBottomNav onContact={() => openContact()} />
             {selectedProperty && (
                 <PropertyDetailModal
@@ -109,6 +98,6 @@ export default function Welcome() {
                     onInquire={() => openContact(selectedProperty)}
                 />
             )}
-        </div>
+        </>
     );
 }
