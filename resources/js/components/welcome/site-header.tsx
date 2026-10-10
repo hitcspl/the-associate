@@ -48,11 +48,11 @@ const LOGO_ON_LIGHT = '/AssociatedeveloperFullLogo.png';
 // Navigation targets come from the Wayfinder route helpers, so the navbar can
 // never drift from the Laravel routes.
 const NAV_LINKS = [
-    { key: 'home', label: 'Home', href: home.url() },
-    { key: 'about', label: 'About', href: about.url() },
-    { key: 'properties', label: 'Properties', href: properties.url() },
-    { key: 'services', label: 'Services', href: services.url() },
-    { key: 'contact', label: 'Contact', href: contact.url() },
+    { key: 'home', label: 'Home', href: typeof home !== 'undefined' && home.url ? home.url() : '/' },
+    { key: 'about', label: 'About', href: typeof about !== 'undefined' && about.url ? about.url() : '/about' },
+    { key: 'properties', label: 'Properties', href: typeof properties !== 'undefined' && properties.url ? properties.url() : '/properties' },
+    { key: 'services', label: 'Services', href: typeof services !== 'undefined' && services.url ? services.url() : '/services' },
+    { key: 'contact', label: 'Contact', href: typeof contact !== 'undefined' && contact.url ? contact.url() : '/contact' },
 ];
 
 // Resolves the active nav entry from the current URL, so the active pill is
@@ -68,7 +68,6 @@ export function SiteHeader({
     onMobileToggle,
 }: SiteHeaderProps) {
     const [scrolled, setScrolled] = useState(false);
-    const [hidden, setHidden] = useState(false);
     const { theme, setTheme } = useTheme();
 
     // The current URL drives the active pill, so it stays correct on a direct
@@ -80,143 +79,53 @@ export function SiteHeader({
         setActiveTab(activeKeyFor(currentUrl));
     }, [currentUrl]);
 
-    // Ref mirrors of the state the scroll handler reads, so the single listener
-    // registered below never needs to re-bind and per-frame work never causes
-    // a render. State only flips when `hidden`/`scrolled` actually change.
-    const menuOpenRef = useRef(mobileOpen);
-    const hiddenRef = useRef(false);
     const scrolledRef = useRef(false);
 
-    const reveal = useCallback(() => {
-        if (!hiddenRef.current) return;
-        hiddenRef.current = false;
-        setHidden(false);
-    }, []);
-
-    // The mobile sheet is anchored to the navbar, so it must never hide.
     useEffect(() => {
-        menuOpenRef.current = mobileOpen;
-        if (mobileOpen) reveal();
-    }, [mobileOpen, reveal]);
-
-    useEffect(() => {
-        // --- The real scrolling element -------------------------------------
-        // This page is scrolled by the viewport, so the authoritative position
-        // is `document.scrollingElement.scrollTop` (identical to window.scrollY
-        // in standards mode). It is deliberately NOT read from document.body
-        // or from any wrapper: the preloader's wrapper computes to
-        // `overflow-y: auto` and the property carousel is `overflow-x: auto`,
-        // and `body` is forced to `overflow: hidden` while a modal is open, so
-        // all of those report a permanent scrollTop of 0.
         const scroller = () =>
             document.scrollingElement ?? document.documentElement;
 
         const readScrollTop = () => scroller().scrollTop;
 
-        let lastTop = readScrollTop();
         let frame = 0;
-        let idleTimer: number | undefined;
-
-        const clearIdleTimer = () => {
-            if (idleTimer !== undefined) {
-                window.clearTimeout(idleTimer);
-                idleTimer = undefined;
-            }
-        };
-
-        // "Scrolling completely stopped" -> bring the navbar back on its own.
-        // Re-armed on every scroll event, so it only fires once the page has
-        // genuinely been idle (this also covers touch/momentum scrolling,
-        // where events arrive in bursts).
-        const armIdleReveal = () => {
-            clearIdleTimer();
-            idleTimer = window.setTimeout(() => {
-                idleTimer = undefined;
-                if (!menuOpenRef.current) reveal();
-            }, REVEAL_ON_IDLE_MS);
-        };
 
         const evaluate = () => {
             frame = 0;
 
-            // Clamp negatives: iOS/Android rubber-banding at the top reports
-            // positions above 0 and must never be read as "scrolling up".
             const top = Math.max(0, readScrollTop());
-            // Rounded to whole pixels: real movement is always >= 1px, while
-            // sub-pixel fractional noise rounds to 0 and is ignored.
-            const delta = Math.round(top - lastTop);
-            lastTop = top;
 
-            // --- "Scrolled" glass surface, independent of hide/show ---
+            // Update "scrolled" glass surface state
             const shouldBeScrolled = top > SCROLLED_THRESHOLD;
             if (shouldBeScrolled !== scrolledRef.current) {
                 scrolledRef.current = shouldBeScrolled;
                 setScrolled(shouldBeScrolled);
             }
-
-            // --- Mobile menu open, or sitting exactly at the top: always show ---
-            if (menuOpenRef.current || top === 0) {
-                clearIdleTimer();
-                reveal();
-                return;
-            }
-
-            if (delta === 0) return;
-
-            if (delta < 0) {
-                // Scrolling up: come back immediately, stop the idle timer.
-                clearIdleTimer();
-                reveal();
-                return;
-            }
-
-            // Scrolling down: hide.
-            if (!hiddenRef.current) {
-                hiddenRef.current = true;
-                setHidden(true);
-            }
-            armIdleReveal();
         };
 
-        // requestAnimationFrame is used purely to coalesce bursts of scroll
-        // events into one evaluation per frame; detection itself is driven by
-        // the real scroll positions above.
         const handleScroll = (event: Event) => {
-            // Only document scrolling drives the header. Scroll events from
-            // nested scrollers (the horizontal property carousel) do not bubble
-            // to the viewport, and must not be read as page movement.
             if (event.target !== document && event.target !== window) return;
-
-            armIdleReveal();
 
             if (frame) return;
             frame = window.requestAnimationFrame(evaluate);
         };
 
-        // Mounting already scrolled (anchor link, restored scroll position).
+        // Initial state
         const initialTop = Math.max(0, readScrollTop());
-        lastTop = initialTop;
         scrolledRef.current = initialTop > SCROLLED_THRESHOLD;
         setScrolled(scrolledRef.current);
 
-        // Capture phase so the listener also observes the event if an inner
-        // element ever becomes the vertical scroller. Passive: never blocks
-        // scrolling, which is what keeps wheel/touchpad/touch momentum smooth.
         window.addEventListener('scroll', handleScroll, {
             capture: true,
             passive: true,
         });
-        // Resizes change the layout and the current position without a scroll
-        // event (e.g. mobile browser chrome collapsing).
         window.addEventListener('resize', handleScroll, { passive: true });
 
         return () => {
-            clearIdleTimer();
             if (frame) window.cancelAnimationFrame(frame);
             window.removeEventListener('scroll', handleScroll, true);
             window.removeEventListener('resize', handleScroll);
         };
-    }, [reveal]);
+    }, []);
 
     const links = NAV_LINKS;
 
@@ -286,21 +195,12 @@ export function SiteHeader({
     const logoSrc = onGlass && theme === 'light' ? LOGO_ON_LIGHT : LOGO_ON_DARK;
 
     return (
-        // The single outermost element owns the background, blur, shadow AND the
-        // hide/reveal transform, so nothing is ever left behind at the top.
         <header
             className={`fixed top-0 right-0 left-0 z-50 ${surfaceTone} ${
                 onGlass ? 'py-1' : 'py-2.5'
             }`}
             style={{
-                transform: hidden
-                    ? 'translate3d(0, -100%, 0)'
-                    : 'translate3d(0, 0, 0)',
-                transition: `transform ${
-                    hidden ? HIDE_MS : REVEAL_MS
-                }ms ${hidden ? HIDE_EASE : REVEAL_EASE}, ${SURFACE_TRANSITION}`,
-                willChange: 'transform',
-                backfaceVisibility: 'hidden',
+                transition: SURFACE_TRANSITION,
             }}
         >
             <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 sm:h-20 sm:px-6 lg:px-8">
