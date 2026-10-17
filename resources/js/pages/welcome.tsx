@@ -1,4 +1,4 @@
-import { Head, usePage } from '@inertiajs/react';
+import { Head, router, usePage } from '@inertiajs/react';
 import { useState } from 'react';
 import { AboutSection } from '@/components/welcome/about-section';
 import { ContactSection } from '@/components/welcome/contact-section';
@@ -7,13 +7,14 @@ import { FeaturedProperties } from '@/components/welcome/featured-properties';
 import { HeroSection } from '@/components/welcome/hero-section';
 import { ImpactBanner } from '@/components/welcome/impact-banner';
 import { MobileBottomNav } from '@/components/welcome/mobile-bottom-nav';
-import { PropertyDetailModal } from '@/components/welcome/property-detail-modal';
 import { SearchFilterBar } from '@/components/welcome/search-filter-bar';
 import { ServicesSection } from '@/components/welcome/services-section';
 import { TestimonialsSection } from '@/components/welcome/testimonials-section';
 import { useFavorites } from '@/hooks/use-favorites';
 import { usePropertyFilters } from '@/hooks/use-property-filters';
 import type { WelcomeProps } from '@/types/property';
+
+// PropertyDetailModal component removed; cards now route to the property details page.
 
 type AuthPageProps = WelcomeProps & { auth?: { user?: unknown } };
 
@@ -28,9 +29,6 @@ export default function Welcome() {
     } = usePage<AuthPageProps>().props;
     const { favorites, toggleFavorite } = useFavorites([1]);
     const filters = usePropertyFilters(properties);
-    const [selectedProperty, setSelectedProperty] = useState<
-        WelcomeProps['properties'][number] | null
-    >(null);
     const [contactPropertyId, setContactPropertyId] = useState<number | null>(
         null,
     );
@@ -57,8 +55,11 @@ export default function Welcome() {
     const openContact = (
         property: WelcomeProps['properties'][number] | null = null,
     ) => {
-        setSelectedProperty(null);
         scrollToContact(property?.id ?? null);
+    };
+
+    const openPropertyDetail = (property: WelcomeProps['properties'][number]) => {
+        router.visit(`/property/${property.id}`);
     };
 
     return (
@@ -78,7 +79,7 @@ export default function Welcome() {
                     properties={filters.filteredProperties}
                     favorites={favorites}
                     onFavorite={toggleFavorite}
-                    onSelect={setSelectedProperty}
+                    onSelect={openPropertyDetail}
                 />
                 <SearchFilterBar {...filters} />
                 <ServicesSection services={services} />
@@ -91,13 +92,6 @@ export default function Welcome() {
                 <ContactSection propertyId={contactPropertyId} />
             </main>
             <MobileBottomNav onContact={() => openContact()} />
-            {selectedProperty && (
-                <PropertyDetailModal
-                    property={selectedProperty}
-                    onClose={() => setSelectedProperty(null)}
-                    onInquire={() => openContact(selectedProperty)}
-                />
-            )}
         </>
     );
 }

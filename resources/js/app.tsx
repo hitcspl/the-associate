@@ -20,6 +20,7 @@ const PUBLIC_PAGE_ROOTS = new Set([
     'welcome',
     'about',
     'properties',
+    'property',
     'services',
     'contact',
 ]);

@@ -1,7 +1,5 @@
 <?php
 
-use App\Models\Inquiry;
-
 it('stores a contact inquiry with a subject', function () {
     $response = $this
         ->from('/')->post('/inquiries', [
@@ -13,7 +11,7 @@ it('stores a contact inquiry with a subject', function () {
         ]);
 
     $response->assertRedirect('/');
-    $this->assertSessionHas('contactSuccess', true);
+    $response->assertSessionHas('contactSuccess', true);
     $this->assertDatabaseHas('inquiries', [
         'name' => 'Amelia Hart',
         'email' => 'amelia@example.com',
@@ -21,7 +19,7 @@ it('stores a contact inquiry with a subject', function () {
         'subject' => 'Property Purchase',
         'message' => 'I would like a private tour of the Beverly Hills residence.',
     ]);
-    expect(Inquiry::query()->count())->toBe(1);
+    $this->assertDatabaseCount('inquiries', 1);
 });
 
 it('requires a subject and message to submit an inquiry', function () {

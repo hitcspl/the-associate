@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef, useMemo } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, useMotionValue, useTransform, animate, AnimatePresence } from 'framer-motion';
 import { Award, ShieldCheck, Clock, CheckCircle2, Coins } from 'lucide-react';
 import { fadeUp, EASE } from '@/lib/motion';

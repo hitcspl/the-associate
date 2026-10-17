@@ -14,10 +14,12 @@ class HomeController extends Controller
     public function index(): Response
     {
         $properties = Property::query()
-            ->where('status', 'available')
             ->where('featured', true)
+            ->where('is_published', true)
             ->with('images')
-            ->orderBy('id')
+            ->orderBy('sort_order')
+            ->orderBy('created_at', 'desc')
+            ->limit(4)
             ->get()
             ->map(fn (Property $property): array => $this->propertyData($property))
             ->values();

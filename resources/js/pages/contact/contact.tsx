@@ -144,6 +144,10 @@ function InputField({
 }) {
     const [focused, setFocused] = useState(false);
     const active = focused || value.length > 0;
+    const inputClassName = `w-full px-4 py-3 rounded-xl text-sm transition-all focus:outline-none border bg-background text-foreground focus:border-[#A37B4C] dark:focus:border-[#B88C57] focus-visible:ring-2 focus-visible:ring-[#A37B4C]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background ${
+        error ? 'border-destructive focus:border-destructive focus-visible:ring-destructive/30' : 'border-border'
+    }`;
+
     return (
         <div className="relative">
             <label
@@ -153,7 +157,7 @@ function InputField({
                 }`}
             >
                 {label}
-                {required && <span className="ml-1 text-[#A37B4C]">*</span>}
+                {required && <span className="ml-1 text-[#A37B4C] dark:text-[#B88C57]" aria-label="required">*</span>}
             </label>
             {children ? (
                 <select
@@ -162,9 +166,9 @@ function InputField({
                     value={value}
                     onChange={onChange}
                     onBlur={onBlur}
-                    className={`w-full px-4 py-3 rounded-xl text-sm transition-all focus:outline-none border bg-background text-foreground focus:border-[#A37B4C] dark:focus:border-[#B88C57] ${
-                        error ? 'border-destructive focus:border-destructive' : 'border-border'
-                    }`}
+                    className={inputClassName}
+                    aria-invalid={!!error}
+                    aria-describedby={error ? `contact-${name}-error` : undefined}
                 >
                     {children}
                 </select>
@@ -181,11 +185,10 @@ function InputField({
                     }}
                     maxLength={maxLength}
                     placeholder={placeholder}
+                    aria-invalid={!!error}
                     aria-describedby={error ? `contact-${name}-error` : undefined}
                     rows={rows}
-                    className={`w-full px-4 py-3 rounded-xl text-sm transition-all focus:outline-none border bg-background text-foreground focus:border-[#A37B4C] dark:focus:border-[#B88C57] ${
-                        error ? 'border-destructive focus:border-destructive' : 'border-border'
-                    }`}
+                    className={inputClassName}
                 />
             ) : (
                 <input
@@ -203,14 +206,13 @@ function InputField({
                     inputMode={inputMode}
                     pattern={pattern}
                     placeholder={placeholder}
+                    aria-invalid={!!error}
                     aria-describedby={error ? `contact-${name}-error` : undefined}
-                    className={`w-full px-4 py-3 rounded-xl text-sm transition-all focus:outline-none border bg-background text-foreground focus:border-[#A37B4C] dark:focus:border-[#B88C57] ${
-                        error ? 'border-destructive focus:border-destructive' : 'border-border'
-                    }`}
+                    className={inputClassName}
                 />
             )}
             {error && (
-                <p id={`contact-${name}-error`} className="mt-1 text-xs text-destructive">
+                <p id={`contact-${name}-error`} className="mt-1 text-xs text-destructive" role="alert">
                     {error}
                 </p>
             )}
@@ -306,19 +308,19 @@ export default function Contact() {
                         variants={fadeUp}
                         className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8 lg:mb-12"
                     >
-                        <a href="tel:+916512281718" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-card hover:border-[#A37B4C]/40 transition-colors min-h-[44px]">
+                        <a href="tel:+916512281718" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-card hover:border-[#A37B4C]/40 transition-colors min-h-[44px] min-w-[44px]">
                             <Phone className="w-4 h-4 text-[#A37B4C]" />
                             <span className="text-xs font-semibold">Call</span>
                         </a>
-                        <a href="tel:18008892918" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-card hover:border-[#A37B4C]/40 transition-colors min-h-[44px]">
+                        <a href="tel:18008892918" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-card hover:border-[#A37B4C]/40 transition-colors min-h-[44px] min-w-[44px]">
                             <Phone className="w-4 h-4 text-[#A37B4C]" />
                             <span className="text-xs font-semibold">Toll Free</span>
                         </a>
-                        <a href="mailto:associaterealcon@gmail.com" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-card hover:border-[#A37B4C]/40 transition-colors min-h-[44px]">
+                        <a href="mailto:associaterealcon@gmail.com" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-card hover:border-[#A37B4C]/40 transition-colors min-h-[44px] min-w-[44px]">
                             <Mail className="w-4 h-4 text-[#A37B4C]" />
                             <span className="text-xs font-semibold">Email</span>
                         </a>
-                        <a href="https://maps.google.com/?q=Girdhar+Plaza,Harmu+Road,Ranchi" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-card hover:border-[#A37B4C]/40 transition-colors min-h-[44px]">
+                        <a href="https://maps.google.com/?q=Girdhar+Plaza,Harmu+Road,Ranchi" target="_blank" rel="noopener noreferrer" className="flex items-center justify-center gap-2 px-4 py-3 rounded-xl border border-border bg-card hover:border-[#A37B4C]/40 transition-colors min-h-[44px] min-w-[44px]">
                             <MapPin className="w-4 h-4 text-[#A37B4C]" />
                             <span className="text-xs font-semibold">Directions</span>
                         </a>
@@ -345,7 +347,7 @@ export default function Contact() {
                                                             {ch.value}
                                                         </a>
                                                         {ch.copy && (
-                                                            <button onClick={() => copyToClipboard(ch.value, ch.label)} className="mt-1 text-[11px] text-muted-foreground hover:text-[#A37B4C] inline-flex items-center gap-1 min-h-[44px]">
+                                                            <button onClick={() => copyToClipboard(ch.value, ch.label)} className="mt-1 text-[11px] text-muted-foreground hover:text-[#A37B4C] inline-flex items-center gap-1 min-h-[44px] min-w-[44px]">
                                                                 {copiedField === ch.label ? <Check className="w-3.5 h-3.5 text-emerald-500" /> : <Copy className="w-3.5 h-3.5" />}
                                                                 {copiedField === ch.label ? 'Copied' : 'Copy'}
                                                             </button>
@@ -392,7 +394,7 @@ export default function Contact() {
                                     </div>
                                 </div>
                                 <div className="mt-3 flex justify-end">
-                                    <a href="https://maps.google.com/?q=Girdhar+Plaza,Harmu+Road,Ranchi" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A37B4C] dark:text-[#B88C57] hover:underline">
+                                    <a href="https://maps.google.com/?q=Girdhar+Plaza,Harmu+Road,Ranchi" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-xs font-semibold text-[#A37B4C] dark:text-[#B88C57] hover:underline focus-visible:outline-none focus-visible:underline">
                                         <ExternalLink className="w-3.5 h-3.5" />
                                         Open in Google Maps
                                     </a>
@@ -492,7 +494,7 @@ export default function Contact() {
                                                 whileTap={{ scale: 0.98 }}
                                                 type="submit"
                                                 disabled={submitting}
-                                                className="w-full py-3.5 px-6 rounded-xl bg-[#A37B4C] hover:bg-[#B88C57] text-white font-semibold text-sm transition-all shadow-lg shadow-[#A37B4C]/25 flex items-center justify-center gap-2 min-h-[44px] disabled:opacity-70"
+                                                className="w-full py-3.5 px-6 rounded-xl bg-[#A37B4C] hover:bg-[#B88C57] text-white font-semibold text-sm transition-all shadow-lg shadow-[#A37B4C]/25 flex items-center justify-center gap-2 min-h-[44px] disabled:opacity-70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#A37B4C]/40 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                                             >
                                                 {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Send className="w-4 h-4" />}
                                                 <span>{submitting ? 'Submitting...' : 'Submit Inquiry'}</span>
@@ -508,7 +510,7 @@ export default function Contact() {
 
                                 {/* What happens next */}
                                 <div className="mt-8 pt-6 border-t border-border">
-                                    <h4 className="text-xs font-bold uppercase tracking-widest text-muted-foreground mb-4">What happens next</h4>
+                                    <h4 className="text-xs font-bold uppercase tracking-wider text-muted-foreground mb-4">What happens next</h4>
                                     <div className="space-y-3">
                                         <div className="flex items-start gap-3">
                                             <div className="w-6 h-6 rounded-full bg-[#A37B4C]/10 text-[#A37B4C] dark:text-[#B88C57] flex items-center justify-center text-[10px] font-bold">1</div>

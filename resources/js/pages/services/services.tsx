@@ -163,7 +163,6 @@ function ServicePanel({ service, active }: { service: Service; active: boolean }
                 </span>
                 <div className="p-3 rounded-xl bg-[#A37B4C]/10 text-[#A37B4C] dark:text-[#B88C57]">
                     <Icon className="w-6 h-6" />
-                    <h1>Lets Talk</h1>
                 </div>
             </div>
             <span className="text-[11px] font-bold tracking-widest uppercase text-[#A37B4C] dark:text-[#B88C57] block mb-2">

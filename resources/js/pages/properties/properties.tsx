@@ -1,5 +1,5 @@
 import { useState, useMemo, useEffect, useRef } from 'react';
-import { Head } from '@inertiajs/react';
+import { Head, router } from '@inertiajs/react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
     MapPin,
@@ -21,6 +21,7 @@ import SectionHeading from '@/components/public/section-heading';
 import { RevealText } from '@/components/public/reveal';
 import { propertiesHeroImage } from '@/components/public/images';
 import BottomSheet from '@/components/public/bottom-sheet';
+import FilterSection from '@/components/properties/filter-section';
 
 interface Project {
     id: string;
@@ -69,44 +70,24 @@ function useCountUp(target: number, ref: React.RefObject<Element | null>, durati
     return count;
 }
 
-function FilterSection({
-    title,
-    children,
-    defaultOpen = true,
-}: {
-    title: string;
-    children: React.ReactNode;
-    defaultOpen?: boolean;
-}) {
-    const [open, setOpen] = useState(defaultOpen);
-    return (
-        <div className="border border-border rounded-xl overflow-hidden">
-            <button
-                onClick={() => setOpen(!open)}
-                className="w-full flex items-center justify-between px-3 py-2.5 text-sm font-medium text-foreground hover:bg-muted transition-colors min-h-[44px]"
-            >
-                <span>{title}</span>
-                <motion.div
-                    animate={{ rotate: open ? 180 : 0 }}
-                    transition={{ duration: 0.2 }}
-                >
-                    <ChevronRight className="w-4 h-4" />
-                </motion.div>
-            </button>
-            <motion.div
-                layout
-                initial={false}
-                animate={{ height: open ? 'auto' : 0, opacity: open ? 1 : 0 }}
-                transition={{ duration: 0.3 }}
-                className="overflow-hidden"
-            >
-                <div className="px-3 pb-3 pt-1">{children}</div>
-            </motion.div>
-        </div>
-    );
+
+interface PropertyProps {
+    properties?: Array<{
+        id: number;
+        title: string;
+        location?: string;
+        city?: string;
+        status?: string;
+        category?: string;
+        isFlagship?: boolean;
+        featured?: boolean;
+        image?: string;
+        price?: number;
+        listing_type?: string;
+    }>;
 }
 
-export default function Properties() {
+export default function Properties({ properties }: PropertyProps) {
     const [searchQuery, setSearchQuery] = useState('');
     const [selectedStatus, setSelectedStatus] = useState<string>('All');
     const [selectedCategory, setSelectedCategory] = useState<string>('All');
@@ -130,154 +111,16 @@ export default function Properties() {
         );
     };
 
-    const projectsData: Project[] = [
-        {
-            id: 'ong-1',
-            name: 'Associate Valley — Phase II',
-            location: 'Hutup, Rukka Road, Ranchi',
-            status: 'Ongoing',
-            category: 'Township',
-            image: 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'ong-2',
-            name: 'Associate City — Phase I',
-            location: 'Barhu, Kanke Road, Ranchi',
-            status: 'Ongoing',
-            category: 'Township',
-            image: 'https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'ong-3',
-            name: 'Associate City — Phase II',
-            location: 'Barhu, Pithoria Road, Ranchi',
-            status: 'Ongoing',
-            category: 'Township',
-            image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'ong-4',
-            name: 'Associate Park — Phase I',
-            location: 'Saparom, Itki Road, Ranchi',
-            status: 'Ongoing',
-            category: 'Residential',
-            image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'ong-5',
-            name: 'Associate Park — Phase II',
-            location: 'Kolambari More, Itki Road, Ranchi',
-            status: 'Ongoing',
-            category: 'Residential',
-            image: 'https://images.unsplash.com/photo-1600566753376-12c8ab7fb75b?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'ong-6',
-            name: 'Associate Farm House',
-            location: 'Bindhani, Itki Road, Ranchi',
-            status: 'Ongoing',
-            category: 'Plots / Land',
-            image: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'ong-7',
-            name: 'Associate Park — Phase III',
-            location: 'Hurhuri, Thakurgaon Road, Ranchi',
-            status: 'Ongoing',
-            category: 'Residential',
-            image: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'ong-8',
-            name: 'Associate Park',
-            location: 'Bajra, Itki Road, Ranchi',
-            status: 'Ongoing',
-            category: 'Residential',
-            image: 'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'ong-9',
-            name: 'Associate Garden',
-            location: 'Tundul, Ranchi',
-            status: 'Ongoing',
-            category: 'Plots / Land',
-            image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'ong-10',
-            name: 'Ahilya Enclave',
-            location: 'Sarveshwari Nagar, Bajra, Ranchi',
-            status: 'Ongoing',
-            category: 'Luxury Complex',
-            isFlagship: true,
-            image: 'https://images.unsplash.com/photo-1600607687920-4e2a09cf159d?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'comp-1',
-            name: 'Mesra City',
-            location: 'Mesra City, Ranchi',
-            status: 'Completed',
-            category: 'Township',
-            image: 'https://images.unsplash.com/photo-1600585154526-990dced4db0d?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'comp-2',
-            name: 'Pundag Nagar',
-            location: 'Kathal More, Ranchi',
-            status: 'Completed',
-            category: 'Residential',
-            image: 'https://images.unsplash.com/photo-1600566752355-35792bedcfea?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'comp-3',
-            name: 'Associate Park',
-            location: 'Daldali Chowk, Kathal More, Ranchi',
-            status: 'Completed',
-            category: 'Residential',
-            image: 'https://images.unsplash.com/photo-1600585152220-90363fe7e115?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'comp-4',
-            name: 'Fly City',
-            location: 'Hethu, Airport Road, Ranchi',
-            status: 'Completed',
-            category: 'Township',
-            image: 'https://images.unsplash.com/photo-1600573472592-401b489a3cdc?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'comp-5',
-            name: 'Associate Garden',
-            location: 'Sithio, Ranchi',
-            status: 'Completed',
-            category: 'Plots / Land',
-            image: 'https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'comp-6',
-            name: 'Associate Valley — Phase I',
-            location: 'Onya, Vikas, Ranchi',
-            status: 'Completed',
-            category: 'Township',
-            image: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'comp-7',
-            name: 'Associate Park — Phase III',
-            location: 'Nagri, Ranchi',
-            status: 'Completed',
-            category: 'Residential',
-            image: 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?q=80&w=1000&auto=format&fit=crop',
-        },
-        {
-            id: 'comp-8',
-            name: 'Sri Ram Arcade',
-            location: 'Main Road, Ranchi',
-            status: 'Completed',
-            category: 'Commercial',
-            isFlagship: true,
-            image: 'https://images.unsplash.com/photo-1541888946425-d0fbb186a5b7?q=80&w=1000&auto=format&fit=crop',
-        },
-    ];
+    const propertiesFromBackend = properties || [];
+    const projectsData: Project[] = propertiesFromBackend.map((p) => ({
+        id: String(p.id),
+        name: p.title,
+        location: p.location || p.city || 'Unknown',
+        status: (p.status === 'available' || p.status === 'pending' ? 'Ongoing' : p.status === 'sold' ? 'Completed' : (p.status as string)) || 'Ongoing',
+        category: (p.category || p.type || 'Residential') as Project['category'],
+        isFlagship: p.isFlagship || p.featured || false,
+        image: p.image || 'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?q=80&w=1000&auto=format&fit=crop',
+    }));
 
     const locationOptions = [
         'Itki Road',
@@ -298,7 +141,7 @@ export default function Properties() {
             Ongoing: projectsData.filter((p) => p.status === 'Ongoing').length,
             Completed: projectsData.filter((p) => p.status === 'Completed').length,
         }),
-        [],
+        [projectsData],
     );
 
     const getLocationCount = (loc: string) =>
@@ -317,7 +160,7 @@ export default function Properties() {
             const matchesFlagship = !onlyFlagships || p.isFlagship;
             return matchesSearch && matchesStatus && matchesCategory && matchesLocation && matchesFlagship;
         });
-    }, [searchQuery, selectedStatus, selectedCategory, selectedLocation, onlyFlagships]);
+    }, [searchQuery, selectedStatus, selectedCategory, selectedLocation, onlyFlagships, projectsData]);
 
     const visibleProjects = filteredProjects.slice(0, visibleCount);
     const hasMore = visibleCount < filteredProjects.length;
@@ -367,153 +210,6 @@ export default function Properties() {
                     </div>
                 </PageHero>
 
-                {/* Sticky Filter Bar */}
-                <motion.div
-                    initial={{ y: -20, opacity: 0 }}
-                    animate={{ y: 0, opacity: 1 }}
-                    transition={{ duration: 0.4 }}
-                    className="sticky top-20 z-30 backdrop-blur-xl border-b border-border bg-background/80"
-                >
-                    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3">
-                        {/* Mobile: search + filters button */}
-                        <div className="flex items-center gap-2 lg:hidden">
-                            <div className="relative flex-1">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Search projects..."
-                                    className="w-full pl-9 pr-8 py-2.5 rounded-xl text-sm bg-background border border-border focus:border-[#A37B4C] outline-none"
-                                />
-                                {searchQuery && (
-                                    <button
-                                        onClick={() => setSearchQuery('')}
-                                        className="absolute right-2 top-1/2 -translate-y-1/2 p-1"
-                                    >
-                                        <X className="w-4 h-4 text-muted-foreground" />
-                                    </button>
-                                )}
-                            </div>
-                            <button
-                                onClick={() => setIsMobileFilterOpen(true)}
-                                className="relative p-2.5 rounded-xl border border-border bg-background min-h-[44px] min-w-[44px] flex items-center justify-center"
-                            >
-                                <SlidersHorizontal className="w-4 h-4" />
-                                {activeFilterBadgeCount > 0 && (
-                                    <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-[#A37B4C] text-white text-[10px] flex items-center justify-center">
-                                        {activeFilterBadgeCount}
-                                    </span>
-                                )}
-                            </button>
-                        </div>
-
-                        {/* Desktop controls */}
-                        <div className="hidden lg:flex items-center gap-4">
-                            <div className="relative w-64">
-                                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-                                <input
-                                    type="text"
-                                    value={searchQuery}
-                                    onChange={(e) => setSearchQuery(e.target.value)}
-                                    placeholder="Search projects..."
-                                    className="w-full pl-9 pr-8 py-2 rounded-lg text-sm bg-background border border-border focus:border-[#A37B4C] outline-none"
-                                />
-                                {searchQuery && (
-                                    <button
-                                        onClick={() => setSearchQuery('')}
-                                        className="absolute right-2 top-1/2 -translate-y-1/2 p-1"
-                                    >
-                                        <X className="w-3.5 h-3.5 text-muted-foreground" />
-                                    </button>
-                                )}
-                            </div>
-
-                            {/* Status segmented */}
-                            <div className="relative flex rounded-full border border-border bg-muted p-1">
-                                {['All', 'Ongoing', 'Completed'].map((status) => (
-                                    <button
-                                        key={status}
-                                        onClick={() => setSelectedStatus(status)}
-                                        className={`relative z-10 px-4 py-1.5 text-sm font-medium rounded-full transition-colors min-h-[44px] ${
-                                            selectedStatus === status ? 'text-white' : 'text-muted-foreground'
-                                        }`}
-                                    >
-                                        {selectedStatus === status && (
-                                            <motion.div
-                                                layoutId="status-pill"
-                                                className="absolute inset-0 rounded-full bg-[#A37B4C]"
-                                                transition={{ type: 'spring', stiffness: 380, damping: 30 }}
-                                            />
-                                        )}
-                                        <span className="relative z-20">
-                                            {status} ({statusCounts[status as keyof typeof statusCounts]})
-                                        </span>
-                                    </button>
-                                ))}
-                            </div>
-
-                            {/* Type chips */}
-                            <div className="relative flex items-center gap-2">
-                                <div className="absolute left-0 top-0 bottom-0 w-6 bg-gradient-to-r from-background/80 to-transparent z-10 pointer-events-none" />
-                                <div className="absolute right-0 top-0 bottom-0 w-6 bg-gradient-to-l from-background/80 to-transparent z-10 pointer-events-none" />
-                                <div className="flex items-center gap-2 overflow-x-auto scroll-thin snap-x [-webkit-overflow-scrolling:touch]">
-                                    {categoryOptions.map((cat) => (
-                                        <button
-                                            key={cat}
-                                            onClick={() => setSelectedCategory(selectedCategory === cat ? 'All' : cat)}
-                                            className={`snap-start shrink-0 px-3 py-1.5 rounded-full text-xs font-medium border transition-colors min-h-[44px] ${
-                                                selectedCategory === cat
-                                                    ? 'bg-[#A37B4C] text-white border-[#A37B4C]'
-                                                    : 'bg-background border-border text-muted-foreground hover:text-foreground'
-                                            }`}
-                                        >
-                                            {cat} ({getCategoryCount(cat)})
-                                        </button>
-                                    ))}
-                                </div>
-                            </div>
-
-                            {/* Flagship toggle with label */}
-                            <div className="flex items-center gap-2">
-                                <span className="text-xs font-medium text-muted-foreground whitespace-nowrap">Flagship</span>
-                                <button
-                                    onClick={() => setOnlyFlagships(!onlyFlagships)}
-                                    role="switch"
-                                    aria-checked={onlyFlagships}
-                                    className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out min-h-[44px] ${
-                                        onlyFlagships ? 'bg-[#A37B4C]' : 'bg-muted'
-                                    }`}
-                                >
-                                    <span
-                                        className={`inline-block h-5 w-5 transform rounded-full bg-white shadow ring-0 transition duration-200 ease-in-out ${
-                                            onlyFlagships ? 'translate-x-5' : 'translate-x-0'
-                                        }`}
-                                    />
-                                </button>
-                            </div>
-
-                            <span className="text-sm text-muted-foreground whitespace-nowrap">
-                                {filteredProjects.length} result{filteredProjects.length !== 1 ? 's' : ''}
-                            </span>
-
-                            {isFilterActive && (
-                                <button
-                                    onClick={() => {
-                                        setSearchQuery('');
-                                        setSelectedStatus('All');
-                                        setSelectedCategory('All');
-                                        setSelectedLocation('All');
-                                        setOnlyFlagships(false);
-                                    }}
-                                    className="px-4 py-2 rounded-full border border-border text-sm font-medium hover:bg-muted transition-colors min-h-[44px]"
-                                >
-                                    Reset
-                                </button>
-                            )}
-                        </div>
-                    </div>
-                </motion.div>
 
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                     {/* Pull-quote band */}
@@ -537,6 +233,25 @@ export default function Properties() {
                             <div className="rounded-2xl border border-border bg-card shadow-sm">
                                 <div className="max-h-[calc(100svh-8rem)] overflow-y-auto scroll-thin overscroll-contain relative">
                                     <div className="px-4 py-4 space-y-3">
+                                        {/* Search in Sidebar */}
+                                        <div className="relative mb-4">
+                                            <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+                                            <input
+                                                type="text"
+                                                value={searchQuery}
+                                                onChange={(e) => setSearchQuery(e.target.value)}
+                                                placeholder="Search projects..."
+                                                className="w-full pl-11 pr-12 py-3.5 rounded-xl text-sm bg-background border border-border focus:border-[#A37B4C] outline-none transition-all duration-200"
+                                            />
+                                            {searchQuery && (
+                                                <button
+                                                    onClick={() => setSearchQuery('')}
+                                                    className="absolute right-2 top-1/2 -translate-y-1/2 p-2 rounded-lg hover:bg-muted transition-colors"
+                                                >
+                                                    <X className="w-4 h-4 text-muted-foreground" />
+                                                </button>
+                                            )}
+                                        </div>
                                         <FilterSection title="Status" defaultOpen>
                                             <div className="space-y-2">
                                                 {[
@@ -547,14 +262,14 @@ export default function Properties() {
                                                     <button
                                                         key={item.val}
                                                         onClick={() => setSelectedStatus(item.val)}
-                                                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors min-h-[44px] ${
+                                                        className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all duration-200 min-h-[44px] ${
                                                             selectedStatus === item.val
-                                                                ? 'bg-[#A37B4C] text-white'
-                                                                : 'hover:bg-muted text-foreground'
+                                                                ? 'bg-[#A37B4C] text-white shadow-sm'
+                                                                : 'hover:bg-muted text-foreground hover:shadow-sm'
                                                         }`}
                                                     >
                                                         <span>{item.label}</span>
-                                                        <span className="text-xs">
+                                                        <span className="text-xs opacity-70">
                                                             {statusCounts[item.val as keyof typeof statusCounts]}
                                                         </span>
                                                     </button>
@@ -570,10 +285,10 @@ export default function Properties() {
                                                         onClick={() =>
                                                             setSelectedLocation(selectedLocation === loc ? 'All' : loc)
                                                         }
-                                                        className={`px-3 py-1.5 rounded-full text-xs border transition-colors min-h-[44px] ${
+                                                        className={`px-3 py-1.5 rounded-full text-xs border transition-all duration-200 min-h-[44px] ${
                                                             selectedLocation === loc
-                                                                ? 'bg-[#A37B4C] text-white border-[#A37B4C]'
-                                                                : 'border-border hover:border-[#A37B4C] text-foreground'
+                                                                ? 'bg-[#A37B4C] text-white border-[#A37B4C] shadow-sm'
+                                                                : 'border-border hover:border-[#A37B4C] text-foreground hover:shadow-sm'
                                                         }`}
                                                     >
                                                         {loc}
@@ -590,10 +305,10 @@ export default function Properties() {
                                                         onClick={() =>
                                                             setSelectedCategory(selectedCategory === cat ? 'All' : cat)
                                                         }
-                                                        className={`px-3 py-1.5 rounded-full text-xs border transition-colors min-h-[44px] ${
+                                                        className={`px-3 py-1.5 rounded-full text-xs border transition-all duration-200 min-h-[44px] ${
                                                             selectedCategory === cat
-                                                                ? 'bg-[#A37B4C] text-white border-[#A37B4C]'
-                                                                : 'border-border hover:border-[#A37B4C] text-foreground'
+                                                                ? 'bg-[#A37B4C] text-white border-[#A37B4C] shadow-sm'
+                                                                : 'border-border hover:border-[#A37B4C] text-foreground hover:shadow-sm'
                                                         }`}
                                                     >
                                                         {cat}
@@ -607,12 +322,12 @@ export default function Properties() {
                                                 onClick={() => setOnlyFlagships(!onlyFlagships)}
                                                 role="switch"
                                                 aria-checked={onlyFlagships}
-                                                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-colors min-h-[44px] ${
-                                                    onlyFlagships ? 'bg-[#A37B4C] text-white' : 'hover:bg-muted text-foreground'
+                                                className={`w-full flex items-center justify-between px-3 py-2 rounded-lg text-sm transition-all duration-200 min-h-[44px] ${
+                                                    onlyFlagships ? 'bg-[#A37B4C] text-white shadow-sm' : 'hover:bg-muted text-foreground hover:shadow-sm'
                                                 }`}
                                             >
                                                 <span>Flagship Only</span>
-                                                <span>{onlyFlagships ? 'On' : 'Off'}</span>
+                                                <span className="font-medium">{onlyFlagships ? 'On' : 'Off'}</span>
                                             </button>
                                         </FilterSection>
                                     </div>
@@ -701,7 +416,8 @@ export default function Properties() {
                                                         layout
                                                         variants={fadeUp}
                                                         whileHover={{ y: -6 }}
-                                                        className="group rounded-2xl border overflow-hidden bg-card border-border hover:border-[#A37B4C]/40 transition-colors flex flex-col"
+                                                        className="group rounded-2xl border overflow-hidden bg-card border-border hover:border-[#A37B4C]/40 transition-colors flex flex-col cursor-pointer"
+                                                        onClick={() => router.visit(`/property/${project.id}`)}
                                                     >
                                                         <div className="relative aspect-[4/3] overflow-hidden bg-muted">
                                                             <img

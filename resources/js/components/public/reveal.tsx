@@ -122,6 +122,10 @@ export function RevealText({
 }: RevealTextProps) {
     const reduced = useReducedMotion();
 
+    // Prevent nesting of heading elements by using div as base element for motion
+    const MotionTag = motion.div;
+    const HeadingTag = as as keyof React.JSX.IntrinsicElements;
+
     const parts = byWord
         ? text.split(' ')
         : text.split('\n');
@@ -137,11 +141,8 @@ export function RevealText({
         </motion.span>
     ));
 
-    const MotionTag = (motion as unknown as Record<string, React.ElementType>)[as] ?? motion.div;
-    const Tag = as as keyof React.JSX.IntrinsicElements;
-
     return reduced ? (
-        <Tag className={className}>{text}</Tag>
+        <HeadingTag className={className}>{text}</HeadingTag>
     ) : (
         <MotionTag
             className={`overflow-hidden ${className ?? ''}`}
@@ -150,7 +151,7 @@ export function RevealText({
             viewport={{ once: true, amount: 0.15 }}
             variants={stagger(0.04)}
         >
-            <span className="inline-block">{chunks}</span>
+            <HeadingTag className="inline-block">{chunks}</HeadingTag>
         </MotionTag>
     );
 }

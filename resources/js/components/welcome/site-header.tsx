@@ -24,21 +24,9 @@ const SCROLLED_THRESHOLD = 15;
 // How long the page must be completely idle before a hidden navbar reappears.
 const REVEAL_ON_IDLE_MS = 400;
 
-// --- Hide / reveal motion -------------------------------------------------
-// The one and only element that carries the navbar's background, blur, shadow
-// and transform is the outermost <header> itself, so sliding it out of the
-// viewport takes every painted part of the navbar with it. Nothing can be
-// left behind, because there is no second wrapper to hold a surface.
-//
-// `transform` is the only property a scroll ever animates, with its own timing
-// and easing; the surface/theme transitions are listed separately so they keep
-// their own 300ms timing. Height and padding are never animated, so the
-// -100% translate target is always the element's true, stable height and the
-// bar can never drop, settle or snap.
-const HIDE_MS = 260;
-const REVEAL_MS = 420;
-const HIDE_EASE = 'cubic-bezier(0.4, 0, 1, 1)';
-const REVEAL_EASE = 'cubic-bezier(0.16, 1, 0.3, 1)';
+// --- Navbar scroll behavior -------------------------------------------------
+// Simplified: navbar stays visible at all times during scroll, only changes
+// background/glass effect based on scroll position.
 const SURFACE_TRANSITION = `background-color 300ms ease-out, background-image 300ms ease-out, box-shadow 300ms ease-out, backdrop-filter 300ms ease-out`;
 
 // Logo variants: the light wordmark is for dark surfaces, the dark one for light.

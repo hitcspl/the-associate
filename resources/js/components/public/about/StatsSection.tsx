@@ -1,6 +1,9 @@
+"use client";
+
 import { useEffect, useRef, useState } from 'react';
 import { motion, useScroll, useTransform, useInView, useSpring } from 'framer-motion';
 import { fadeUp, EASE } from '@/lib/motion';
+import Section from '@/components/public/about/AboutSection';
 
 export default function StatsSection() {
     const ref = useRef<HTMLDivElement>(null);
@@ -19,7 +22,7 @@ export default function StatsSection() {
     ];
 
     return (
-        <Section className="border-y border-border bg-card" innerRef={ref}>
+        <Section className="border-y border-border bg-card" as="section" innerRef={ref}>
             <div className="py-10 sm:py-14">
                 <motion.div
                     initial="hidden"

@@ -18,14 +18,14 @@ export function MobileBottomNav({ onContact }: MobileBottomNavProps) {
     return createPortal(
         <nav
             aria-label="Mobile Navigation"
-            className="bg-card/90 border-border text-card-foreground fixed inset-x-0 bottom-0 z-[100] border-t backdrop-blur-lg md:hidden pb-[max(0.625rem,env(safe-area-inset-bottom))] pt-2.5 transition-colors duration-300"
+            className="bg-card/90 border-border text-card-foreground fixed inset-x-0 bottom-0 z-[100] border-t backdrop-blur-lg md:hidden pb-[max(0.625rem,env(safe-area-inset-bottom))] pt-3.5 transition-colors duration-300"
         >
             <div className="mx-auto flex max-w-md items-center justify-around px-4">
                 <a
                     href="#home"
-                    className="text-primary hover:text-primary/80 focus-visible:ring-ring flex min-w-[64px] flex-col items-center gap-1 rounded-lg py-1 transition-all duration-200 active:scale-95 focus-visible:ring-2 focus-visible:outline-none"
+                    className="text-primary hover:text-primary/80 focus-visible:ring-ring flex min-w-[44px] min-h-[44px] flex-col items-center gap-1 rounded-lg py-2.5 transition-all duration-200 active:scale-95 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-primary/40"
                 >
-                    <Home className="h-5 w-5 shrink-0" />
+                    <Home className="h-6 w-6 shrink-0" />
                     <span className="text-[11px] font-medium tracking-tight">
                         Home
                     </span>
@@ -33,9 +33,9 @@ export function MobileBottomNav({ onContact }: MobileBottomNavProps) {
 
                 <a
                     href="#properties"
-                    className="text-muted-foreground hover:text-foreground focus-visible:ring-ring flex min-w-[64px] flex-col items-center gap-1 rounded-lg py-1 transition-all duration-200 active:scale-95 focus-visible:ring-2 focus-visible:outline-none"
+                    className="text-muted-foreground hover:text-foreground focus-visible:ring-ring flex min-w-[44px] min-h-[44px] flex-col items-center gap-1 rounded-lg py-2.5 transition-all duration-200 active:scale-95 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-primary/40"
                 >
-                    <Building className="h-5 w-5 shrink-0" />
+                    <Building className="h-6 w-6 shrink-0" />
                     <span className="text-[11px] font-medium tracking-tight">
                         Properties
                     </span>
@@ -47,9 +47,9 @@ export function MobileBottomNav({ onContact }: MobileBottomNavProps) {
                         event.preventDefault();
                         onContact();
                     }}
-                    className="text-muted-foreground hover:text-foreground focus-visible:ring-ring flex min-w-[64px] flex-col items-center gap-1 rounded-lg py-1 transition-all duration-200 active:scale-95 focus-visible:ring-2 focus-visible:outline-none"
+                    className="text-muted-foreground hover:text-foreground focus-visible:ring-ring flex min-w-[44px] min-h-[44px] flex-col items-center gap-1 rounded-lg py-2.5 transition-all duration-200 active:scale-95 focus-visible:ring-2 focus-visible:outline-none focus-visible:ring-primary/40"
                 >
-                    <Mail className="h-5 w-5 shrink-0" />
+                    <Mail className="h-6 w-6 shrink-0" />
                     <span className="text-[11px] font-medium tracking-tight">
                         Contact
                     </span>

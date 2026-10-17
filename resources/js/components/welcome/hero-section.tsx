@@ -319,16 +319,16 @@ export function HeroSection({ slides }: HeroSectionProps) {
                                 <button
                                     onClick={() => move(-1)}
                                     aria-label="Previous property"
-                                    className="absolute top-1/2 left-2 z-30 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white shadow-lg backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60 active:scale-95 sm:left-3 sm:h-10 sm:w-10"
+                                    className="absolute top-1/2 left-2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white shadow-lg backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 sm:left-3 sm:h-11 sm:w-11"
                                 >
-                                    <ChevronLeft className="h-4 w-4 sm:h-5 sm:w-5" />
+                                    <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
                                 </button>
                                 <button
                                     onClick={() => move(1)}
                                     aria-label="Next property"
-                                    className="absolute top-1/2 right-2 z-30 flex h-8 w-8 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white shadow-lg backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60 active:scale-95 sm:right-3 sm:h-10 sm:w-10"
+                                    className="absolute top-1/2 right-2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white shadow-lg backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 sm:right-3 sm:h-11 sm:w-11"
                                 >
-                                    <ChevronRight className="h-4 w-4 sm:h-5 sm:w-5" />
+                                    <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
                                 </button>
 
                                 {/* Card Overlay Info */}

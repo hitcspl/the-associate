@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
         User::updateOrCreate(['email' => 'test@example.com'], [
             'name' => 'Test User',
             'email' => 'test@example.com',
+            'password' => 'password',
         ]);
 
         $this->call([
