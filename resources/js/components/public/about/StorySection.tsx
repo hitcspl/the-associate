@@ -15,8 +15,8 @@ const IMAGE_A = 'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?au
 const IMAGE_B = 'https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?auto=format&fit=crop&w=1200&q=85';
 
 const chapterA = {
-    headline: `Honest. Reliable.\nCost-effective. Hassle-free.`,
-    text: `We are one of the leading real estate developers & property dealers in Ranchi. Our aim is to provide honest, reliable, cost-effective, hassle-free and quick services to our esteemed customers. From master-planned townships to premium residential plots, every project is executed with painstaking attention to detail, ensuring your investment grows safely for generations.`,
+    headline: `Honest guidance.\nThoughtful development.`,
+    text: `For more than 14 years, The Associate Developers has helped people find property and land with confidence. We focus on honest, reliable and cost-conscious service—from homes and residential plots to commercial spaces and planned townships. We keep the process clear, practical and as hassle-free as possible.`,
     chips: [
         { label: 'Honest', icon: CheckCircle2 },
         { label: 'Reliable', icon: HeartHandshake },
@@ -26,8 +26,8 @@ const chapterA = {
 };
 
 const chapterB = {
-    text: `If somebody is interested to purchase a land, he/she has to invest his hard-earned money or has to borrow it from a bank, financial institution or relatives. Therefore, he/she must be very careful while taking the decision to purchase a land. So, The Associate is here to fulfil their dream and help them purchase clear land through its projects.`,
-    quote: `Dream Lifestyle Township in Ranchi at Very Affordable Price`,
+    text: `Buying a home or land is a major decision. We help customers explore suitable options, understand documentation and move through each step with greater clarity. Our work spans property and land sales, residential and commercial spaces, township development, and housing-loan assistance. Our commitment continues beyond the transaction, with responsive support and lasting customer relationships.`,
+    quote: `A home and investment decision should begin with clarity, trust, and the right guidance.`,
 };
 
 /**

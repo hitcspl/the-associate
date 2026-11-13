@@ -21,12 +21,15 @@ class ContentSeeder extends Seeder
         }
 
         foreach ([
-            ['label' => 'Years of Experience', 'value' => '8+', 'sort_order' => 0],
-            ['label' => 'Properties Sold', 'value' => '1,200+', 'sort_order' => 1],
-            ['label' => 'Happy Clients', 'value' => '5,000+', 'sort_order' => 2],
-            ['label' => 'Client Satisfaction', 'value' => '98%', 'sort_order' => 3],
+            ['label' => 'Years of Experience', 'value' => '14+', 'sort_order' => 0],
+            ['label' => 'Completed Projects', 'value' => '8', 'sort_order' => 1],
+            ['label' => 'Ongoing Projects', 'value' => '10', 'sort_order' => 2],
+            ['label' => 'Commercial Project', 'value' => '1', 'sort_order' => 3],
         ] as $stat) {
-            ImpactStat::updateOrCreate(['label' => $stat['label']], $stat);
+            ImpactStat::updateOrCreate(
+                ['sort_order' => $stat['sort_order']],
+                $stat,
+            );
         }
 
         $testimonials = [

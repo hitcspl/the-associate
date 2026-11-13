@@ -1,9 +1,8 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import { Link, router, usePage } from '@inertiajs/react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ArrowRight, Menu, Moon, Search, Sun, X } from 'lucide-react';
+import { ArrowRight, Menu, Search, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useTheme } from '@/providers/theme-provider';
 import {
     about,
     contact,
@@ -38,7 +37,7 @@ const LOGO_ON_LIGHT = '/AssociatedeveloperFullLogo.png';
 const NAV_LINKS = [
     { key: 'home', label: 'Home', href: typeof home !== 'undefined' && home.url ? home.url() : '/' },
     { key: 'about', label: 'About', href: typeof about !== 'undefined' && about.url ? about.url() : '/about' },
-    { key: 'properties', label: 'Properties', href: typeof properties !== 'undefined' && properties.url ? properties.url() : '/properties' },
+    { key: 'properties', label: 'Properties', href: properties.url() },
     { key: 'services', label: 'Services', href: typeof services !== 'undefined' && services.url ? services.url() : '/services' },
     { key: 'contact', label: 'Contact', href: typeof contact !== 'undefined' && contact.url ? contact.url() : '/contact' },
 ];
@@ -47,7 +46,10 @@ const NAV_LINKS = [
 // correct on a direct load or on back/forward navigation, not just after a click.
 const activeKeyFor = (url: string) => {
     const path = url.split(/[?#]/)[0].replace(/\/+$/, '') || '/';
-    return NAV_LINKS.find((link) => link.href === path)?.key ?? '/';
+    const activePath = path.startsWith('/properties')
+        ? '/properties'
+        : path;
+    return NAV_LINKS.find((link) => link.href === activePath)?.key ?? '/';
 };
 
 export function SiteHeader({
@@ -56,8 +58,6 @@ export function SiteHeader({
     onMobileToggle,
 }: SiteHeaderProps) {
     const [scrolled, setScrolled] = useState(false);
-    const { theme, setTheme } = useTheme();
-
     // The current URL drives the active pill, so it stays correct on a direct
     // load and on back/forward navigation, not just after a click.
     const currentUrl = usePage().url;
@@ -117,70 +117,45 @@ export function SiteHeader({
 
     const links = NAV_LINKS;
 
-    // Over the hero the bar keeps its dark scrim, because the hero artwork is
-    // always dark in both themes. Once it becomes a floating glass bar it
-    // follows the active theme, and the content tone flips with it so text and
-    // icons stay readable in light mode.
     const onGlass = scrolled;
 
-    // Both surfaces are gradients so the top -> glass cross-fade interpolates
-    // instead of hard-switching between a gradient and a flat colour.
-    //
-    // The glass state is deliberately translucent: roughly 60% white in light
-    // mode and 55% black in dark mode, with a strong backdrop blur and a mild
-    // backdrop saturation so the imagery behind softly reads through instead of
-    // the bar reading as a frosted slab. The hairline edge is an inset shadow
-    // rather than a real border, so it adds no height and no layout shift, and
-    // it fades with the rest of the surface because box-shadow is transitioned.
     const surfaceTone = onGlass
-        ? 'bg-gradient-to-b from-white/65 via-white/60 to-white/55 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_8px_24px_rgba(15,15,15,0.06),inset_0_-1px_0_rgba(15,15,15,0.07)] dark:from-black/60 dark:via-black/55 dark:to-black/50 dark:backdrop-blur-2xl dark:backdrop-saturate-150 dark:shadow-[0_8px_24px_rgba(0,0,0,0.28),inset_0_-1px_0_rgba(255,255,255,0.08)]'
+        ? 'bg-gradient-to-b from-white/65 via-white/60 to-white/55 backdrop-blur-2xl backdrop-saturate-150 shadow-[0_8px_24px_rgba(15,15,15,0.06),inset_0_-1px_0_rgba(15,15,15,0.07)]'
         : 'bg-gradient-to-b from-black/90 via-black/40 to-transparent';
 
     const navLinkTone = onGlass
-        ? 'text-stone-600 hover:text-stone-900 dark:text-stone-200 dark:hover:text-white'
+        ? 'text-stone-600 hover:text-stone-900'
         : 'text-stone-200 hover:text-white';
 
     const navPillTone = onGlass
-        ? 'border-black/10 bg-white/60 dark:border-white/10 dark:bg-black/40'
+        ? 'border-black/10 bg-white/60'
         : 'border-white/10 bg-black/40';
 
-    const iconButtonTone = onGlass
-        ? 'border-black/10 bg-white/70 text-stone-700 shadow-sm backdrop-blur-md hover:bg-white dark:border-white/10 dark:bg-black/40 dark:text-white dark:hover:bg-black/60'
-        : 'border-white/10 bg-black/40 text-white shadow-sm backdrop-blur-md hover:bg-black/60';
-
     const searchButtonTone = onGlass
-        ? 'border-black/10 bg-white/70 text-stone-700 shadow-sm backdrop-blur-md hover:bg-white dark:border-white/10 dark:bg-black/40 dark:text-white dark:hover:bg-black/60'
+        ? 'border-black/10 bg-white/70 text-stone-700 shadow-sm backdrop-blur-md hover:bg-white'
         : 'border-white/10 bg-black/40 text-white shadow-sm backdrop-blur-md hover:bg-black/60';
-
-    const sunTone = onGlass
-        ? 'h-4.5 w-4.5 text-amber-500 dark:text-amber-400'
-        : 'h-4.5 w-4.5 text-amber-400';
-
-    const moonTone = onGlass
-        ? 'h-4.5 w-4.5 text-stone-700 dark:text-stone-200'
-        : 'h-4.5 w-4.5 text-stone-200';
 
     const menuToggleTone = onGlass
-        ? 'border-black/10 bg-white/70 text-stone-700 backdrop-blur-md dark:border-white/10 dark:bg-black/50 dark:text-white'
+        ? 'border-black/10 bg-white/70 text-stone-700 backdrop-blur-md'
         : 'border-white/10 bg-black/50 text-white backdrop-blur-md';
 
     const sheetTone = onGlass
-        ? 'border-black/10 bg-white/95 text-stone-800 dark:border-white/10 dark:bg-neutral-900/95 dark:text-stone-100'
+        ? 'border-black/10 bg-white/95 text-stone-800'
         : 'border-white/10 bg-neutral-900/95';
 
     const sheetDividerTone = onGlass
-        ? 'border-black/10 dark:border-white/10'
+        ? 'border-black/10'
         : 'border-white/10';
 
     const sheetLinkTone = onGlass
-        ? 'text-stone-700 hover:bg-black/5 dark:text-stone-200 dark:hover:bg-white/10'
+        ? 'text-stone-700 hover:bg-black/5'
         : 'text-stone-200 hover:bg-white/10';
 
     const sheetActiveTone = onGlass
-        ? 'border border-[#A37B4C]/30 bg-[#A37B4C]/20 font-semibold text-amber-700 dark:text-amber-300'
+        ? 'border border-[#A37B4C]/30 bg-[#A37B4C]/20 font-semibold text-amber-700'
         : 'border border-[#A37B4C]/30 bg-[#A37B4C]/20 font-semibold text-amber-300';
 
-    const logoSrc = onGlass && theme === 'light' ? LOGO_ON_LIGHT : LOGO_ON_DARK;
+    const logoSrc = onGlass ? LOGO_ON_LIGHT : LOGO_ON_DARK;
 
     return (
         <header
@@ -257,21 +232,6 @@ export function SiteHeader({
 
                 {/* Action Buttons */}
                 <div className="flex shrink-0 items-center gap-2 sm:gap-3">
-                    {/* Theme Toggle */}
-                    <button
-                        onClick={() =>
-                            setTheme(theme === 'dark' ? 'light' : 'dark')
-                        }
-                        aria-label="Toggle theme"
-                        className={`flex h-10 w-10 items-center justify-center rounded-full transition-all hover:scale-105 active:scale-95 ${iconButtonTone}`}
-                    >
-                        {theme === 'dark' ? (
-                            <Sun className={sunTone} />
-                        ) : (
-                            <Moon className={moonTone} />
-                        )}
-                    </button>
-
                     {/* Search Button (Hidden on Mobile) */}
                     <a
                         href="#search-section"

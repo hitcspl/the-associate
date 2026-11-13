@@ -5,7 +5,7 @@ import { fadeUp, EASE } from '@/lib/motion';
 import Section from './AboutSection';
 
 const teamMembers = [
-    { name: 'Rajesh Sharma', role: 'Founder & Managing Director', experience: '14+ Years in Ranchi Real Estate', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80', linkedin: '#', email: 'contact@theassociate.in' },
+    { name: 'Rajesh Sharma', role: 'Founder & Managing Director', experience: '14+ Years of Real Estate Experience', image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=600&q=80', linkedin: '#', email: 'contact@theassociate.in' },
     { name: 'Ankit Kumar', role: 'Senior Property Consultant', experience: '10+ Years Market Experience', image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=600&q=80', linkedin: '#', email: 'consult@theassociate.in' },
     { name: 'Priya Verma', role: 'Legal & Title Specialist', experience: 'Property Legal Verification', image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=600&q=80', linkedin: '#', email: 'legal@theassociate.in' },
 ];

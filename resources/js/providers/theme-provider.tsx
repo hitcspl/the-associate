@@ -2,12 +2,10 @@ import {
     createContext,
     useContext,
     useEffect,
-    useMemo,
-    useState,
     type ReactNode,
 } from 'react';
 
-export type Theme = 'light' | 'dark';
+export type Theme = 'light';
 
 type ThemeContextValue = {
     theme: Theme;
@@ -19,74 +17,24 @@ type ThemeProviderProps = {
     children: ReactNode;
 };
 
-const themePreferenceKey = 'theme-preference';
-const mediaQuery = '(prefers-color-scheme: dark)';
-const accents: Record<Theme, string> = {
-    dark: '#A37B4C',
-    light: '#6B4F2A',
-};
-
-function getStoredTheme(): Theme | null {
-    if (typeof window === 'undefined') return null;
-
-    try {
-        const stored = window.localStorage.getItem(themePreferenceKey);
-        return stored === 'light' || stored === 'dark' ? stored : null;
-    } catch {
-        return null;
-    }
-}
-
-function getSystemTheme(): Theme {
-    return typeof window !== 'undefined' &&
-        window.matchMedia(mediaQuery).matches
-        ? 'dark'
-        : 'light';
-}
-
-function applyTheme(theme: Theme): void {
+function applyLightTheme(): void {
     if (typeof document === 'undefined') return;
 
-    document.documentElement.classList.toggle('dark', theme === 'dark');
-    document.documentElement.dataset.theme = theme;
-    document.documentElement.style.colorScheme = theme;
+    document.documentElement.classList.remove('dark');
+    document.documentElement.dataset.theme = 'light';
+    document.documentElement.style.colorScheme = 'light';
 }
 
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: ThemeProviderProps) {
-    const [theme, setThemeState] = useState<Theme>(
-        () => getStoredTheme() ?? getSystemTheme(),
-    );
+    useEffect(() => applyLightTheme(), []);
 
-    useEffect(() => applyTheme(theme), [theme]);
-
-    useEffect(() => {
-        const query = window.matchMedia(mediaQuery);
-        const handleSystemThemeChange = (event: MediaQueryListEvent) => {
-            if (!getStoredTheme()) {
-                setThemeState(event.matches ? 'dark' : 'light');
-            }
-        };
-
-        query.addEventListener('change', handleSystemThemeChange);
-        return () =>
-            query.removeEventListener('change', handleSystemThemeChange);
-    }, []);
-
-    const setTheme = (nextTheme: Theme) => {
-        try {
-            window.localStorage.setItem(themePreferenceKey, nextTheme);
-        } catch {
-            // Continue with the in-memory theme when storage is unavailable.
-        }
-        setThemeState(nextTheme);
+    const value: ThemeContextValue = {
+        theme: 'light',
+        setTheme: applyLightTheme,
+        accent: '#6B4F2A',
     };
-
-    const value = useMemo(
-        () => ({ theme, setTheme, accent: accents[theme] }),
-        [theme],
-    );
 
     return (
         <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>

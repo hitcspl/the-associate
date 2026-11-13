@@ -22,7 +22,7 @@ export function SearchFilterBar({
     return (
         <section
             id="search-section"
-            className="bg-card/60 border-border/50 border-y py-16"
+            className="bg-white/60 border-border/50 border-y py-16"
         >
             <div className="container-site">
                 <div className="bg-card border-border rounded-2xl border p-6 shadow-xl sm:p-8">

@@ -1,18 +1,16 @@
-import { ArrowRight, Building } from 'lucide-react';
-import { motion, useScroll, useTransform } from 'framer-motion';
-import { useRef } from 'react';
-import { Button } from '../ui/button';
+import { ArrowRight, Building } from "lucide-react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import { useRef } from "react";
 
 type AboutSectionProps = {
     image: string;
-    onContact: () => void;
 };
 
-export function AboutSection({ image, onContact }: AboutSectionProps) {
+export function AboutSection({ image }: AboutSectionProps) {
     const imageRef = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
         target: imageRef,
-        offset: ['start end', 'end start'],
+        offset: ["start end", "end start"],
     });
     const imageScale = useTransform(scrollYProgress, [0, 1], [1.04, 1]);
 
@@ -28,7 +26,7 @@ export function AboutSection({ image, onContact }: AboutSectionProps) {
                         className="space-y-6 lg:col-span-5"
                         initial="hidden"
                         whileInView="visible"
-                        viewport={{ once: true, margin: '-100px' }}
+                        viewport={{ once: true, margin: "-100px" }}
                         variants={{
                             hidden: { opacity: 0, y: 24 },
                             visible: {
@@ -71,12 +69,13 @@ export function AboutSection({ image, onContact }: AboutSectionProps) {
                                 visible: { opacity: 1, y: 0 },
                             }}
                         >
-                            At Associate, we believe real estate is not just
-                            about property; it's about people, dreams and
-                            long-term value. With years of experience and a
-                            commitment to excellence, we help you find the
-                            perfect space to call home or the right investment
-                            for tomorrow.
+                            For over 14 years, The Associate Developers has
+                            helped people find homes, land, and commercial
+                            spaces with confidence. From property sales and
+                            township development to housing-loan assistance,
+                            we focus on honest guidance, clear processes, and
+                            dependable service from the first conversation
+                            onward.
                         </motion.p>
                         <motion.div
                             variants={{
@@ -84,13 +83,13 @@ export function AboutSection({ image, onContact }: AboutSectionProps) {
                                 visible: { opacity: 1, y: 0 },
                             }}
                         >
-                            <Button
-                                onClick={onContact}
-                                className="bg-gold hover:bg-gold/90 flex items-center gap-2 rounded-full px-6 py-5 text-sm font-medium text-white shadow-md transition-all"
+                            <a
+                                href="/about"
+                                className="bg-gold hover:bg-gold/90 flex items-center gap-2 rounded-full px-6 py-5 text-sm font-medium text-white shadow-md transition-all w-fit"
                             >
                                 Explore Our Story
                                 <ArrowRight className="h-3.5 w-3.5" />
-                            </Button>
+                            </a>
                         </motion.div>
                     </motion.div>
 
@@ -100,7 +99,7 @@ export function AboutSection({ image, onContact }: AboutSectionProps) {
                         className="relative lg:col-span-7"
                         initial={{ opacity: 0, x: 24 }}
                         whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: '-100px' }}
+                        viewport={{ once: true, margin: "-100px" }}
                         transition={{ duration: 0.7 }}
                     >
                         <div className="border-border/60 relative aspect-[16/10] overflow-hidden rounded-2xl border shadow-xl">
@@ -116,7 +115,7 @@ export function AboutSection({ image, onContact }: AboutSectionProps) {
                         <motion.div
                             initial={{ opacity: 0, y: -12 }}
                             whileInView={{ opacity: 1, y: 0 }}
-                            viewport={{ once: true, margin: '-100px' }}
+                            viewport={{ once: true, margin: "-100px" }}
                             transition={{ delay: 0.35, duration: 0.5 }}
                             className="bg-card/95 border-border/80 absolute top-4 right-4 flex items-center gap-4 rounded-xl border p-4 shadow-xl backdrop-blur-md sm:top-6 sm:right-6 sm:p-5"
                         >
@@ -125,10 +124,10 @@ export function AboutSection({ image, onContact }: AboutSectionProps) {
                             </div>
                             <div>
                                 <div className="font-display text-foreground text-xl font-bold sm:text-2xl">
-                                    5,000+
+                                    14+
                                 </div>
                                 <div className="text-muted-foreground text-sm">
-                                    Happy Clients
+                                    Years of Experience
                                 </div>
                             </div>
                         </motion.div>

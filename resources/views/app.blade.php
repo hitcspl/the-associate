@@ -4,23 +4,12 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        {{-- Resolve the theme before CSS and React load to prevent a flash of the wrong theme. --}}
+        {{-- Force light appearance before CSS and React load. --}}
         <script>
             (function() {
-                let storedTheme = null;
-
-                try {
-                    storedTheme = window.localStorage.getItem('theme-preference');
-                } catch (_) {
-                    // Fall back to the system preference when storage is unavailable.
-                }
-
-                const theme = storedTheme === 'light' || storedTheme === 'dark'
-                    ? storedTheme
-                    : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-                document.documentElement.classList.toggle('dark', theme === 'dark');
-                document.documentElement.dataset.theme = theme;
-                document.documentElement.style.colorScheme = theme;
+                document.documentElement.classList.remove('dark');
+                document.documentElement.dataset.theme = 'light';
+                document.documentElement.style.colorScheme = 'light';
             })();
         </script>
 
@@ -30,9 +19,6 @@
                 background-color: #f5f1e9;
             }
 
-            html.dark {
-                background-color: #0b0d0e;
-            }
         </style>
 
         <link rel="icon" href="{{ asset('logo.png') }}" type="image/png">

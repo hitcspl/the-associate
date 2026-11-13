@@ -101,7 +101,7 @@ const services: Service[] = [
 ];
 
 const values = [
-    { title: 'Experience', desc: '14+ Years in Ranchi Market', icon: Award },
+    { title: 'Experience', desc: '14+ Years of Experience', icon: Award },
     { title: 'Transparency', desc: '100% Clear Titles & Dealing', icon: ShieldCheck },
     { title: 'Commitment', desc: 'Guaranteed Timely Delivery', icon: Clock },
     { title: 'Peace of Mind', desc: 'Legally Sound Transactions', icon: CheckCircle2 },

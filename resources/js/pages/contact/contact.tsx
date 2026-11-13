@@ -290,7 +290,7 @@ export default function Contact() {
                     <div className="flex flex-wrap gap-3">
                         <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md text-[#B88C57] border border-white/10">
                             <Award className="w-3.5 h-3.5 text-[#A37B4C]" />
-                            14 Years of Trust
+                            14+ Years of Experience
                         </span>
                         <span className="inline-flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg bg-white/10 backdrop-blur-md text-emerald-200 border border-white/10">
                             <ShieldCheck className="w-3.5 h-3.5 text-emerald-400" />
@@ -412,7 +412,7 @@ export default function Contact() {
                                         </h3>
                                     </div>
                                     <div className="px-4 py-2 rounded-xl bg-[#A37B4C]/20 border border-[#A37B4C]/30 flex-shrink-0">
-                                        <span className="text-sm font-bold text-[#A37B4C] dark:text-[#B88C57] font-mono">14 Years of Trust.</span>
+                                        <span className="text-sm font-bold text-[#A37B4C] dark:text-[#B88C57] font-mono">14+ Years of Experience.</span>
                                     </div>
                                 </div>
                             </div>

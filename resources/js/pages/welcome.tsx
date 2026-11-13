@@ -71,19 +71,17 @@ export default function Welcome() {
                     favorites={favorites}
                     onFavorite={toggleFavorite}
                 />
+                <SearchFilterBar {...filters} />
                 <AboutSection
                     image={siteImages.about}
-                    onContact={() => openContact()}
                 />
+                <ImpactBanner stats={impactStats} image={siteImages.impact} />
                 <FeaturedProperties
                     properties={filters.filteredProperties}
                     favorites={favorites}
                     onFavorite={toggleFavorite}
                     onSelect={openPropertyDetail}
                 />
-                <SearchFilterBar {...filters} />
-                <ServicesSection services={services} />
-                <ImpactBanner stats={impactStats} image={siteImages.impact} />
                 <TestimonialsSection testimonials={testimonials} />
                 <CtaBanner
                     image={siteImages.cta}

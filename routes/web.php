@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\InquiryController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\PropertyController;
 use Illuminate\Support\Facades\Route;
 
@@ -11,7 +12,8 @@ Route::post('/inquiries', [InquiryController::class, 'store'])->name('inquiries.
 // Public marketing pages. These components are self-contained, so they are
 // rendered directly instead of going through a controller.
 Route::inertia('/about', 'about/about')->name('about');
-Route::get('/properties', [PropertyController::class, 'index'])->name('properties');
+Route::get('/properties', [ProjectController::class, 'index'])->name('properties');
+Route::get('/properties/{project:slug}', [ProjectController::class, 'show'])->name('properties.show');
 Route::get('/property/{id}', [PropertyController::class, 'show'])->name('property.show');
 Route::inertia('/services', 'services/services')->name('services');
 Route::inertia('/contact', 'contact/contact')->name('contact');

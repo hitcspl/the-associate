@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { type FormEvent, useEffect, useState } from 'react';
 import {
     AnimatePresence,
     motion,
@@ -6,7 +6,13 @@ import {
     useSpring,
     type Variants,
 } from 'framer-motion';
-import { ArrowRight, ChevronLeft, ChevronRight, MapPin } from 'lucide-react';
+import {
+    ArrowRight,
+    ChevronLeft,
+    ChevronRight,
+    MapPin,
+    MessageCircle,
+} from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import type { Property } from '@/types/property';
 import { formatPrice } from '@/lib/format-price';
@@ -21,6 +27,11 @@ export function HeroSection({ slides }: HeroSectionProps) {
     const [index, setIndex] = useState(0);
     const [direction, setDirection] = useState<number>(0);
     const [isPaused, setIsPaused] = useState(false);
+    const [name, setName] = useState('');
+    const [selectedPropertyId, setSelectedPropertyId] = useState(() =>
+        slides[0] ? String(slides[0].id) : '',
+    );
+    const [message, setMessage] = useState('');
 
     const current = slides[index];
 
@@ -95,6 +106,28 @@ export function HeroSection({ slides }: HeroSectionProps) {
     const resetCardTilt = () => {
         rotateX.set(0);
         rotateY.set(0);
+    };
+
+    const handleInquirySubmit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        const selectedProperty = slides.find(
+            (slide) => String(slide.id) === selectedPropertyId,
+        );
+
+        if (!name.trim() || !message.trim() || !selectedProperty) {
+            return;
+        }
+
+        const inquiry = [
+            'Hello, I am interested in a property.',
+            `Name: ${name.trim()}`,
+            `Property: ${selectedProperty.title}`,
+            `Message: ${message.trim()}`,
+        ].join('\n');
+
+        const whatsappUrl = `https://wa.me/916512281718?text=${encodeURIComponent(inquiry)}`;
+        window.open(whatsappUrl, '_blank', 'noopener,noreferrer');
     };
 
     if (!current) return null;
@@ -246,121 +279,93 @@ export function HeroSection({ slides }: HeroSectionProps) {
 
                     {/* Right Column: Layered Cards Carousel */}
                     <div className="relative flex w-full items-center justify-center lg:col-span-7">
-                        <div className="relative flex aspect-[4/3] w-full max-w-[340px] items-center justify-center xs:max-w-[380px] sm:max-w-[460px] lg:max-w-[500px]">
-                            {/* Left Tilted Card (Previous) */}
-                            {slides.length > 1 && (
-                                <div
-                                    onClick={() => move(-1)}
-                                    className="absolute inset-y-0 left-0 my-auto hidden h-[84%] w-[70%] -translate-x-3 -rotate-6 transform cursor-pointer overflow-hidden rounded-2xl border border-white/15 opacity-40 shadow-xl backdrop-blur-sm transition-all duration-300 hover:opacity-75 sm:block md:-translate-x-6 md:-rotate-12"
-                                >
-                                    <img
-                                        src={slides[prevIndex].image}
-                                        alt={slides[prevIndex].title}
-                                        className="h-full w-full object-cover brightness-90 filter"
-                                    />
-                                    <div className="absolute inset-0 bg-black/30" />
-                                </div>
-                            )}
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.5, delay: 0.2 }}
+                            className="w-full max-w-lg rounded-3xl border border-white/15 bg-neutral-900/80 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl sm:p-6"
+                        >
+                            <div className="mb-4">
+                                <span className="text-[11px] font-semibold tracking-[0.18em] text-amber-300 uppercase">
+                                    Start a conversation
+                                </span>
+                                <h2 className="font-display mt-1 text-2xl text-white sm:text-3xl">
+                                    Find your place.
+                                </h2>
+                                <p className="mt-1 text-xs leading-relaxed text-stone-300">
+                                    Choose a property and message our team on
+                                    WhatsApp.
+                                </p>
+                            </div>
 
-                            {/* Right Tilted Card (Next) */}
-                            {slides.length > 1 && (
-                                <div
-                                    onClick={() => move(1)}
-                                    className="absolute inset-y-0 right-0 my-auto hidden h-[84%] w-[70%] translate-x-3 rotate-6 transform cursor-pointer overflow-hidden rounded-2xl border border-white/15 opacity-40 shadow-xl backdrop-blur-sm transition-all duration-300 hover:opacity-75 sm:block md:translate-x-6 md:rotate-12"
-                                >
-                                    <img
-                                        src={slides[nextIndex].image}
-                                        alt={slides[nextIndex].title}
-                                        className="h-full w-full object-cover brightness-90 filter"
-                                    />
-                                    <div className="absolute inset-0 bg-black/30" />
-                                </div>
-                            )}
-
-                            {/* Main Active Center Card */}
-                            <motion.div
-                                className="group relative z-10 h-full w-full overflow-hidden rounded-2xl border border-white/20 bg-neutral-900 shadow-[0_20px_40px_rgba(0,0,0,0.6)] dark:border-white/15"
-                                style={{
-                                    rotateX,
-                                    rotateY,
-                                    transformPerspective: 1000,
-                                }}
-                                onMouseEnter={() => setIsPaused(true)}
-                                onMouseLeave={() => {
-                                    setIsPaused(false);
-                                    resetCardTilt();
-                                }}
-                                onMouseMove={handleCardMouseMove}
+                            <form
+                                onSubmit={handleInquirySubmit}
+                                className="grid gap-3 sm:grid-cols-2"
                             >
-                                <AnimatePresence
-                                    initial={false}
-                                    custom={direction}
-                                    mode="popLayout"
-                                >
-                                    <motion.div
-                                        key={current.id}
-                                        custom={direction}
-                                        variants={cardVariants}
-                                        initial="enter"
-                                        animate="center"
-                                        exit="exit"
-                                        className="relative h-full w-full will-change-transform"
-                                    >
-                                        <img
-                                            src={current.image}
-                                            alt={current.title}
-                                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                                        />
-                                        <div className="pointer-events-none absolute inset-x-0 bottom-0 h-[40%] bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
-                                    </motion.div>
-                                </AnimatePresence>
+                                <label className="grid gap-1.5 text-sm font-medium text-stone-200">
+                                    Your name
+                                    <input
+                                        required
+                                        autoComplete="name"
+                                        value={name}
+                                        onChange={(event) =>
+                                            setName(event.target.value)
+                                        }
+                                        maxLength={120}
+                                        placeholder="Enter your name"
+                                        className="h-10 w-full rounded-lg border border-white/15 bg-white/10 px-3 text-sm text-white outline-none transition placeholder:text-stone-400 focus:border-amber-300 focus:ring-2 focus:ring-amber-300/30"
+                                    />
+                                </label>
 
-                                {/* Navigation Arrows */}
-                                <button
-                                    onClick={() => move(-1)}
-                                    aria-label="Previous property"
-                                    className="absolute top-1/2 left-2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white shadow-lg backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 sm:left-3 sm:h-11 sm:w-11"
-                                >
-                                    <ChevronLeft className="h-5 w-5 sm:h-6 sm:w-6" />
-                                </button>
-                                <button
-                                    onClick={() => move(1)}
-                                    aria-label="Next property"
-                                    className="absolute top-1/2 right-2 z-30 flex h-10 w-10 -translate-y-1/2 items-center justify-center rounded-full border border-white/20 bg-black/40 text-white shadow-lg backdrop-blur-md transition-all hover:scale-105 hover:bg-black/60 active:scale-95 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-950 sm:right-3 sm:h-11 sm:w-11"
-                                >
-                                    <ChevronRight className="h-5 w-5 sm:h-6 sm:w-6" />
-                                </button>
-
-                                {/* Card Overlay Info */}
-                                <AnimatePresence mode="wait" initial={false}>
-                                    <motion.div
-                                        key={current.id}
-                                        initial={{ opacity: 0, y: 8 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        exit={{ opacity: 0, y: -8 }}
-                                        transition={{ duration: 0.25 }}
-                                        className="absolute right-3 bottom-3 left-3 z-20 flex items-end justify-between gap-2 p-1 text-white sm:right-4 sm:bottom-4 sm:left-4"
+                                <label className="grid gap-1.5 text-sm font-medium text-stone-200">
+                                    Select a property
+                                    <select
+                                        required
+                                        value={selectedPropertyId}
+                                        onChange={(event) =>
+                                            setSelectedPropertyId(
+                                                event.target.value,
+                                            )
+                                        }
+                                        className="h-10 w-full rounded-lg border border-white/15 bg-neutral-800 px-3 text-sm text-white outline-none transition focus:border-amber-300 focus:ring-2 focus:ring-amber-300/30"
                                     >
-                                        <div className="min-w-0 flex-1 space-y-0.5">
-                                            <h3 className="font-display truncate text-base font-medium tracking-tight drop-shadow-sm sm:text-lg lg:text-xl">
-                                                {current.title}
-                                            </h3>
-                                            <p className="flex items-center gap-1 text-xs text-stone-300 drop-shadow sm:text-sm">
-                                                <MapPin className="h-3 w-3 shrink-0 text-amber-400 sm:h-3.5 sm:w-3.5" />
-                                                <span className="truncate">
-                                                    {current.location}
-                                                </span>
-                                            </p>
-                                        </div>
-                                        <div className="shrink-0 text-right">
-                                            <span className="text-sm font-bold tracking-tight text-white drop-shadow sm:text-base lg:text-lg">
-                                                {formatPrice(current.price)}
-                                            </span>
-                                        </div>
-                                    </motion.div>
-                                </AnimatePresence>
-                            </motion.div>
-                        </div>
+                                        {slides.map((slide) => (
+                                            <option
+                                                key={slide.id}
+                                                value={String(slide.id)}
+                                            >
+                                                {slide.title}
+                                            </option>
+                                        ))}
+                                    </select>
+                                </label>
+
+                                <label className="grid gap-1.5 text-sm font-medium text-stone-200 sm:col-span-2">
+                                    Message
+                                    <textarea
+                                        required
+                                        value={message}
+                                        onChange={(event) =>
+                                            setMessage(event.target.value)
+                                        }
+                                        maxLength={1000}
+                                        rows={2}
+                                        placeholder="Tell us what you’re looking for"
+                                        className="w-full resize-y rounded-lg border border-white/15 bg-white/10 px-3 py-2 text-sm text-white outline-none transition placeholder:text-stone-400 focus:border-amber-300 focus:ring-2 focus:ring-amber-300/30"
+                                    />
+                                </label>
+
+                                <Button
+                                    type="submit"
+                                    size="lg"
+                                    className="h-10 w-full rounded-lg border border-white/10 bg-[#A37B4C] text-sm font-semibold text-white shadow-[0_8px_24px_rgba(163,123,76,0.2)] transition-colors hover:bg-[#AF8756] focus-visible:ring-2 focus-visible:ring-amber-300/70 focus-visible:ring-offset-2 focus-visible:ring-offset-neutral-900 sm:col-span-2"
+                                >
+                                    <MessageCircle className="h-4 w-4" />
+                                    Continue on WhatsApp
+                                    <ArrowRight className="h-4 w-4" />
+                                </Button>
+                            </form>
+                        </motion.div>
                     </div>
                 </div>
             </div>

@@ -13,7 +13,7 @@ type PreloadPageProps = {
     [key: string]: unknown;
 };
 
-type PreloaderThemeMode = 'light' | 'dark';
+type PreloaderThemeMode = 'light';
 
 type SitePreloaderProps = {
     children: ReactNode;
@@ -23,7 +23,6 @@ type SitePreloaderProps = {
     minDisplayTimeMs?: number;
 };
 
-const logoDark = '/AssociatedeveloperFullLogoLight.png';
 const logoLight = '/AssociatedeveloperFullLogo.png';
 
 const THEME_TOKENS: Record<
@@ -37,14 +36,6 @@ const THEME_TOKENS: Record<
         logo: string;
     }
 > = {
-    dark: {
-        bg: '#08080A',
-        text: '#FAFAFA',
-        subtext: '#71717A',
-        defaultAccent: '#C5A059',
-        ringTrack: 'rgba(255,255,255,0.06)',
-        logo: logoDark,
-    },
     light: {
         bg: '#F6F6F4',
         text: '#18181B',
@@ -88,7 +79,7 @@ function loadImage(asset: string): Promise<void> {
 export function SitePreloader({
     children,
     initialProps,
-    theme = 'dark',
+    theme = 'light',
     accent,
     minDisplayTimeMs = 2200,
 }: SitePreloaderProps) {

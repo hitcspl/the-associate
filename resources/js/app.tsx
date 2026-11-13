@@ -1,5 +1,4 @@
 import { createInertiaApp } from '@inertiajs/react';
-import { SitePreloader } from '@/components/site-preloader';
 import { Toaster } from '@/components/ui/sonner';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import AppLayout from '@/layouts/app-layout';
@@ -20,6 +19,7 @@ const PUBLIC_PAGE_ROOTS = new Set([
     'welcome',
     'about',
     'properties',
+    'projects',
     'property',
     'services',
     'contact',
@@ -49,9 +49,7 @@ void createInertiaApp({
         return (
             <ThemeProvider>
                 <TooltipProvider delayDuration={0}>
-                    <SitePreloader initialProps={page.props}>
-                        {app}
-                    </SitePreloader>
+                    {app}
                     <Toaster />
                 </TooltipProvider>
             </ThemeProvider>

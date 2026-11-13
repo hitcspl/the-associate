@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ImpactStat;
 use App\Models\Property;
 use App\Models\Service;
 use App\Models\Testimonial;
@@ -30,9 +29,12 @@ class HomeController extends Controller
             'services' => Service::query()->orderBy('sort_order')->get([
                 'id', 'title', 'description', 'icon', 'sort_order',
             ]),
-            'impactStats' => ImpactStat::query()->orderBy('sort_order')->get([
-                'id', 'label', 'value', 'sort_order',
-            ]),
+            'impactStats' => [
+                ['id' => 1, 'label' => 'Years of Experience', 'value' => '14+'],
+                ['id' => 2, 'label' => 'Completed Projects', 'value' => '8'],
+                ['id' => 3, 'label' => 'Ongoing Projects', 'value' => '10'],
+                ['id' => 4, 'label' => 'Commercial Project', 'value' => '1'],
+            ],
             'testimonials' => Testimonial::query()->orderBy('sort_order')->get([
                 'id', 'quote', 'author', 'role', 'avatar', 'location', 'image',
             ]),

@@ -79,6 +79,8 @@
    ========================================================= */
 
 :root {
+    color-scheme: light;
+
     --background: #f5f1e9;
     --foreground: #25221e;
 
@@ -131,62 +133,6 @@
     --sidebar-accent-foreground: #25221e;
     --sidebar-border: #ded8ce;
     --sidebar-ring: #b78648;
-}
-
-/* =========================================================
-   DARK MODE
-   ========================================================= */
-
-.dark {
-    --background: #0b0d0e;
-    --foreground: #f2f0ea;
-
-    --card: #121517;
-    --card-foreground: #f2f0ea;
-
-    --popover: #121517;
-    --popover-foreground: #f2f0ea;
-
-    /* Gold primary */
-    --primary: #c49a62;
-    --primary-foreground: #0b0d0e;
-
-    --secondary: #181c1f;
-    --secondary-foreground: #f2f0ea;
-
-    --muted: #181c1f;
-    --muted-foreground: #9b9a94;
-
-    --accent: #24201a;
-    --accent-foreground: #f2f0ea;
-
-    --destructive: #ef4444;
-    --destructive-foreground: #ffffff;
-
-    --border: #2a2e30;
-    --input: #2a2e30;
-    --ring: #c49a62;
-
-    /* Brand gold */
-    --gold: #c49a62;
-    --gold-hover: #d5ad76;
-
-    /* Charts */
-    --chart-1: #c49a62;
-    --chart-2: #9c7a4e;
-    --chart-3: #746044;
-    --chart-4: #d5ad76;
-    --chart-5: #4b4033;
-
-    /* Sidebar */
-    --sidebar: #101314;
-    --sidebar-foreground: #f2f0ea;
-    --sidebar-primary: #c49a62;
-    --sidebar-primary-foreground: #0b0d0e;
-    --sidebar-accent: #181c1f;
-    --sidebar-accent-foreground: #f2f0ea;
-    --sidebar-border: #2a2e30;
-    --sidebar-ring: #c49a62;
 }
 
 /* =========================================================

@@ -1,7 +1,5 @@
-"use client";
-
 import { useEffect, useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useInView, useSpring } from 'framer-motion';
+import { motion,  useInView, } from 'framer-motion';
 import { fadeUp, EASE } from '@/lib/motion';
 import Section from '@/components/public/about/AboutSection';
 
@@ -15,15 +13,15 @@ export default function StatsSection() {
     }, []);
 
     const stats = [
-        { value: '14+', label: 'Years of Trust', highlight: 'In Ranchi Market' },
-        { value: '8', label: 'Completed Projects', highlight: 'Delivered on Time' },
-        { value: '10', label: 'Ongoing Projects', highlight: 'In Prime Locations' },
-        { value: '1', label: 'Commercial Flagship', highlight: 'Sri Ram Arcade' },
+        { value: '14+', label: 'Years of Experience' },
+        { value: '8', label: 'Completed Projects' },
+        { value: '10', label: 'Ongoing Projects' },
+        { value: '1', label: 'Commercial Project' },
     ];
 
     return (
-        <Section className="border-y border-border bg-card" as="section" innerRef={ref}>
-            <div className="py-10 sm:py-14">
+        <Section className="border-y border-border bg-card" as="section">
+            <div ref={ref} className="py-10 sm:py-14">
                 <motion.div
                     initial="hidden"
                     whileInView="visible"
@@ -42,9 +40,6 @@ export default function StatsSection() {
                             </div>
                             <div className="text-xs sm:text-sm font-semibold uppercase tracking-wider text-foreground mt-1">
                                 {stat.label}
-                            </div>
-                            <div className="text-[11px] text-muted-foreground font-medium mt-0.5">
-                                {stat.highlight}
                             </div>
                             <motion.div
                                 initial={{ scaleX: 0 }}
